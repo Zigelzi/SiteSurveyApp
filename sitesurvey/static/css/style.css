@@ -1,0 +1,22 @@
+/* ===================
+Variables
+=================== */
+/* ===================
+Universal styles
+=================== */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* ===================
+Base style
+=================== */
+body {
+  height: 100%;
+  font-family: "Karla", sans-serif;
+  background-color: #f7f7f7;
+}
+
+/*# sourceMappingURL=style.css.map */
