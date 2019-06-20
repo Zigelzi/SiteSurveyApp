@@ -3,10 +3,20 @@
 Variables
 =================== */
 
+/* ---- Colors ----*/
+
 $main-font: 'Karla', sans-serif;
 $bg-white: #f7f7f7;
-$card-lightgrey: #e7e7e7;
-$card-darkgrey: #c4c4c4;
+$lightgrey: #e7e7e7;
+$darkgrey: #c4c4c4;
+
+/* ---- Typography ----
+Type scale (https://type-scale.com/):
+Base size (1em): 16px
+Scale: 1.250 - Major Third
+*/
+
+$text-small: 0.8rem;
 
 /* ===================
 Universal styles
@@ -28,3 +38,155 @@ body {
     font-family: $main-font;
     background-color: $bg-white;
 }
+
+header {
+    position: relative;
+    height: 2.5rem;
+    background: $darkgrey;
+    width: 100%;
+    z-index: 999;
+}
+
+h1 {
+    font-size: 2.441rem;
+}
+
+h2 {
+    font-size: 1.953rem;
+}
+
+h3 {
+    font-size: 1.563rem;
+}
+
+h4 {
+    font-size: 1.25rem;
+}
+
+p {
+    font-size: 16px;
+}
+
+
+
+
+/* ===================
+ID selectors
+=================== */
+
+#index-main-card {
+    margin-top: 30px;
+    margin-bottom: 10px;
+
+    .btn {
+        align-self: center;
+    }
+}
+
+/* ===================
+Class selectors
+=================== */
+
+.nav {
+    background-color: $darkgrey;
+    height: 1.5rem;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    transform: scale(1, 0);
+    transform-origin: top;
+    transition: transform 400ms ease-in-out;
+
+    ul {
+        display: inline-block;
+        text-decoration: none;
+        list-style: none;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+}
+
+/* CSS collapsible nav */
+.nav-menu {
+    display: none;
+    &:checked ~ .nav {
+        transform: scale(1, 1);
+        a {
+            opacity: 1;
+            transition: opacity 250ms ease-in-out 250ms;
+        }
+    }
+}
+
+/* Hamburger menu */
+.nav-menu-label {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    span,
+    span::before,
+    span::after {
+        display: block;
+        background: black;
+        height: 2px;
+        width: 2rem;
+        border-radius: 2px;
+        position: relative;
+    }
+
+    span::before,
+    span::after {
+        content: "";
+        position: absolute;
+    }
+
+    span::before {
+        bottom: 6px;
+    }
+
+    span::after {
+        top: 6px;
+    }
+}
+
+.grey-container {
+    background-color: $lightgrey;
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    a {
+        text-decoration: none;
+        color: #404040
+    }
+}
+
+.location {
+    padding: 10px 5px 10px 40px;
+    margin-bottom: 15px;
+
+    .text-small {
+        font-size: $text-small;
+    }
+}
+
+.btn {
+    background-color: $darkgrey;
+    padding: 10px;
+    display: inline-block;
+    margin: 10px auto;
+}
+
+/* ===================
+Responsivity and viewports
+=================== */

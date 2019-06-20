@@ -1,6 +1,29 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h1>Test</h1>
+<div id="index-main-card" class="grey-container">
+    <h1>Site survey</h1>
+    <p>Create new site survey to document the site</p>
+    <a href="#" class="btn">New survey</a>
+</div>
+
+<!-- Filter button -->
+<div>
+    <p>Order by: <span>Last edit</span></p>
+</div>
+
+<!-- Listing of locations -->
+{% if locations %}
+{% for location in locations %}
+<div class="grey-container location">
+    <p>{{ location.name }}</p>
+    <p class="text-small">{{ location.street }} {{  location.post_code }} {{  location.city }} ({{ location.distance }} km)</p>
+</div>
+{% endfor %}
+{% else %}
+<div class="crey-container">
+    <p>No locations to show</p>
+</div>
+{% endif %}
 {% endblock %}
 

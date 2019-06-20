@@ -16,7 +16,7 @@
     </head>
     <body>
         <header>
-            <input type="checkbox" class="nav-toggle" id="nav-toggle">
+            <input type="checkbox" class="nav-menu" id="nav-menu">
             <nav class="nav">
                 <ul class="">
                     <li class="{% if active=='index' %}active-nav{% endif %}">
@@ -25,6 +25,10 @@
                     </div>
                 </ul>
             </nav>
+            <!-- Hamburger menu -->
+            <label for="nav-menu" class="nav-menu-label">
+                <span></span>
+            </label>
         </header>  
         <div class="">
         {% block content %}

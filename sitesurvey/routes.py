@@ -3,4 +3,5 @@ from sitesurvey import app
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    dummy_locations = [{'name':'Example site name 1', 'street':'Example street 1', 'post_code':'00100', 'city':'Helsinki', 'distance':50}, {'name':'Example site name 2', 'street':'Example street 1', 'post_code':'00100', 'city':'Helsinki', 'distance':50}]
+    return render_template('index.html', locations=dummy_locations)
