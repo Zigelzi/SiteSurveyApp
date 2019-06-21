@@ -10,7 +10,7 @@ class Customer(FlaskForm):
     first_name = StringField('Full name', validators=[DataRequired(message=data_req_msg)])
     title = StringField('Title', validators=[DataRequired(message=data_req_msg)])
     phone_number = StringField('Phone number', validators=[DataRequired(message=data_req_msg)])
-    email = StringField('Full name', validators=[DataRequired(message=data_req_msg),
+    email = StringField('Email', validators=[DataRequired(message=data_req_msg),
                                                     Email(message='Ei voimassa oleva sähköposti')])
 class Location(FlaskForm):
     location_name = StringField('Location name', validators=[DataRequired(message=data_req_msg)])

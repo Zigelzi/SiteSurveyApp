@@ -1,5 +1,373 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<!-- Customer form -->
+<div class="grey-container">
+    <form action="">
+        {{ customer_form.hidden_tag() }}
+        <legend>Customer</legend>
+        <div class="input-box">
+            {{ customer_form.first_name.label }}
+            {{ customer_form.first_name }}
+            {% if customer_form.first_name.errors %}
+            <div class="error">
+                {% for error in customer_form.first_name.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ customer_form.title.label }}
+            {{ customer_form.title }}
+            {% if customer_form.title.errors %}
+            <div class="error">
+                {% for error in customer_form.title.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ customer_form.phone_number.label }}
+            {{ customer_form.phone_number }}
+            {% if customer_form.phone_number.errors %}
+            <div class="error">
+                {% for error in customer_form.phone_number.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ customer_form.email.label }}
+            {{ customer_form.email }}
+            {% if customer_form.email.errors %}
+            <div class="error">
+                {% for error in customer_form.email.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+<!-- Location form -->
+<div class="grey-container">
+    <form action="">
+        {{ location_form.hidden_tag() }}
+        <legend>Location</legend>
+        <div class="input-box">
+            {{ location_form.location_name.label }}
+            {{ location_form.location_name }}
+            {% if location_form.location_name.errors %}
+            <div class="error">
+                {% for error in location_form.location_name.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ location_form.address.label }}
+            {{ location_form.address }}
+            {% if location_form.address.errors %}
+            <div class="error">
+                {% for error in location_form.address.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ location_form.postal_code.label }}
+            {{ location_form.postal_code }}
+            {% if location_form.postal_code.errors %}
+            <div class="error">
+                {% for error in location_form.postal_code.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div><div class="input-box">
+            {{ location_form.city.label }}
+            {{ location_form.city }}
+            {% if location_form.city.errors %}
+            <div class="error">
+                {% for error in location_form.city.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ location_form.coordinates.label }}
+            {{ location_form.coordinates }}
+            {% if location_form.coordinates.errors %}
+            <div class="error">
+                {% for error in location_form.coordinates.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+<!-- Charger form -->
+<div class="grey-container">
+    <form action="">
+        {{ charger_form.hidden_tag() }}
+        <legend>Charger</legend>
+        <div class="input-box">
+            {{ charger_form.dc_ac.label }}
+            {{ charger_form.dc_ac }}
+            {% if charger_form.dc_ac.errors %}
+            <div class="error">
+                {% for error in charger_form.dc_ac.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ charger_form.manufacturer.label }}
+            {{ charger_form.manufacturer }}
+            {% if charger_form.manufacturer.errors %}
+            <div class="error">
+                {% for error in charger_form.manufacturer.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ charger_form.model.label }}
+            {{ charger_form.model }}
+            {% if charger_form.model.errors %}
+            <div class="error">
+                {% for error in charger_form.model.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ charger_form.charger_amount.label }}
+            {{ charger_form.charger_amount }}
+            {% if charger_form.charger_amount.errors %}
+            <div class="error">
+                {% for error in charger_form.charger_amount.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ charger_form.charging_power.label }}
+            {{ charger_form.charging_power }}
+            {% if charger_form.charging_power.errors %}
+            <div class="error">
+                {% for error in charger_form.charging_power.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ charger_form.installation_method.label }}
+            {{ charger_form.installation_method }}
+            {% if charger_form.installation_method.errors %}
+            <div class="error">
+                {% for error in charger_form.installation_method.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ charger_form.communication.label }}
+            {{ charger_form.communication }}
+            {% if charger_form.communication.errors %}
+            <div class="error">
+                {% for error in charger_form.communication.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ charger_form.foundation.label }}
+            {{ charger_form.foundation }}
+            {% if charger_form.foundation.errors %}
+            <div class="error">
+                {% for error in charger_form.foundation.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+<!-- Installation form -->
+<div class="grey-container">
+    <form action="">
+        {{ installation_form.hidden_tag() }}
+        <legend>Charger</legend>
+        <div class="input-box">
+            {{ installation_form.grid_connection.label }}
+            {{ installation_form.grid_connection }}
+            {% if installation_form.grid_connection.errors %}
+            <div class="error">
+                {% for error in installation_form.grid_connection.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ installation_form.grid_cable.label }}
+            {{ installation_form.grid_cable }}
+            {% if installation_form.grid_cable.errors %}
+            <div class="error">
+                {% for error in installation_form.grid_cable.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ installation_form.max_power.label }}
+            {{ installation_form.max_power }}
+            {% if installation_form.max_power.errors %}
+            <div class="error">
+                {% for error in installation_form.max_power.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ installation_form.consumption_point_fuse.label }}
+            {{ installation_form.consumption_point_fuse }}
+            {% if installation_form.consumption_point_fuse.errors %}
+            <div class="error">
+                {% for error in installation_form.consumption_point_fuse.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ installation_form.maincabinet_rating.label }}
+            {{ installation_form.maincabinet_rating }}
+            {% if installation_form.maincabinet_rating.errors %}
+            <div class="error">
+                {% for error in installation_form.maincabinet_rating.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ installation_form.empty_fuses.label }}
+            {{ installation_form.empty_fuses }}
+            {% if installation_form.empty_fuses.errors %}
+            <div class="error">
+                {% for error in installation_form.empty_fuses.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ installation_form.number_of_slots.label }}
+            {{ installation_form.number_of_slots }}
+            {% if installation_form.number_of_slots.errors %}
+            <div class="error">
+                {% for error in installation_form.number_of_slots.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ installation_form.signal_strength.label }}
+            {{ installation_form.signal_strength }}
+            {% if installation_form.signal_strength.errors %}
+            <div class="error">
+                {% for error in installation_form.signal_strength.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="input-box">
+            {{ installation_form.installation_location.label }}
+            {{ installation_form.installation_location }}
+            {% if installation_form.installation_location.errors %}
+            <div class="error">
+                {% for error in installation_form.installation_location.errors %}
+                    <span>
+                        {{ error }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </form>
+</div>
 
 {% endblock %}
