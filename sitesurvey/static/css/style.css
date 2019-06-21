@@ -26,7 +26,7 @@ body {
 }
 
 header {
-  position: relative;
+  position: fixed;
   height: 2.5rem;
   background: #c4c4c4;
   width: 100%;
@@ -57,8 +57,8 @@ p {
 ID selectors
 =================== */
 #index-main-card {
-  margin-top: 30px;
   margin-bottom: 10px;
+  padding: 1rem;
 }
 #index-main-card .btn {
   align-self: center;
@@ -67,11 +67,24 @@ ID selectors
 /* ===================
 Class selectors
 =================== */
+.content {
+  min-height: calc(100vh - 52px);
+  padding-bottom: 50px;
+}
+
+/* Fix for collapsing margins on fixed nav */
+.collapse-fix {
+  height: 2.5rem;
+  margin-bottom: 25px;
+}
+
 .nav {
   background-color: #c4c4c4;
-  height: 1.5rem;
   width: 100%;
+  padding-bottom: 10px;
   text-align: center;
+  text-transform: uppercase;
+  font-size: 1.25rem;
   position: absolute;
   top: 100%;
   left: 0;
@@ -153,6 +166,23 @@ Class selectors
   font-size: 0.8rem;
 }
 
+.filter-selection {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 5%;
+  padding: 10px 0;
+}
+.filter-selection p {
+  margin-right: 5px;
+}
+.filter-selection select {
+  width: 30%;
+}
+.filter-selection p,
+.filter-selection select {
+  display: inline-block;
+}
+
 .btn {
   background-color: #c4c4c4;
   padding: 10px;
@@ -185,7 +215,10 @@ Class selectors
 
 .input-box {
   margin-bottom: 20px;
-  /* Radio buttons are nested inside ul element */
+  /* 
+  Radio buttons are nested inside ul-li element. Label and imput styling need to be adjusted to
+  get matching style with other input elements
+  */
 }
 .input-box label,
 .input-box input,
@@ -215,7 +248,8 @@ Class selectors
   margin-left: 23%;
 }
 .input-box ul li {
-  display: inline-block;
+  display: inline-flex;
+  justify-content: space-evenly;
   width: 50%;
 }
 .input-box ul input,
@@ -225,16 +259,51 @@ Class selectors
 }
 .input-box ul input {
   width: 10%;
+  height: 20px;
+  /* Equal height to label so centering is possible */
+  align-self: center;
+  /* Centering the radio button vertically */
 }
 .input-box ul label {
   width: 67%;
   font-size: 1rem;
+  align-self: center;
+  margin-bottom: 0;
 }
 
 .svg-icon {
   height: 52px;
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.fixed-footer {
+  position: fixed;
+  display: flex;
+  left: 0;
+  bottom: 0;
+  height: 52px;
+  z-index: 999;
+  width: 100%;
+  border: rgba(0, 0, 0, 0.5) solid 1px;
+}
+.fixed-footer span {
+  flex-basis: 43%;
+  text-align: center;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  padding-top: 14px;
+}
+.fixed-footer #customer {
+  background-color: #c4c4c4;
+}
+.fixed-footer #installation {
+  background-color: #e7e7e7;
+}
+.fixed-footer .svg-icon {
+  background-color: #e7e7e7;
+  margin: 0;
+  border-left: rgba(0, 0, 0, 0.5) solid 1px;
 }
 
 /* ===================

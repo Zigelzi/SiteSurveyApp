@@ -22,7 +22,9 @@
                     <li class="{% if active=='index' %}active-nav{% endif %}">
                         <a href="{{ url_for('index') }}">Etusivu</a>
                     </li>
-                    </div>
+                    <li class="{% if active=='create_survey' %}active-nav{% endif %}">
+                        <a href="{{ url_for('create_survey') }}">Create survey</a>
+                    </li>
                 </ul>
             </nav>
             <!-- Hamburger menu -->
@@ -31,8 +33,9 @@
             </label>
         </header>  
         <div class="">
-        {% block content %}
-        {% endblock %}
+            <div class="collapse-fix"></div>
+            {% block content %}
+            {% endblock %}
         </div>
     </body>
 </html>
