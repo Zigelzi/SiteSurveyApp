@@ -2,10 +2,13 @@
 
 {% block content %}
 <!-- Customer form -->
-<div class="grey-container">
+<div class="grey-container survey-form">
     <form action="">
         {{ customer_form.hidden_tag() }}
-        <legend>Customer</legend>
+        <div class="survey-header">
+            <img class="svg-icon" src="{{ url_for('static', filename='img/icon_person.svg') }}" alt="person icon">
+            <legend>Customer</legend>
+        </div>
         <div class="input-box">
             {{ customer_form.first_name.label }}
             {{ customer_form.first_name }}
@@ -62,10 +65,13 @@
 </div>
 
 <!-- Location form -->
-<div class="grey-container">
+<div class="grey-container survey-form">
     <form action="">
         {{ location_form.hidden_tag() }}
-        <legend>Location</legend>
+        <div class="survey-header">
+            <img class="svg-icon" src="{{ url_for('static', filename='img/icon_building.svg') }}" alt="building icon">
+            <legend>Location</legend>
+        </div>
         <div class="input-box">
             {{ location_form.location_name.label }}
             {{ location_form.location_name }}
@@ -134,10 +140,13 @@
 </div>
 
 <!-- Charger form -->
-<div class="grey-container">
+<div class="grey-container survey-form">
     <form action="">
         {{ charger_form.hidden_tag() }}
-        <legend>Charger</legend>
+        <div class="survey-header">
+            <img class="svg-icon" src="{{ url_for('static', filename='img/icon_lightning.svg') }}" alt="lightning icon">
+            <legend>Charger</legend>
+        </div>
         <div class="input-box">
             {{ charger_form.dc_ac.label }}
             {{ charger_form.dc_ac }}
@@ -246,10 +255,13 @@
 </div>
 
 <!-- Installation form -->
-<div class="grey-container">
+<div class="grey-container survey-form">
     <form action="">
         {{ installation_form.hidden_tag() }}
-        <legend>Charger</legend>
+        <div class="survey-header">
+            <img class="svg-icon" src="{{ url_for('static', filename='img/icon_build.svg') }}" alt="wrench icon">
+            <legend>Charger</legend>
+        </div>
         <div class="input-box">
             {{ installation_form.grid_connection.label }}
             {{ installation_form.grid_connection }}
