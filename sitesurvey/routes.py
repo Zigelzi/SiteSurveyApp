@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, flash, request, abort
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 from sitesurvey import app, db
 from sitesurvey.forms import Customer, Location, Chargers, Installation, CreateUser, LogIn, UpdateAccount
 from sitesurvey.models import User
@@ -66,3 +66,21 @@ def create_user():
         flash(f'User has been created. They can now log in', 'success')
         return redirect(url_for('login'))
     return render_template('create_user.html', title='Create user', form=form, active='create_user')
+
+@app.route('/account', methods=['GET', 'POST'])
+# login_required decorator used to show that this page requires logged in user. Configuration in __init__.py
+@login_required
+def account():
+    form = UpdateAccount()
+    if form.validate_on_submit():
+        current_user.first_name = form.first_name.data
+        current_user.last_name = form.last_name.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Account information updated!', 'success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.first_name.data = current_user.first_name
+        form.last_name.data = current_user.last_name
+        form.email.data = current_user.email
+    return render_template('account.html', title='Account', active='account', form=form)

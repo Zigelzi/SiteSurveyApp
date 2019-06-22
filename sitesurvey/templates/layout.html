@@ -17,7 +17,7 @@
     <body>
         <header>
             <div>
-                {{current_user.first_name }} {{ current_user.last_name }}
+                <a href="{{ url_for('account') }}">{{current_user.first_name }} {{ current_user.last_name }}</a>
             </div>
             <input type="checkbox" class="nav-menu" id="nav-menu">
             <nav class="nav">
@@ -30,10 +30,10 @@
                     </li>
                     {% if current_user.is_authenticated %}
                     <li class="">
-                        <a href="{{ url_for('logout') }}">Logout</a>
+                        <a href="{{ url_for('create_user') }}">Create user</a>
                     </li>
                     <li class="">
-                        <a href="{{ url_for('create_user') }}">Create user</a>
+                        <a href="{{ url_for('logout') }}">Logout</a>
                     </li>
                     {% else %}
                     <li class="{% if active=='login' %}active-nav{% endif %}">
