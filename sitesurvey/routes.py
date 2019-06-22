@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request, abort
 from flask_login import login_user, current_user, logout_user
-from sitesurvey import app
+from sitesurvey import app, db
 from sitesurvey.forms import Customer, Location, Chargers, Installation, CreateUser, LogIn, UpdateAccount
 from sitesurvey.models import User
 
@@ -48,3 +48,21 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route('/create_user', methods=["GET", "POST"])
+def create_user():
+    form = CreateUser()
+    if form.validate_on_submit():
+        # Hash the given PW to enter it to database
+
+        # Take the form input and create db entry and commit it
+        user = User(first_name=form.first_name.data,
+                     last_name=form.last_name.data,
+                     email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash(f'User has been created. They can now log in', 'success')
+        return redirect(url_for('login'))
+    return render_template('create_user.html', title='Create user', form=form, active='create_user')
