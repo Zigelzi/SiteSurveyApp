@@ -1,6 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SelectField, FloatField, RadioField, TextAreaField
-from wtforms.validators import DataRequired, Email
+from flask_login import current_user
+from wtforms import (StringField, IntegerField, SelectField, FloatField,
+                     RadioField, TextAreaField, BooleanField, PasswordField, SubmitField)
+from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
+from sitesurvey.models import User
 
 data_req_msg = 'Pakollinen kenttä'
 chargers = [{'manufacturer':'Ensto', 'model':'EVF200', 'DC/AC':'AC'}, {'manufacturer':'Garo', 'model':'LS4', 'DC/AC':'AC'}, {'manufacturer':'Tritium', 'model':'Veefil', 'DC/AC':'DC'}]
@@ -82,3 +85,52 @@ class Installation(FlaskForm):
     signal_strength = FloatField('Mobile signal strength')
     installation_location = TextAreaField('Installation location')
 
+class CreateUser(FlaskForm):
+    first_name = StringField('First name', validators=[DataRequired(message=data_req_msg)])
+    last_name = StringField('Last name', validators=[DataRequired(message=data_req_msg)])
+    email = StringField('Email',
+                        validators=[DataRequired(message=data_req_msg), Email(message="Not valid email")])
+    password = PasswordField('Password',
+                             validators=[DataRequired(message=data_req_msg),
+                                         Length(min=8, message="Password must be at least 8 characters")])
+    confirm_pw = PasswordField('Confirm password',
+                               validators= [DataRequired(message=data_req_msg), EqualTo('password', message="Passwords do not match")])
+    submit = SubmitField('Create account')
+
+    # Custom validation to validate that email is not in use
+    def validate_email(self, email):
+
+        # Get the email from the form and query the DB for it
+        email = User.query.filter_by(email=email.data).first()
+
+        # If the DB query returns something, raise validation error
+        if email:
+            raise ValidationError('Tämä sähköpostiosoite on jo käytössä.')
+
+
+# Form for logging in to the site.
+class LogIn(FlaskForm):
+    email = StringField('Sähköposti',
+                        validators=[DataRequired(message=data_req_msg), Email(message="Ei voimassa oleva sähköposti")])
+    password = PasswordField('Salasana',
+                             validators=[DataRequired(message=data_req_msg)])
+    remember = BooleanField('Muista minut')
+    submit = SubmitField('Kirjaudu sisään')
+
+# Form for registering new users.
+class UpdateAccount(FlaskForm):
+    first_name = StringField('First name', validators=[DataRequired(message=data_req_msg)])
+    last_name = StringField('Last name', validators=[DataRequired(message=data_req_msg)])
+    email = StringField('Email',
+                        validators=[DataRequired(message=data_req_msg), Email(message="Not valid email")])
+    submit = SubmitField('Update account')
+
+    # Custom validation to validate that email is not in use
+    def validate_email(self, email):
+
+        if email.data != current_user.email:
+            # Get the email from the form and query the DB for it
+            email = User.query.filter_by(email=email.data).first()
+            # If the DB query returns something, raise validation error
+            if email:
+                raise ValidationError('Entered email is already in use')
