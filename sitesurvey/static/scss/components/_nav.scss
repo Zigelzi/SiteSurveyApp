@@ -1,4 +1,17 @@
 // ===================
+// Header where navigation is nested in
+// ===================
+
+header {
+    position: fixed;
+    height: 2.5rem;
+    background: $darkgrey;
+    width: 100%;
+    z-index: 999;
+}
+
+
+// ===================
 // Navigation menu and items
 // ===================
 
@@ -20,11 +33,6 @@
         display: inline-block;
         text-decoration: none;
         list-style: none;
-    }
-
-    a {
-        text-decoration: none;
-        color: black;
     }
 }
 
@@ -79,4 +87,9 @@
     span::after {
         top: 6px;
     }
+}
+
+.profile-link {
+    margin-left: 10px;
+    margin-top: 10px;
 }

@@ -7,4 +7,9 @@
     padding: 10px;
     display: inline-block;
     margin: 10px auto;
+    
+    // Hover style for the button
+    &:hover {
+        background-color: $darkgrey-hover;
+    }
 }

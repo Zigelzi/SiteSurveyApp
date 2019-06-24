@@ -10,14 +10,6 @@ body {
   background-color: #f7f7f7;
 }
 
-header {
-  position: fixed;
-  height: 2.5rem;
-  background: #c4c4c4;
-  width: 100%;
-  z-index: 999;
-}
-
 h1 {
   font-size: 2.441rem;
 }
@@ -45,6 +37,14 @@ h6 {
 
 p {
   font-size: 16px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+a:hover {
+  color: #404040;
 }
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
@@ -466,6 +466,14 @@ template {
   flex-grow: 1;
 }
 
+header {
+  position: fixed;
+  height: 2.5rem;
+  background: #c4c4c4;
+  width: 100%;
+  z-index: 999;
+}
+
 .nav {
   background-color: #c4c4c4;
   width: 100%;
@@ -484,10 +492,6 @@ template {
   display: inline-block;
   text-decoration: none;
   list-style: none;
-}
-.nav a {
-  text-decoration: none;
-  color: black;
 }
 
 /* CSS collapsible nav */
@@ -534,6 +538,11 @@ template {
   top: 6px;
 }
 
+.profile-link {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
 .svg-icon {
   height: 52px;
   margin-left: 10px;
@@ -545,6 +554,9 @@ template {
   padding: 10px;
   display: inline-block;
   margin: 10px auto;
+}
+.btn:hover {
+  background-color: #d1d1d1;
 }
 
 .survey-form {

@@ -19,14 +19,6 @@ body {
     background-color: $bg-white;
 }
 
-header {
-    position: fixed;
-    height: 2.5rem;
-    background: $darkgrey;
-    width: 100%;
-    z-index: 999;
-}
-
 // ===================
 // Typography
 // Type scale (https://type-scale.com/):
@@ -61,5 +53,14 @@ h6 {
 
 p {
     font-size: 16px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    // Hover effect for nav items
+    &:hover {
+        color: $lightblack;
+    }
 }
 
