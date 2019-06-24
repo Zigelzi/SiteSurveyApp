@@ -1,0 +1,65 @@
+// ===================
+// Universal styles
+//===================
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+// ===================
+// Base style
+// ===================
+
+body {
+    height: 100%;
+    font-family: $main-font;
+    background-color: $bg-white;
+}
+
+header {
+    position: fixed;
+    height: 2.5rem;
+    background: $darkgrey;
+    width: 100%;
+    z-index: 999;
+}
+
+// ===================
+// Typography
+// Type scale (https://type-scale.com/):
+// Base size (1em): 16px
+// Scale: 1.250 - Major Third
+// =================== 
+
+h1 {
+    font-size: 2.441rem;
+}
+
+h2 {
+    font-size: 1.953rem;
+}
+
+h3 {
+    font-size: 1.563rem;
+}
+
+h4 {
+    font-size: 1.25rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: $header-font;
+}
+
+p {
+    font-size: 16px;
+}
+

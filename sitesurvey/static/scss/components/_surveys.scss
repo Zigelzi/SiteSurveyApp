@@ -1,0 +1,87 @@
+// ===================
+// Survey form styles
+// ===================
+
+
+.survey-form {
+    &:first-of-type {
+       margin-top: 30px; 
+    }
+    margin-bottom: 20px;
+
+    legend {
+        font-size: 1.953rem;
+        display: inline-block;
+    }
+    form {
+        margin: 0;
+    }
+}
+
+.survey-header {
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    legend {
+        align-self: center;
+    }
+}
+
+.input-box {
+    margin-bottom:20px;
+
+    label,
+    input,
+    select,
+    textarea {
+        display: block;
+        width: 67%; /* Margin-left + width = 90% and rest 10% is margin-right */
+        margin-left: 23%;
+    }
+    label {
+        font-size: 1.25rem;
+        margin-bottom: 5px;
+    }
+
+    input,
+    textarea {
+        padding-left: 6px;
+        border: none;
+        border-radius: 5px;
+        height: 1.875rem;
+    }
+
+    textarea {
+        height: 5.2rem;
+    }
+
+    /* 
+    Radio buttons are nested inside ul-li element. Label and imput styling need to be adjusted to
+    get matching style with other input elements
+    */
+    ul {
+        list-style: none;
+        margin-left: 23%;
+        li {
+            display: inline-flex;
+            justify-content: space-evenly;
+            width: 50%;
+        }
+        input,
+        label {
+            display: inline-block;
+            margin-left: 0;
+        }
+        input {
+            width: 10%;
+            height: 20px; /* Equal height to label so centering is possible */
+            align-self: center; /* Centering the radio button vertically */
+        }
+        label {
+            width:67%;
+            font-size: 1rem;
+            align-self: center;
+            margin-bottom: 0;
+        }
+    }
+}

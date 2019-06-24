@@ -1,0 +1,82 @@
+// ===================
+// Navigation menu and items
+// ===================
+
+.nav {
+    background-color: $darkgrey;
+    width: 100%;
+    padding-bottom: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    transform: scale(1, 0);
+    transform-origin: top;
+    transition: transform 400ms ease-in-out;
+
+    ul {
+        display: inline-block;
+        text-decoration: none;
+        list-style: none;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+}
+
+/* CSS collapsible nav */
+.nav-menu {
+    display: none;
+    &:checked ~ .nav {
+        // When the .nav-menu checkbox is checked slide the menu from top.
+        transform: scale(1, 1);
+        a {
+            opacity: 1;
+            transition: opacity 250ms ease-in-out 250ms;
+        }
+    }
+}
+
+/* Hamburger menu */
+.nav-menu-label {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    // Three lines of hamburger menu
+    span,
+    span::before,
+    span::after {
+        display: block;
+        background: black;
+        height: 2px;
+        width: 2rem;
+        border-radius: 2px;
+        position: relative;
+    }
+
+    // Setting the content of pseudo-elements
+    span::before,
+    span::after {
+        content: "";
+        position: absolute;
+    }
+
+    // Adjusting the first line position
+    span::before {
+        bottom: 6px;
+    }
+
+    // Adjusting the last line position
+    span::after {
+        top: 6px;
+    }
+}
