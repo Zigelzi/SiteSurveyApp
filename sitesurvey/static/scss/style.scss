@@ -3,7 +3,8 @@
 // ===================
 
 // Utilities
-@import 'utils/variables';
+@import 'utils/variables',
+        'utils/mixins';
 
 // Base styles and resets
 @import 'base/base',

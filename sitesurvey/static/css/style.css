@@ -383,9 +383,6 @@ template {
   margin-bottom: 10px;
   padding: 1rem;
 }
-#index-main-card .btn {
-  align-self: center;
-}
 
 .location {
   padding: 10px 5px 10px 40px;
@@ -428,8 +425,7 @@ template {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
-  display: flex;
-  flex-direction: column;
+  text-align: center;
 }
 .grey-container a {
   text-decoration: none;
@@ -552,8 +548,9 @@ header {
 .btn {
   background-color: #c4c4c4;
   padding: 10px;
-  display: inline-block;
+  display: block;
   margin: 10px auto;
+  max-width: 30%;
 }
 .btn:hover {
   background-color: #d1d1d1;
@@ -583,7 +580,8 @@ header {
 }
 
 .input-box {
-  margin-bottom: 20px;
+  padding-bottom: 20px;
+  text-align: left;
   /* 
   Radio buttons are nested inside ul-li element. Label and imput styling need to be adjusted to
   get matching style with other input elements

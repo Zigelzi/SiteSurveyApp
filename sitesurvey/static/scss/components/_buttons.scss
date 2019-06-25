@@ -5,9 +5,10 @@
 .btn {
     background-color: $darkgrey;
     padding: 10px;
-    display: inline-block;
+    display: block;
     margin: 10px auto;
-    
+    max-width: 30%;
+
     // Hover style for the button
     &:hover {
         background-color: $darkgrey-hover;
