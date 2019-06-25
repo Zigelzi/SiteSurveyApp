@@ -105,7 +105,7 @@ class CreateUser(FlaskForm):
 
         # If the DB query returns something, raise validation error
         if email:
-            raise ValidationError('Tämä sähköpostiosoite on jo käytössä.')
+            raise ValidationError('This email is already in use')
 
 
 # Form for logging in to the site.
