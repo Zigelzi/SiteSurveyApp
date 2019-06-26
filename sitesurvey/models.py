@@ -44,6 +44,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(30), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
+    org_id = db.Column(db.Integer(), db.ForeignKey('organization.id'))
 
     # Backref to show surveys done by user surveys model
     surveys = db.relationship('Survey', backref='user', lazy='dynamic')
@@ -58,7 +59,7 @@ class User(db.Model, UserMixin):
         return f'User <{self.first_name} | {self.last_name} | {self.email}>'
 
 class Organization(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)
     org_name = db.Column(db.String(100), nullable=False)
     org_number = db.Column(db.String(20), nullable=False, unique=True)
     address = db.Column(db.String(100), nullable=False)
@@ -71,15 +72,15 @@ class Organization(db.Model):
                                  {self.city} | {self.country}"""
 
 class Survey(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    grid_connection = db.Column(db.Integer)
+    id = db.Column(db.Integer(), primary_key=True)
+    grid_connection = db.Column(db.Integer())
     grid_cable = db.Column(db.String(15))
-    max_power = db.Column(db.Float)
-    consumtion_fuse = db.Column(db.Integer)
-    maincabinet_rating = db.Column(db.Integer)
-    empty_fuses = db.Column(db.Boolean)
-    number_of_slots = db.Column(db.Integer)
-    signal_strength = db.Column(db.Float)
+    max_power = db.Column(db.Float())
+    consumtion_fuse = db.Column(db.Integer())
+    maincabinet_rating = db.Column(db.Integer())
+    empty_fuses = db.Column(db.Boolean())
+    number_of_slots = db.Column(db.Integer())
+    signal_strength = db.Column(db.Float())
     installation_location = db.Column(db.String(255))
 
     # Foreign keys to User and Charger models
@@ -91,25 +92,25 @@ class Survey(db.Model):
                             {self.maincabinet_rating}>"""
 
 class Charger(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)
     manufacturer = db.Column(db.String(30), nullable=False)
     model = db.Column(db.String(30), nullable=False)
     product_no = db.Column(db.String(30), nullable=False, unique=True)
-    price = db.Column(db.Float, nullable=False)
+    price = db.Column(db.Float(), nullable=False)
     type_of_outlet = db.Column(db.String(10), nullable=False)
-    no_of_outlets = db.Column(db.Integer) # Number of outlets in the charger
+    no_of_outlets = db.Column(db.Integer()) # Number of outlets in the charger
     dc_ac = db.Column(db.String(2), nullable=False)
     communication = db.Column(db.String(20), nullable=False)
     mounting = db.Column(db.String(50), nullable=False) # How charger is mounted in place (wall, ground etc)
-    max_power = db.Column(db.Float, nullable=False)
-    mcb = db.Column(db.Boolean, nullable=False)
-    rcd_typea = db.Column(db.Boolean, nullable=False)
-    rcd_typeb = db.Column(db.Boolean, nullable=False)
-    automatic_rcd = db.Column(db.Boolean, nullable=False)
-    pwr_outage_eq = db.Column(db.Boolean, nullable=False)
-    mid_meter = db.Column(db.Boolean, nullable=False)
-    mid_readabe = db.Column(db.Boolean, nullable=False) # Is the MID-meter readable from outside w/o tools
-    max_cable_d = db.Column(db.Integer, nullable=False)
+    max_power = db.Column(db.Float(), nullable=False)
+    mcb = db.Column(db.Boolean(), nullable=False)
+    rcd_typea = db.Column(db.Boolean(), nullable=False)
+    rcd_typeb = db.Column(db.Boolean(), nullable=False)
+    automatic_rcd = db.Column(db.Boolean(), nullable=False)
+    pwr_outage_eq = db.Column(db.Boolean(), nullable=False)
+    mid_meter = db.Column(db.Boolean(), nullable=False)
+    mid_readabe = db.Column(db.Boolean(), nullable=False) # Is the MID-meter readable from outside w/o tools
+    max_cable_d = db.Column(db.Integer(), nullable=False)
 
     # Backref to survey to see which chargers are used in which surveys
     charger_id = db.relationship('Survey', backref='charger', lazy='dynamic')
@@ -126,8 +127,8 @@ class Location(db.Model):
     postal_code = db.Column(db.String(10), nullable=False)
     city = db.Column(db.String(30), nullable=False)
     country = db.Column(db.String(30), nullable=False)
-    coordinate_lat = db.Column(db.Float)
-    coordinate_long = db.Column(db.Float)
+    coordinate_lat = db.Column(db.Float())
+    coordinate_long = db.Column(db.Float())
 
     def __repr__(self):
         return f"""Location <{self.name} |{self.address} |{self.postal_code} |{self.city} |
