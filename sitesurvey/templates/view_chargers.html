@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="content">
+    <div class="grey-container">
+        <table>
+            <tr>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Product number</th>
+                <th>Price</th>
+                <th>Type of outlet</th>
+                <th>Number of outlets</th>
+                <th>DC/AC</th>
+                <th>Mounting on wall possible</th>
+                <th>Mounting on ground possible</th>
+                <th>Maximum charging power</th>
+                <th>Main circuit breaker (MCB)</th>
+                <th>30mA Type-A RCD</th>
+                <th>30mA Type-B RCD / 6 mA DC leakage detection</th>
+                <th>Automatically reclosable RCD in charger</th>
+                <th>Automatic socket release on power outage</th>
+                <th>MID-meter in charger</th>
+                <th>MID-meter readable outside of the charger</th>
+                <th>Maximum supply cable diamater</th>
+                <th>Copper supply cable allowed</th>
+                <th>Aluminium supply cable allowed</th>
+            </tr>
+            <tr>
+            {% for charger in chargers %}
+                <td>{{ charger.manufacturer }}</td>
+                <td>{{ charger.model }}</td>
+                <td>{{ charger.product_no }}</td>
+                <td>{{ charger.price }} €</td>
+                <td>{{ charger.type_of_outlet }}</td>
+                <td>{{ charger.no_of_outlets }}</td>
+                <td>{{ charger.dc_ac }}</td>
+                <td>{{ charger.mounting_wall }}</td>
+                <td>{{ charger.mounting_ground }}</td>
+                <td>{{ charger.max_power }} kW</td>
+                <td>{{ charger.mcb }}</td>
+                <td>{{ charger.rcd_typea }}</td>
+                <td>{{ charger.rcd_typeb }}</td>
+                <td>{{ charger.automatic_rcd }}</td>
+                <td>{{ charger.pwr_outage_eq }}</td>
+                <td>{{ charger.mid_meter }}</td>
+                <td>{{ charger.mid_readable }}</td>
+                <td>{{ charger.max_cable_d }} mm<sup>2</sup></td>
+                <td>{{ charger.cable_cu_allowed }}</td>
+                <td>{{ charger.cable_al_allowed }}</td>
+            {% endfor %}
+         </tr>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

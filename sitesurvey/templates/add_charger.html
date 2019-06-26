@@ -1,0 +1,299 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="content">
+    <div class="grey-container survey-form">
+        <form action="" method="POST">
+            {{ form.hidden_tag() }}
+            <fieldset>
+                <legend>
+                    Add new charger
+                </legend>
+                <div class="input-box">
+                    {{ form.manufacturer.label }}
+                    {{ form.manufacturer(placeholder="Manufacturer") }}
+                    {% if form.manufacturer.errors %}
+                        <div class="error">
+                            {% for error in form.manufacturer.errors %}
+                                <span>
+                                    {{ error }}
+                               </span>
+                           {% endfor %}
+                       </div>
+                    {% endif %}
+                    
+                </div>
+                <div class="input-box">
+                    {{ form.model.label }}
+                    {{ form.model(placeholder="Charger model") }}
+                    {% if form.model.errors %}
+                        <div class="error">
+                            {% for error in form.model.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="input-box">
+                    {{ form.product_no.label }}
+                    {{ form.product_no(placeholder="PRODNO-xyz-123") }}
+                    {% if form.product_no.errors %}
+                        <div class="error">
+                            {% for error in form.product_no.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                </div>
+                <div class="input-box">
+                    {{ form.price.label }}
+                    {{ form.price(placeholder="3 000€") }}
+                        {% if form.price.errors %}
+                        <div class="error">
+                            {% for error in form.price.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                </div>
+                <div class="input-box">
+                    {{ form.type_of_outlet.label }}
+                    {{ form.type_of_outlet(placeholder="Type2 socket") }}
+                    {% if form.type_of_outlet.errors %}
+                        <div class="error">
+                            {% for error in form.type_of_outlet.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.no_of_outlets.label }}
+                    {{ form.no_of_outlets(placeholder="2") }}
+                    {% if form.no_of_outlets.errors %}
+                        <div class="error">
+                            {% for error in form.no_of_outlets.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.dc_ac.label }}
+                    {{ form.dc_ac(placeholder="") }}
+                    {% if form.dc_ac.errors %}
+                        <div class="error">
+                            {% for error in form.dc_ac.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.communication.label }}
+                    {{ form.communication(placeholder="") }}
+                    {% if form.communication.errors %}
+                        <div class="error">
+                            {% for error in form.communication.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.mounting_wall.label }}
+                    {{ form.mounting_wall(placeholder="") }}
+                    {% if form.mounting_wall.errors %}
+                        <div class="error">
+                            {% for error in form.mounting_wall.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.mounting_ground.label }}
+                    {{ form.mounting_ground(placeholder="") }}
+                    {% if form.mounting_ground.errors %}
+                        <div class="error">
+                            {% for error in form.mounting_ground.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.max_power.label }}
+                    {{ form.max_power(placeholder="") }}
+                    {% if form.max_power.errors %}
+                        <div class="error">
+                            {% for error in form.max_power.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.mcb.label }}
+                    {{ form.mcb(placeholder="") }}
+                    {% if form.mcb.errors %}
+                        <div class="error">
+                            {% for error in form.mcb.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.rcd_typea.label }}
+                    {{ form.rcd_typea(placeholder="") }}
+                    {% if form.rcd_typea.errors %}
+                        <div class="error">
+                            {% for error in form.rcd_typea.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.rcd_typeb.label }}
+                    {{ form.rcd_typeb(placeholder="") }}
+                    {% if form.rcd_typeb.errors %}
+                        <div class="error">
+                            {% for error in form.rcd_typeb.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.automatic_rcd.label }}
+                    {{ form.automatic_rcd(placeholder="") }}
+                    {% if form.automatic_rcd.errors %}
+                        <div class="error">
+                            {% for error in form.automatic_rcd.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.pwr_outage_eq.label }}
+                    {{ form.pwr_outage_eq(placeholder="") }}
+                    {% if form.pwr_outage_eq.errors %}
+                        <div class="error">
+                            {% for error in form.pwr_outage_eq.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.mid_meter.label }}
+                    {{ form.mid_meter(placeholder="") }}
+                    {% if form.mid_meter.errors %}
+                        <div class="error">
+                            {% for error in form.mid_meter.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.mid_readable.label }}
+                    {{ form.mid_readable(placeholder="") }}
+                    {% if form.mid_readable.errors %}
+                        <div class="error">
+                            {% for error in form.mid_readable.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.max_cable_d.label }}
+                    {{ form.max_cable_d(placeholder="") }}
+                    {% if form.max_cable_d.errors %}
+                        <div class="error">
+                            {% for error in form.max_cable_d.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.cable_cu_allowed.label }}
+                    {{ form.cable_cu_allowed(placeholder="") }}
+                    {% if form.cable_cu_allowed.errors %}
+                        <div class="error">
+                            {% for error in form.cable_cu_allowed.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.cable_al_allowed.label }}
+                    {{ form.cable_al_allowed(placeholder="") }}
+                    {% if form.cable_al_allowed.errors %}
+                        <div class="error">
+                            {% for error in form.cable_al_allowed.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div>
+                {{ form.submit }}
+            </div>
+        </form>
+        <div>
+        </div>
+    </div>
+</div>
+{% endblock %}
