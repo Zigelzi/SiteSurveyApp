@@ -2,8 +2,8 @@ from flask import render_template, redirect, url_for, flash, request, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from sitesurvey import app, db
 from sitesurvey.forms import (CustomerForm, LocationForm, AddChargerForm, InstallationForm,
-                              CreateUserForm, LogInForm, UpdateAccountForm, AddChargerForm,
-                              AddOrganizationForm, CreateContactForm)
+                              CreateUserForm, LogInForm, UpdateAccountForm, ChargerForm,
+                              AddOrganizationForm, CreateContactForm, AddOrgTypeForm)
 from sitesurvey.models import User, Organization, Survey, Charger, Location, Orgtype, Contactperson
 
 @app.route("/")
@@ -16,7 +16,7 @@ def index():
 def create_survey():
     customer_form = CustomerForm()
     location_form = LocationForm()
-    charger_form = AddChargerForm()
+    charger_form = ChargerForm()
     installation_form = InstallationForm()
     return render_template('forms/survey.html', title='Survey',
                             customer_form=customer_form,
@@ -52,24 +52,12 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-
-@app.route('/create_user', methods=["GET", "POST"])
+@app.route('/organizations')
 @login_required
-def create_user():
-    form = CreateUserForm()
-    if form.validate_on_submit():
-        # Take the form input and create db entry and commit it
-        user = User(first_name=form.first_name.data,
-                     last_name=form.last_name.data,
-                     email=form.email.data)
-        user.set_password(form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        flash(f'User has been created. They can now log in', 'success')
-        return redirect(url_for('login'))
-    return render_template('forms/create_user.html', title='Create user', form=form, active='create_user')
+def organizations():
+    return render_template('organizations/organizations.html', title='Organizations', active='organizations')
 
-@app.route('/create_organization', methods=["GET", "POST"])
+@app.route('/organizations/create_organization', methods=["GET", "POST"])
 @login_required
 def create_organization():
     form = AddOrganizationForm()
@@ -90,28 +78,28 @@ def create_organization():
         db.session.commit()
 
         flash(f'Organization has been created.', 'success')
-    return render_template('forms/add_organization.html', title='Create organization', form=form, active='add_organization')
+    return render_template('organizations/add_organization.html', title='Create organization', form=form, active='add_organization')
 
-@app.route('/create_organization_tag', methods=["GET", "POST"])
+@app.route('/organizations/create_organization_tag', methods=["GET", "POST"])
 @login_required
 def create_organization_tag():
-    form = AddOrganizationForm()
+    form = AddOrgTypeForm()
     if form.validate_on_submit():
         # Take the form input and create db entry and commit it
-        organization = Organization(org_name=form.org_name.data,
-                     org_number=form.org_number.data,
-                     address=form.address.data,
-                     postal_code=form.postal_code.data,
-                     city=form.city.data,
-                     country=form.country.data,
-                     org_type=form.org_type.data,
-                     contact_person=form.contact_person.data)
-        db.session.add(organization)
+        org_type = Orgtype(title=form.title.data,
+                     description=form.description.data)
+        db.session.add(org_type)
         db.session.commit()
-        flash(f'Organization has been created.', 'success')
-    return render_template('forms/add_organization.html', title='Create organization', form=form, active='add_organization')
+        flash(f'Organization type has been created.', 'success')
+        return redirect(url_for('create_organization_tag'))
+    return render_template('organizations/add_organization_type.html', title='Create organization type', form=form, active='add_organization_type')
 
-@app.route('/create_contactperson', methods=["GET", "POST"])
+@app.route('/users')
+@login_required
+def users():
+    return render_template('/users/users.html', title='Users', active='users')
+
+@app.route('/users/create_contactperson', methods=["GET", "POST"])
 @login_required
 def create_contact_person():
     form = CreateContactForm()
@@ -125,7 +113,24 @@ def create_contact_person():
         db.session.add(contact_person)
         db.session.commit()
         flash(f'Contact person has been created. They can now log in', 'success')
-    return render_template('forms/create_contactperson.html', title='Create contact', form=form, active='create_contact')
+    return render_template('users/create_contactperson.html', title='Create contact', form=form, active='create_contact')
+
+@app.route('/users/create_user', methods=["GET", "POST"])
+@login_required
+def create_user():
+    form = CreateUserForm()
+    if form.validate_on_submit():
+        # Take the form input and create db entry and commit it
+        user = User(first_name=form.first_name.data,
+                     last_name=form.last_name.data,
+                     email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash(f'User has been created. They can now log in', 'success')
+        return redirect(url_for('login'))
+    return render_template('users/create_user.html', title='Create user', form=form, active='create_user')
+
 
 @app.route('/account', methods=['GET', 'POST'])
 # login_required decorator used to show that this page requires logged in user. Configuration in __init__.py
@@ -145,7 +150,12 @@ def account():
         form.email.data = current_user.email
     return render_template('forms/account.html', title='Account', active='account', form=form)
 
-@app.route('/add_charger', methods=["GET", "POST"])
+@app.route('/chargers')
+@login_required
+def chargers():
+    return render_template('chargers/chargers.html', title='Chargers', active='chargers')
+
+@app.route('/chargers/add_charger', methods=["GET", "POST"])
 @login_required
 def add_charger():
     form = AddChargerForm()
@@ -178,10 +188,10 @@ def add_charger():
         db.session.commit()
         flash(f'Charger has been created in the database.', 'success')
         return redirect(url_for('add_charger'))
-    return render_template('forms/add_charger.html', title='Add charger', form=form, active='add_charger')
+    return render_template('chargers/add_charger.html', title='Add charger', form=form, active='add_charger')
 
-@app.route('/view_chargers', methods=["GET"])
+@app.route('/chargers/view_chargers', methods=["GET"])
 @login_required
 def view_chargers():
     chargers = Charger.query.all()
-    return render_template('view_chargers.html', title='View chargers', chargers=chargers)
+    return render_template('chargers/view_chargers.html', title='View chargers', chargers=chargers)

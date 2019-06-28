@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div id="index-main-card" class="grey-container">
+    <h1>Organizations</h1>
+    <a href="{{ url_for('create_organization') }}" class="btn">Create new organization</a>
+    <a href="{{ url_for('create_organization_tag') }}" class="btn">Create new organization type</a>
+</div>
+{% endblock %}
+

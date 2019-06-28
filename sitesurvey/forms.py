@@ -22,7 +22,7 @@ class LocationForm(FlaskForm):
     city = StringField('City', validators=[DataRequired(message=data_req_msg)])
     coordinates = FloatField('Coordinates')
 
-class ChargerFrom(FlaskForm):
+class ChargerForm(FlaskForm):
     dc_ac = SelectField('DC / AC', validators=[DataRequired(message=data_req_msg)],
                         choices=[('DC', 'DC'), ('AC', 'AC')])
     manufacturer = SelectField('Charger manufacturer', validators=[DataRequired(message=data_req_msg)],
@@ -212,6 +212,11 @@ class AddOrganizationForm(FlaskForm):
     # TODO: Add logic to add BooleanFields for each organization type
     org_type = SelectField('Organization type', choices=org_type_list)
     submit = SubmitField('Create organization')
+
+class AddOrgTypeForm(FlaskForm):
+    title = StringField('Organization type title', validators=[DataRequired(message=data_req_msg)])
+    description = TextAreaField('Description', validators=[DataRequired(message=data_req_msg)])
+    submit = SubmitField('Create organization type')
 
     
     

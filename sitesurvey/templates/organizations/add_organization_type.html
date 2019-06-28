@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="">
+    <div class="">
+        <form action="" method="POST">
+            {{ form.hidden_tag() }}
+            <fieldset>
+                <legend>Create new organization type</legend>
+                <div class="input-box">
+                    {{ form.title.label }}
+                    {{ form.title(placeholder="Contactor") }}
+                    {% if form.title.errors %}
+                        <div class="error">
+                            {% for error in form.title.errors %}
+                                <span>
+                                    {{ error }}
+                               </span>
+                           {% endfor %}
+                       </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.description.label }}
+                    {{ form.description(placeholder="Describe what the type does and what are it's permissions") }}
+                    {% if form.description.errors %}
+                        <div class="error">
+                            {% for error in form.description.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+        </fieldset>
+        <div>
+            {{ form.submit }}
+        </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div id="index-main-card" class="grey-container">
+    <h1>Users</h1>
+    <a href="{{ url_for('create_user') }}" class="btn">Create new user</a>
+    <a href="{{ url_for('create_contact_person') }}" class="btn">Create new contact person</a>
+</div>
+{% endblock %}
+

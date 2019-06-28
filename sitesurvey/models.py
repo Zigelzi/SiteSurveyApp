@@ -138,7 +138,7 @@ class Location(db.Model):
 
 class Orgtype(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(40), nullable=False)
+    title = db.Column(db.String(40), nullable=False, unique=True)
     description = db.Column(db.String(255), nullable=False)
 
     def __repr__(self):

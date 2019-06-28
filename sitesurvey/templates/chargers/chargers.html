@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div id="index-main-card" class="grey-container">
+    <h1>Chargers</h1>
+    <a href="{{ url_for('add_charger') }}" class="btn">Add new charger</a>
+    <a href="{{ url_for('view_chargers') }}" class="btn">View existing chargers</a>
+</div>
+{% endblock %}
+
