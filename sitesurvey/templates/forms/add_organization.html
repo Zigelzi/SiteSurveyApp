@@ -99,19 +99,6 @@
                         </div>
                     {% endif %}    
                 </div>
-                <div class="input-box">
-                    {{ form.contact_person.label }}
-                    {{ form.contact_person(placeholder="Confirm password") }}
-                    {% if form.contact_person.errors %}
-                        <div class="error">
-                            {% for error in form.contact_person.errors %}
-                                <span>
-                                    {{ error }}
-                                </span>
-                            {% endfor %}
-                        </div>
-                    {% endif %}    
-                </div>
         </fieldset>
         <div>
             {{ form.submit }}

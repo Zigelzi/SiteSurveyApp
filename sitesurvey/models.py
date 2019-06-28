@@ -15,12 +15,6 @@ org_type_rel = db.Table('org_type',
                          db.Column('type_id', db.Integer, db.ForeignKey('orgtype.id'))
                          )
 
-# Organizations and contact person association table
-contact_person_rel = db.Table('org_contact_person',
-                        db.Column('org_id', db.Integer, db.ForeignKey('organization.id')),
-                         db.Column('contact_id', db.Integer, db.ForeignKey('contactperson.id'))
-                         )
-
 # Surveys and contact person association table
 survey_contact_rel = db.Table('survey_contact_person',
                         db.Column('survey_id', db.Integer, db.ForeignKey('survey.id')),
@@ -59,9 +53,12 @@ class Organization(db.Model):
     city = db.Column(db.String(30), nullable=False)
     country = db.Column(db.String(30), nullable=False)
 
-    # Organization type and contact person mapping
+    # Foreign keys
+    contact_person = db.Column(db.Integer, db.ForeignKey('contactperson.id'))
+
+    # Organization type mapping
     org_type = db.relationship('Orgtype', secondary=org_type_rel, backref='organizations', lazy=True)
-    contact_person = db.relationship('Contactperson', secondary=contact_person_rel, backref='organizations', lazy=True)
+    
 
     def __repr__(self):
         return f"""Organization <{self.org_name} | {self.org_number} | {self.address} | {self.postal_code} |

@@ -74,6 +74,29 @@ def create_user():
 def create_organization():
     form = AddOrganizationForm()
     if form.validate_on_submit():
+        org_type_query = Orgtype.query.filter_by(title=form.org_type.data.capitalize()).first()
+        org_type = Orgtype(title=org_type_query.title,
+                            description=org_type_query.description)
+        # Take the form input and create db entry and commit it
+        organization = Organization(org_name=form.org_name.data,
+                     org_number=form.org_number.data,
+                     address=form.address.data,
+                     postal_code=form.postal_code.data,
+                     city=form.city.data,
+                     country=form.country.data)
+        db.session.add(organization)
+        db.session.commit()
+        organization.org_type.append(org_type)
+        db.session.commit()
+
+        flash(f'Organization has been created.', 'success')
+    return render_template('forms/add_organization.html', title='Create organization', form=form, active='add_organization')
+
+@app.route('/create_organization_tag', methods=["GET", "POST"])
+@login_required
+def create_organization_tag():
+    form = AddOrganizationForm()
+    if form.validate_on_submit():
         # Take the form input and create db entry and commit it
         organization = Organization(org_name=form.org_name.data,
                      org_number=form.org_number.data,

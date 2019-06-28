@@ -88,13 +88,17 @@ class InstallationForm(FlaskForm):
 class CreateUserForm(FlaskForm):
     # Query list of existing organizations from DB
     orgs = Organization.query.all()
+    orgs_list = []
+
+    for org in orgs:
+        orgs_list.append((org.org_name[:5].lower(), org.org_name))
 
     first_name = StringField('First name', validators=[DataRequired(message=data_req_msg)])
     last_name = StringField('Last name', validators=[DataRequired(message=data_req_msg)])
     email = StringField('Email',
                         validators=[DataRequired(message=data_req_msg), Email(message="Not valid email")])
     organization = SelectField('Organization', validators=[DataRequired(message=data_req_msg)],
-                                choices=orgs)
+                                choices=orgs_list)
     password = PasswordField('Password',
                              validators=[DataRequired(message=data_req_msg),
                                          Length(min=8, message="Password must be at least 8 characters")])
@@ -186,7 +190,7 @@ class AddOrganizationForm(FlaskForm):
     org_type_list = []
     # Loop through the organization types and create array for SelectField with format ('id', 'value')
     for org in org_types:
-        org_type_list.append((org.title.lower, org.title))
+        org_type_list.append((org.title.lower(), org.title))
     
     contact_persons = Contactperson.query.all()
     contact_person_list = []
@@ -206,10 +210,7 @@ class AddOrganizationForm(FlaskForm):
     country = SelectField('Country', validators=[DataRequired(message=data_req_msg)], choices=countries)
     # Select field is not good field for this use case. Should be multiple checkboxes.
     # TODO: Add logic to add BooleanFields for each organization type
-    org_type = SelectField('Organization type', validators=[DataRequired(message=data_req_msg)], choices=org_type_list)
-    # This field should only list the contact persons belonging to selected organization.
-    # TODO: Create JS to show only organizations own contact persons.
-    contact_person = SelectField('Contact person', validators=[DataRequired(message=data_req_msg)], choices=contact_person_list)
+    org_type = SelectField('Organization type', choices=org_type_list)
     submit = SubmitField('Create organization')
 
     
