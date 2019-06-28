@@ -25,12 +25,21 @@
                     <li class="{% if active=='index' %}active-nav{% endif %}">
                         <a href="{{ url_for('index') }}">Home</a>
                     </li>
+                    {% if current_user.is_authenticated %}
                     <li class="{% if active=='create_survey' %}active-nav{% endif %}">
                         <a href="{{ url_for('create_survey') }}">Create survey</a>
                     </li>
-                    {% if current_user.is_authenticated %}
                     <li class="">
                         <a href="{{ url_for('create_user') }}">Create user</a>
+                    </li>
+                    <li class="">
+                        <a href="{{ url_for('create_organization') }}">Create organization</a>
+                    </li>
+                    <li class="">
+                        <a href="{{ url_for('create_user') }}">Create organization type</a>
+                    </li>
+                    <li class="">
+                        <a href="{{ url_for('create_contact_person') }}">Create contact person</a>
                     </li>
                     <li class="">
                             <a href="{{ url_for('add_charger') }}">Add charger</a>

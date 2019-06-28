@@ -7,8 +7,6 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# TODO: Sort out the many-to-many relationships
-
 # Many to many relationship tables
 
 # Organizations and organization association table

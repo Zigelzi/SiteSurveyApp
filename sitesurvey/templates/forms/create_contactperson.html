@@ -7,9 +7,7 @@
         <form action="" method="POST">
             {{ form.hidden_tag() }}
             <fieldset>
-                <legend>
-                    Create new user
-                </legend>
+                <legend>Create new contact person</legend>
                 <div class="input-box">
                     {{ form.first_name.label }}
                     {{ form.first_name(placeholder="Erkki") }}
@@ -22,7 +20,6 @@
                            {% endfor %}
                        </div>
                     {% endif %}
-                    
                 </div>
                 <div class="input-box">
                     {{ form.last_name.label }}
@@ -37,10 +34,22 @@
                         </div>
                     {% endif %}
                 </div>
-
+                <div class="input-box">
+                    {{ form.title.label }}
+                    {{ form.title(placeholder="Property manager") }}
+                    {% if form.title.errors %}
+                        <div class="error">
+                            {% for error in form.title.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
                 <div class="input-box">
                     {{ form.email.label }}
-                    {{ form.email(placeholder="Syötä sähköpostiosoitteesi") }}
+                    {{ form.email(placeholder="Enter users email") }}
                     {% if form.email.errors %}
                         <div class="error">
                             {% for error in form.email.errors %}
@@ -50,43 +59,25 @@
                             {% endfor %}
                         </div>
                     {% endif %}
-                    
                 </div>
                 <div class="input-box">
-                    {{ form.password.label }}
-                    {{ form.password(placeholder="Enter at least 8 character password") }}
-                        {% if form.password.errors %}
+                    {{ form.phone_number.label }}
+                    {{ form.phone_number }}
+                    {% if form.phone_number.errors %}
                         <div class="error">
-                            {% for error in form.password.errors %}
+                            {% for error in form.phone_number.errors %}
                                 <span>
                                     {{ error }}
                                 </span>
                             {% endfor %}
                         </div>
                     {% endif %}
-                    
-                </div>
-                <div class="input-box">
-                    {{ form.confirm_pw.label }}
-                    {{ form.confirm_pw(placeholder="Confirm password") }}
-                    {% if form.confirm_pw.errors %}
-                        <div class="error">
-                            {% for error in form.confirm_pw.errors %}
-                                <span>
-                                    {{ error }}
-                                </span>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                    
                 </div>
             </fieldset>
             <div>
                 {{ form.submit }}
             </div>
         </form>
-        <div>
-        </div>
     </div>
 </div>
 {% endblock %}

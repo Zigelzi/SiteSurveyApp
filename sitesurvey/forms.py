@@ -3,13 +3,13 @@ from flask_login import current_user
 from wtforms import (StringField, IntegerField, SelectField, FloatField,
                      RadioField, TextAreaField, BooleanField, PasswordField, SubmitField)
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
-from sitesurvey.models import User
+from sitesurvey.models import User, Organization, Orgtype, Contactperson
 
 data_req_msg = 'Pakollinen kenttä'
 chargers = [{'manufacturer':'Ensto', 'model':'EVF200', 'DC/AC':'AC'}, {'manufacturer':'Garo', 'model':'LS4', 'DC/AC':'AC'}, {'manufacturer':'Tritium', 'model':'Veefil', 'DC/AC':'DC'}]
 
 
-class Customer(FlaskForm):
+class CustomerForm(FlaskForm):
     first_name = StringField('Full name', validators=[DataRequired(message=data_req_msg)])
     title = StringField('Title', validators=[DataRequired(message=data_req_msg)])
     phone_number = StringField('Phone number', validators=[DataRequired(message=data_req_msg)])
@@ -22,7 +22,7 @@ class LocationForm(FlaskForm):
     city = StringField('City', validators=[DataRequired(message=data_req_msg)])
     coordinates = FloatField('Coordinates')
 
-class Chargers(FlaskForm):
+class ChargerFrom(FlaskForm):
     dc_ac = SelectField('DC / AC', validators=[DataRequired(message=data_req_msg)],
                         choices=[('DC', 'DC'), ('AC', 'AC')])
     manufacturer = SelectField('Charger manufacturer', validators=[DataRequired(message=data_req_msg)],
@@ -40,7 +40,7 @@ class Chargers(FlaskForm):
     foundation = RadioField('Concrete foundation needed?', validators=[DataRequired(message=data_req_msg)],
                             choices=[('yes', 'Yes'), ('no', 'No')])
 
-class Installation(FlaskForm):
+class InstallationForm(FlaskForm):
     grid_connection = SelectField('Current grid connection', validators=[DataRequired(message=data_req_msg)],
                                     choices=[('25','25 A'),
                                             ('35','35 A'),
@@ -85,11 +85,16 @@ class Installation(FlaskForm):
     signal_strength = FloatField('Mobile signal strength')
     installation_location = TextAreaField('Installation location')
 
-class CreateUser(FlaskForm):
+class CreateUserForm(FlaskForm):
+    # Query list of existing organizations from DB
+    orgs = Organization.query.all()
+
     first_name = StringField('First name', validators=[DataRequired(message=data_req_msg)])
     last_name = StringField('Last name', validators=[DataRequired(message=data_req_msg)])
     email = StringField('Email',
                         validators=[DataRequired(message=data_req_msg), Email(message="Not valid email")])
+    organization = SelectField('Organization', validators=[DataRequired(message=data_req_msg)],
+                                choices=orgs)
     password = PasswordField('Password',
                              validators=[DataRequired(message=data_req_msg),
                                          Length(min=8, message="Password must be at least 8 characters")])
@@ -107,18 +112,27 @@ class CreateUser(FlaskForm):
         if email:
             raise ValidationError('This email is already in use')
 
+class CreateContactForm(FlaskForm):
+    # Query list of existing organizations from DB
+    first_name = StringField('First name', validators=[DataRequired(message=data_req_msg)])
+    last_name = StringField('Last name', validators=[DataRequired(message=data_req_msg)])
+    title = StringField('Title', validators=[DataRequired(message=data_req_msg)])
+    email = StringField('Email',
+                        validators=[DataRequired(message=data_req_msg), Email(message="Not valid email")])
+    phone_number = StringField('Phone number', validators=[DataRequired(message=data_req_msg)])
+    submit = SubmitField('Create contact person')
 
 # Form for logging in to the site.
-class LogIn(FlaskForm):
-    email = StringField('Sähköposti',
-                        validators=[DataRequired(message=data_req_msg), Email(message="Ei voimassa oleva sähköposti")])
-    password = PasswordField('Salasana',
+class LogInForm(FlaskForm):
+    email = StringField('Email',
+                        validators=[DataRequired(message=data_req_msg), Email(message="Not valid email")])
+    password = PasswordField('Password',
                              validators=[DataRequired(message=data_req_msg)])
-    remember = BooleanField('Muista minut')
-    submit = SubmitField('Kirjaudu sisään')
+    remember = BooleanField('Remember me')
+    submit = SubmitField('Log in')
 
 # Form for registering new users.
-class UpdateAccount(FlaskForm):
+class UpdateAccountForm(FlaskForm):
     first_name = StringField('First name', validators=[DataRequired(message=data_req_msg)])
     last_name = StringField('Last name', validators=[DataRequired(message=data_req_msg)])
     email = StringField('Email',
@@ -136,7 +150,7 @@ class UpdateAccount(FlaskForm):
                 raise ValidationError('Entered email is already in use')
 
 
-class AddCharger(FlaskForm):
+class AddChargerForm(FlaskForm):
     manufacturer = StringField('Manufacturer', validators=[DataRequired(message=data_req_msg)])
     model = StringField('Model name', validators=[DataRequired(message=data_req_msg)])
     product_no = StringField('Product number', validators=[DataRequired(message=data_req_msg)])
@@ -163,3 +177,41 @@ class AddCharger(FlaskForm):
     cable_cu_allowed = BooleanField('Copper cable allowed')
     cable_al_allowed = BooleanField('Copper cable allowed')
     submit = SubmitField('Add charger')
+
+class AddOrganizationForm(FlaskForm):
+    # List of countries for the country selection
+    # TODO: Should this be queried from DB or from external API?
+    countries = [('fi', 'Finland'), ('swe', 'Sweden'), ('no', 'Norway'), ('ger', 'Germany')]
+    org_types = Orgtype.query.all()
+    org_type_list = []
+    # Loop through the organization types and create array for SelectField with format ('id', 'value')
+    for org in org_types:
+        org_type_list.append((org.title.lower, org.title))
+    
+    contact_persons = Contactperson.query.all()
+    contact_person_list = []
+    # Loop through the contact persons and create array for SelectField with format ('id', 'value')
+    # TODO: Don't show users full names to everyone!
+    for contact_person in contact_persons:
+        fullname_id = contact_person.first_name[:2].lower() + contact_person.last_name.lower()
+        fullname = contact_person.first_name + ' ' + contact_person.last_name
+        contact_person_list.append((fullname_id, fullname))
+
+
+    org_name = StringField('Organization name', validators=[DataRequired(message=data_req_msg)])
+    org_number = StringField('Organization id', validators=[DataRequired(message=data_req_msg)])
+    address = StringField('Address', validators=[DataRequired(message=data_req_msg)])
+    postal_code = StringField('Postal code', validators=[DataRequired(message=data_req_msg)])
+    city = StringField('City', validators=[DataRequired(message=data_req_msg)])
+    country = SelectField('Country', validators=[DataRequired(message=data_req_msg)], choices=countries)
+    # Select field is not good field for this use case. Should be multiple checkboxes.
+    # TODO: Add logic to add BooleanFields for each organization type
+    org_type = SelectField('Organization type', validators=[DataRequired(message=data_req_msg)], choices=org_type_list)
+    # This field should only list the contact persons belonging to selected organization.
+    # TODO: Create JS to show only organizations own contact persons.
+    contact_person = SelectField('Contact person', validators=[DataRequired(message=data_req_msg)], choices=contact_person_list)
+    submit = SubmitField('Create organization')
+
+    
+    
+

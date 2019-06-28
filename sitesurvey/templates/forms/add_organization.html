@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="">
+    <div class="">
+        <form action="" method="POST">
+            {{ form.hidden_tag() }}
+            <fieldset>
+                <legend>Create new organization</legend>
+                <div class="input-box">
+                    {{ form.org_name.label }}
+                    {{ form.org_name(placeholder="Example company Ltd") }}
+                    {% if form.org_name.errors %}
+                        <div class="error">
+                            {% for error in form.org_name.errors %}
+                                <span>
+                                    {{ error }}
+                               </span>
+                           {% endfor %}
+                       </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.org_number.label }}
+                    {{ form.org_number(placeholder="1231234-8") }}
+                    {% if form.org_number.errors %}
+                        <div class="error">
+                            {% for error in form.org_number.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.address.label }}
+                    {{ form.address(placeholder="Example street 1") }}
+                    {% if form.address.errors %}
+                        <div class="error">
+                            {% for error in form.address.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.postal_code.label }}
+                    {{ form.postal_code(placeholder="00100") }}
+                    {% if form.postal_code.errors %}
+                        <div class="error">
+                            {% for error in form.postal_code.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.city.label }}
+                    {{ form.city(placeholder="Helsinki") }}
+                        {% if form.city.errors %}
+                        <div class="error">
+                            {% for error in form.city.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.country.label }}
+                    {{ form.country }}
+                    {% if form.country.errors %}
+                        <div class="error">
+                            {% for error in form.country.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}    
+                </div>
+                <div class="input-box">
+                    {{ form.org_type.label }}
+                    {{ form.org_type }}
+                    {% if form.org_type.errors %}
+                        <div class="error">
+                            {% for error in form.org_type.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}    
+                </div>
+                <div class="input-box">
+                    {{ form.contact_person.label }}
+                    {{ form.contact_person(placeholder="Confirm password") }}
+                    {% if form.contact_person.errors %}
+                        <div class="error">
+                            {% for error in form.contact_person.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}    
+                </div>
+        </fieldset>
+        <div>
+            {{ form.submit }}
+        </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,7 +1,9 @@
 from flask import render_template, redirect, url_for, flash, request, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from sitesurvey import app, db
-from sitesurvey.forms import Customer, LocationForm, Chargers, Installation, CreateUser, LogIn, UpdateAccount, AddCharger
+from sitesurvey.forms import (CustomerForm, LocationForm, AddChargerForm, InstallationForm,
+                              CreateUserForm, LogInForm, UpdateAccountForm, AddChargerForm,
+                              AddOrganizationForm, CreateContactForm)
 from sitesurvey.models import User, Organization, Survey, Charger, Location, Orgtype, Contactperson
 
 @app.route("/")
@@ -10,12 +12,13 @@ def index():
     return render_template('index.html', locations=dummy_locations)
 
 @app.route("/survey/create")
+@login_required
 def create_survey():
-    customer_form = Customer()
+    customer_form = CustomerForm()
     location_form = LocationForm()
-    charger_form = Chargers()
-    installation_form = Installation()
-    return render_template('survey.html', title='Survey',
+    charger_form = AddChargerForm()
+    installation_form = InstallationForm()
+    return render_template('forms/survey.html', title='Survey',
                             customer_form=customer_form,
                             location_form=location_form,
                             charger_form=charger_form,
@@ -27,7 +30,7 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
 
-    form = LogIn()
+    form = LogInForm()
 
     # Validate the LogIn form input and if user exists log in.
     if form.validate_on_submit():
@@ -41,7 +44,7 @@ def login():
         else:
             # Login is failed and prompt the user for checking the email/password
             flash('Login failed. Please check the email and password.', 'alert')
-    return render_template('login.html', title='Log in', form=form, active='login')
+    return render_template('forms/login.html', title='Log in', form=form, active='login')
 
 
 @app.route('/logout')
@@ -51,11 +54,10 @@ def logout():
 
 
 @app.route('/create_user', methods=["GET", "POST"])
+@login_required
 def create_user():
-    form = CreateUser()
+    form = CreateUserForm()
     if form.validate_on_submit():
-        # Hash the given PW to enter it to database
-
         # Take the form input and create db entry and commit it
         user = User(first_name=form.first_name.data,
                      last_name=form.last_name.data,
@@ -65,13 +67,48 @@ def create_user():
         db.session.commit()
         flash(f'User has been created. They can now log in', 'success')
         return redirect(url_for('login'))
-    return render_template('create_user.html', title='Create user', form=form, active='create_user')
+    return render_template('forms/create_user.html', title='Create user', form=form, active='create_user')
+
+@app.route('/create_organization', methods=["GET", "POST"])
+@login_required
+def create_organization():
+    form = AddOrganizationForm()
+    if form.validate_on_submit():
+        # Take the form input and create db entry and commit it
+        organization = Organization(org_name=form.org_name.data,
+                     org_number=form.org_number.data,
+                     address=form.address.data,
+                     postal_code=form.postal_code.data,
+                     city=form.city.data,
+                     country=form.country.data,
+                     org_type=form.org_type.data,
+                     contact_person=form.contact_person.data)
+        db.session.add(organization)
+        db.session.commit()
+        flash(f'Organization has been created.', 'success')
+    return render_template('forms/add_organization.html', title='Create organization', form=form, active='add_organization')
+
+@app.route('/create_contactperson', methods=["GET", "POST"])
+@login_required
+def create_contact_person():
+    form = CreateContactForm()
+    if form.validate_on_submit():
+        # Take the form input and create db entry and commit it
+        contact_person = Contactperson(first_name=form.first_name.data,
+                     last_name=form.last_name.data,
+                     title=form.title.data,
+                     email=form.email.data,
+                     phone_number=form.phone_number.data)
+        db.session.add(contact_person)
+        db.session.commit()
+        flash(f'Contact person has been created. They can now log in', 'success')
+    return render_template('forms/create_contactperson.html', title='Create contact', form=form, active='create_contact')
 
 @app.route('/account', methods=['GET', 'POST'])
 # login_required decorator used to show that this page requires logged in user. Configuration in __init__.py
 @login_required
 def account():
-    form = UpdateAccount()
+    form = UpdateAccountForm()
     if form.validate_on_submit():
         current_user.first_name = form.first_name.data
         current_user.last_name = form.last_name.data
@@ -83,12 +120,12 @@ def account():
         form.first_name.data = current_user.first_name
         form.last_name.data = current_user.last_name
         form.email.data = current_user.email
-    return render_template('account.html', title='Account', active='account', form=form)
+    return render_template('forms/account.html', title='Account', active='account', form=form)
 
 @app.route('/add_charger', methods=["GET", "POST"])
 @login_required
 def add_charger():
-    form = AddCharger()
+    form = AddChargerForm()
     if form.validate_on_submit():
         # Hash the given PW to enter it to database
 
@@ -118,7 +155,7 @@ def add_charger():
         db.session.commit()
         flash(f'Charger has been created in the database.', 'success')
         return redirect(url_for('add_charger'))
-    return render_template('add_charger.html', title='Add charger', form=form, active='add_charger')
+    return render_template('forms/add_charger.html', title='Add charger', form=form, active='add_charger')
 
 @app.route('/view_chargers', methods=["GET"])
 @login_required
