@@ -1,7 +1,7 @@
 from os import environ
 
 class Config(object):
-    SECRET_KEY = environ.get('SECRET_KEY')
+    SECRET_KEY = environ.get('SECRET_KEY') or 'test'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///site.db'
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587

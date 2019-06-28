@@ -15,7 +15,7 @@ class Customer(FlaskForm):
     phone_number = StringField('Phone number', validators=[DataRequired(message=data_req_msg)])
     email = StringField('Email', validators=[DataRequired(message=data_req_msg),
                                                     Email(message='Ei voimassa oleva sähköposti')])
-class Location(FlaskForm):
+class LocationForm(FlaskForm):
     location_name = StringField('Location name', validators=[DataRequired(message=data_req_msg)])
     address = StringField('Address', validators=[DataRequired(message=data_req_msg)])
     postal_code = IntegerField('Postal code', validators=[DataRequired(data_req_msg)])

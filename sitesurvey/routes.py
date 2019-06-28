@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from sitesurvey import app, db
-from sitesurvey.forms import Customer, Location, Chargers, Installation, CreateUser, LogIn, UpdateAccount, AddCharger
+from sitesurvey.forms import Customer, LocationForm, Chargers, Installation, CreateUser, LogIn, UpdateAccount, AddCharger
 from sitesurvey.models import User, Organization, Survey, Charger, Location, Orgtype, Contactperson
 
 @app.route("/")
@@ -12,7 +12,7 @@ def index():
 @app.route("/survey/create")
 def create_survey():
     customer_form = Customer()
-    location_form = Location()
+    location_form = LocationForm()
     charger_form = Chargers()
     installation_form = Installation()
     return render_template('survey.html', title='Survey',
