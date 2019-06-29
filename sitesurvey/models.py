@@ -69,7 +69,7 @@ class Survey(db.Model):
     grid_connection = db.Column(db.Integer)
     grid_cable = db.Column(db.String(15))
     max_power = db.Column(db.Float)
-    consumtion_fuse = db.Column(db.Integer)
+    consumtion_fuse = db.Column(db.Integer) # TYPO! Fix this
     maincabinet_rating = db.Column(db.Integer)
     empty_fuses = db.Column(db.Boolean)
     number_of_slots = db.Column(db.Integer)
@@ -79,6 +79,7 @@ class Survey(db.Model):
     # Foreign keys to User and Charger models
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     charger_id = db.Column(db.Integer, db.ForeignKey('charger.id'))
+    # TODO: Add locations ForeignKey so you can query location of the survey
 
     # Many-to-Many relationships
     contact_person = db.relationship('Contactperson', secondary=survey_contact_rel, backref='surveys', lazy=True)
@@ -113,6 +114,13 @@ class Charger(db.Model):
 
     # Backref to survey to see which chargers are used in which surveys
     charger_id = db.relationship('Survey', backref='charger', lazy='dynamic')
+
+    # Create FlaskForm SelectField choices tuple with format ('id', 'title')
+    def manufacturer_choices(self):
+        return (self.manufacturer.lower(), self.manufacturer)
+
+    def model_choices(self):
+        return (self.model.lower(), self.model)
 
     def __repr__(self):
         return f"""Charger <{self.manufacturer} |{self.model} |{self.product_no} |{self.dc_ac} |

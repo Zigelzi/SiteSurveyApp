@@ -3,10 +3,110 @@ from flask_login import current_user
 from wtforms import (StringField, IntegerField, SelectField, FloatField,
                      RadioField, TextAreaField, BooleanField, PasswordField, SubmitField)
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
-from sitesurvey.models import User, Organization, Orgtype, Contactperson
+from sitesurvey.models import User, Organization, Orgtype, Contactperson, Charger
 
-data_req_msg = 'Pakollinen kenttä'
+data_req_msg = 'Required field'
 chargers = [{'manufacturer':'Ensto', 'model':'EVF200', 'DC/AC':'AC'}, {'manufacturer':'Garo', 'model':'LS4', 'DC/AC':'AC'}, {'manufacturer':'Tritium', 'model':'Veefil', 'DC/AC':'DC'}]
+
+class SurveyForm(FlaskForm):
+    # Query charger information from database and create SelectField tuples for every charger
+    chargers = Charger.query.all()
+    manufacturer_choices = []
+    model_choices = []
+
+    # Append the ('id', 'title') tuple from all queried chargers to the lists passed to SelectFields
+    for charger in chargers:
+        manufacturer_choices.append(charger.manufacturer_choices())
+        model_choices.append(charger.model_choices())
+
+    # Customer selections
+    first_name = StringField('First name', validators=[DataRequired(message=data_req_msg)])
+    last_name = StringField('Last name', validators=[DataRequired(message=data_req_msg)])
+    title = StringField('Title', validators=[DataRequired(message=data_req_msg)])
+    email = StringField('Email', validators=[DataRequired(message=data_req_msg),
+                                             Email(message='Not valid email')])
+
+    phone_number = StringField('Phone number', validators=[DataRequired(message=data_req_msg)])
+    email = StringField('Email', validators=[DataRequired(message=data_req_msg),
+                                                    Email(message='Not valid email')])
+
+    # Location selections                                                    
+    location_name = StringField('Location name', validators=[DataRequired(message=data_req_msg)])
+    address = StringField('Address', validators=[DataRequired(message=data_req_msg)])
+    postal_code = IntegerField('Postal code', validators=[DataRequired(data_req_msg)])
+    city = StringField('City', validators=[DataRequired(message=data_req_msg)])
+    country = SelectField('Country', validators=[DataRequired(message=data_req_msg)],
+                                     choices=[('fi', 'Finland'),
+                                              ('swe', 'Sweden'),
+                                              ('no', 'Norway'),
+                                              ('ger', 'Germany')])
+    coordinate_lat = FloatField('Lateral coordinates')
+    coordinate_long = FloatField('Longitudal coordinates')
+
+    # Charger selections
+    dc_ac = SelectField('DC / AC', validators=[DataRequired(message=data_req_msg)],
+                        choices=[('DC', 'DC'), ('AC', 'AC')])
+    manufacturer = SelectField('Charger manufacturer', validators=[DataRequired(message=data_req_msg)],
+                                choices=manufacturer_choices)
+    model = SelectField('Charger model', validators=[DataRequired(message=data_req_msg)],
+                        choices=model_choices)
+    charger_amount = IntegerField('Number of chargers', validators=[DataRequired(message=data_req_msg)])
+    charging_power = FloatField('Charging point charging power (kW)', validators=[DataRequired(message=data_req_msg)])
+    installation_method = RadioField('Installation method', validators=[DataRequired(message=data_req_msg)],
+                                        choices=[('ground', 'Ground mounting'),
+                                                 ('wall', 'Wall mounted')])
+    communication = SelectField('Communication', validators=[DataRequired(message=data_req_msg)],
+                                choices=[('mobile_internal', 'Mobile with internal modem'),
+                                        ('mobile_external', 'Mobile with external modem'),
+                                        ('lan', 'LAN (ethernet) to customers network')])
+    foundation = RadioField('Concrete foundation needed?', validators=[DataRequired(message=data_req_msg)],
+                            choices=[('yes', 'Yes'),
+                                     ('no', 'No')])
+
+    # Installation selections
+    grid_connection = SelectField('Current grid connection', validators=[DataRequired(message=data_req_msg)],
+                                    choices=[('25','25 A'),
+                                            ('35','35 A'),
+                                            ('50','50 A'),
+                                            ('63','63 A'),
+                                            ('80','80 A'),
+                                            ('100','100 A'),
+                                            ('125','125 A'),
+                                            ('160','160 A'),
+                                            ('200','200 A'),
+                                            ('250','250 A'),
+                                            ('over250','> 250 A')])
+    grid_cable = StringField('Grid connection cable', validators=[DataRequired(message=data_req_msg)])
+    max_power = FloatField('Max. peak power (past 12 mo)', validators=[DataRequired(message=data_req_msg)])
+    consumption_point_fuse = SelectField('Consumption point fuse', validators=[DataRequired(message=data_req_msg)],
+                                            choices=[('25','25 A'),
+                                                    ('35','35 A'),
+                                                    ('50','50 A'),
+                                                    ('63','63 A'),
+                                                    ('80','80 A'),
+                                                    ('100','100 A'),
+                                                    ('125','125 A'),
+                                                    ('160','160 A'),
+                                                    ('200','200 A'),
+                                                    ('250','250 A'),
+                                                    ('over250','> 250 A')])
+    maincabinet_rating = SelectField('Main cabinet current rating (In)', validators=[DataRequired(message=data_req_msg)],
+                                        choices=[('25','25 A'),
+                                                ('35','35 A'),
+                                                ('50','50 A'),
+                                                ('63','63 A'),
+                                                ('80','80 A'),
+                                                ('100','100 A'),
+                                                ('125','125 A'),
+                                                ('160','160 A'),
+                                                ('200','200 A'),
+                                                ('250','250 A'),
+                                                ('over250','> 250 A')])
+    empty_fuses = BooleanField('Empty fuse slots?')
+    number_of_slots = IntegerField('Number of empty fuse slots')
+    signal_strength = FloatField('Mobile signal strength')
+    installation_location = TextAreaField('Installation location')
+    submit = SubmitField('Submit')
 
 
 class CustomerForm(FlaskForm):
@@ -14,13 +114,14 @@ class CustomerForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(message=data_req_msg)])
     phone_number = StringField('Phone number', validators=[DataRequired(message=data_req_msg)])
     email = StringField('Email', validators=[DataRequired(message=data_req_msg),
-                                                    Email(message='Ei voimassa oleva sähköposti')])
+                                                    Email(message='Not valid email')])
 class LocationForm(FlaskForm):
     location_name = StringField('Location name', validators=[DataRequired(message=data_req_msg)])
     address = StringField('Address', validators=[DataRequired(message=data_req_msg)])
     postal_code = IntegerField('Postal code', validators=[DataRequired(data_req_msg)])
     city = StringField('City', validators=[DataRequired(message=data_req_msg)])
-    coordinates = FloatField('Coordinates')
+    coordinate_lat = FloatField('Lateral coordinates')
+    coordinate_long = FloatField('Longitudal coordinates')
 
 class ChargerForm(FlaskForm):
     dc_ac = SelectField('DC / AC', validators=[DataRequired(message=data_req_msg)],
@@ -159,7 +260,13 @@ class AddChargerForm(FlaskForm):
     model = StringField('Model name', validators=[DataRequired(message=data_req_msg)])
     product_no = StringField('Product number', validators=[DataRequired(message=data_req_msg)])
     price = FloatField('Price (€)', validators=[DataRequired(message=data_req_msg)])
-    type_of_outlet = StringField('Type of outlet', validators=[DataRequired(message=data_req_msg)])
+    type_of_outlet = SelectField('Type of outlet', validators=[DataRequired(message=data_req_msg)],
+                                 choices=[('type2_socket', 'Type2 socket'),
+                                          ('type2_cable', 'Type2 fixed cable'),
+                                          ('chademo', 'CHAdeMO cable'),
+                                          ('ccs', 'CCS cable'),
+                                          ('chademo_ccs', 'CHAdeMO + CCS cables'),
+                                          ('chademo_ccs_type2', 'CHAdeMO + CCS + Type2 cables')])
     no_of_outlets = IntegerField('Number of outlets', validators=[DataRequired(message=data_req_msg)])
     dc_ac = SelectField('DC/AC', validators=[DataRequired(message=data_req_msg)],
                         choices=[('ac','AC'),
@@ -179,7 +286,7 @@ class AddChargerForm(FlaskForm):
     mid_readable = BooleanField('MID-meter readable from outside')
     max_cable_d = IntegerField('Maximum cable diameter (mm2)')
     cable_cu_allowed = BooleanField('Copper cable allowed')
-    cable_al_allowed = BooleanField('Copper cable allowed')
+    cable_al_allowed = BooleanField('Aluminium cable allowed')
     submit = SubmitField('Add charger')
 
 class AddOrganizationForm(FlaskForm):

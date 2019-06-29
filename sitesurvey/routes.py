@@ -1,28 +1,79 @@
 from flask import render_template, redirect, url_for, flash, request, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from sitesurvey import app, db
-from sitesurvey.forms import (CustomerForm, LocationForm, AddChargerForm, InstallationForm,
+from sitesurvey.forms import (SurveyForm, CustomerForm, LocationForm, AddChargerForm, InstallationForm,
                               CreateUserForm, LogInForm, UpdateAccountForm, ChargerForm,
                               AddOrganizationForm, CreateContactForm, AddOrgTypeForm)
 from sitesurvey.models import User, Organization, Survey, Charger, Location, Orgtype, Contactperson
+import sys
 
 @app.route("/")
 def index():
+    print(f' current user is {current_user.id}', file=sys.stderr)
+
     dummy_locations = [{'name':'Example site name 1', 'street':'Example street 1', 'post_code':'00100', 'city':'Helsinki', 'distance':50}, {'name':'Example site name 2', 'street':'Example street 1', 'post_code':'00100', 'city':'Helsinki', 'distance':50}]
     return render_template('index.html', locations=dummy_locations)
 
-@app.route("/survey/create")
+@app.route("/survey/create", methods=["GET", "POST"])
 @login_required
 def create_survey():
-    customer_form = CustomerForm()
-    location_form = LocationForm()
-    charger_form = ChargerForm()
-    installation_form = InstallationForm()
-    return render_template('forms/survey.html', title='Survey',
-                            customer_form=customer_form,
-                            location_form=location_form,
-                            charger_form=charger_form,
-                            installation_form=installation_form)
+    
+    form = SurveyForm()
+    # Get the number of surveys in DB and do running numbering (+1)
+    survey_id = Survey.query.order_by(Survey.id.desc()).first()
+    
+    # If Survey query returns None this is the first survey.
+    if survey_id == None:
+        survey_id = 0
+    else:
+        survey_id += 1
+
+    if form.validate_on_submit():
+        # Query the selected charger model and it's id and enter it as charger_id
+        charger_id = Charger.query.filter_by(model=form.model.data).first().id
+        contact_person = Contactperson(first_name=form.first_name.data,
+                                        last_name=form.last_name.data,
+                                        title=form.title.data,
+                                        email=form.email.data,
+                                        phone_number=form.phone_number.data)
+
+        location = Location(name=form.location_name.data,
+                            address=form.address.data,
+                            postal_code=form.postal_code.data,
+                            city=form.city.data,
+                            country=form.country.data,
+                            coordinate_lat=form.coordinate_lat.data,
+                            coordinate_long=form.coordinate_long.data,
+                            survey_id=survey_id)
+
+        survey = Survey(grid_connection=form.grid_connection.data,
+                        grid_cable=form.grid_cable.data,
+                        max_power=form.max_power.data,
+                        consumtion_fuse=form.consumption_point_fuse.data,
+                        maincabinet_rating=form.maincabinet_rating.data,
+                        empty_fuses=form.empty_fuses.data,
+                        number_of_slots=form.number_of_slots.data,
+                        signal_strength=form.signal_strength.data,
+                        installation_location=form.installation_location.data,
+                        user_id = current_user.id,
+                        charger_id=charger_id)
+        
+        # Add all information from form to DB session and commit the changes
+        db.session.add(contact_person)
+        db.session.add(location)
+        db.session.add(survey)
+        db.session.commit()
+
+        # Append the contact person as Surveys contact person
+        survey.contact_person.append(contact_person)
+        db.session.commit()
+
+    # Old separate forms. Testing our single form input
+    # customer_form = CustomerForm()
+    # location_form = LocationForm()
+    # charger_form = ChargerForm()
+    # installation_form = InstallationForm()
+    return render_template('forms/survey.html', title='Survey', form=form)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

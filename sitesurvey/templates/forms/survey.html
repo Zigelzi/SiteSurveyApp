@@ -2,20 +2,20 @@
 
 {% block content %}
 <div class="content">
-    <!-- Customer form -->
-    <div class="grey-container survey-form">
-        <form action="">
-            {{ customer_form.hidden_tag() }}
+    <form action="" method="POST">
+        <!-- Customer form -->
+        <div class="grey-container survey-form">
+            {{ form.hidden_tag() }}
             <div class="survey-header">
                 <img class="svg-icon" src="{{ url_for('static', filename='img/icon_person.svg') }}" alt="person icon">
                 <legend>Customer</legend>
             </div>
             <div class="input-box">
-                {{ customer_form.first_name.label }}
-                {{ customer_form.first_name }}
-                {% if customer_form.first_name.errors %}
+                {{ form.first_name.label }}
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
                 <div class="error">
-                    {% for error in customer_form.first_name.errors %}
+                    {% for error in form.first_name.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -24,11 +24,24 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ customer_form.title.label }}
-                {{ customer_form.title }}
-                {% if customer_form.title.errors %}
+                    {{ form.last_name.label }}
+                    {{ form.last_name }}
+                    {% if form.last_name.errors %}
+                    <div class="error">
+                        {% for error in form.last_name.errors %}
+                            <span>
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            <div class="input-box">
+                {{ form.title.label }}
+                {{ form.title }}
+                {% if form.title.errors %}
                 <div class="error">
-                    {% for error in customer_form.title.errors %}
+                    {% for error in form.title.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -37,11 +50,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ customer_form.phone_number.label }}
-                {{ customer_form.phone_number }}
-                {% if customer_form.phone_number.errors %}
+                {{ form.email.label }}
+                {{ form.email }}
+                {% if form.email.errors %}
                 <div class="error">
-                    {% for error in customer_form.phone_number.errors %}
+                    {% for error in form.email.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -50,11 +63,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ customer_form.email.label }}
-                {{ customer_form.email }}
-                {% if customer_form.email.errors %}
+                {{ form.phone_number.label }}
+                {{ form.phone_number }}
+                {% if form.phone_number.errors %}
                 <div class="error">
-                    {% for error in customer_form.email.errors %}
+                    {% for error in form.phone_number.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -62,98 +75,118 @@
                 </div>
                 {% endif %}
             </div>
-        </form>
-    </div>
+        </div>
 
-    <!-- Location form -->
-    <div class="grey-container survey-form">
-        <form action="">
-            {{ location_form.hidden_tag() }}
-            <div class="survey-header">
-                <img class="svg-icon" src="{{ url_for('static', filename='img/icon_building.svg') }}" alt="building icon">
-                <legend>Location</legend>
-            </div>
-            <div class="input-box">
-                {{ location_form.location_name.label }}
-                {{ location_form.location_name }}
-                {% if location_form.location_name.errors %}
-                <div class="error">
-                    {% for error in location_form.location_name.errors %}
-                        <span>
-                            {{ error }}
-                        </span>
-                    {% endfor %}
+        <!-- Location form -->
+        <div class="grey-container survey-form">
+                <div class="survey-header">
+                    <img class="svg-icon" src="{{ url_for('static', filename='img/icon_building.svg') }}" alt="building icon">
+                    <legend>Location</legend>
                 </div>
-                {% endif %}
-            </div>
-            <div class="input-box">
-                {{ location_form.address.label }}
-                {{ location_form.address }}
-                {% if location_form.address.errors %}
-                <div class="error">
-                    {% for error in location_form.address.errors %}
-                        <span>
-                            {{ error }}
-                        </span>
-                    {% endfor %}
+                <div class="input-box">
+                    {{ form.location_name.label }}
+                    {{ form.location_name }}
+                    {% if form.location_name.errors %}
+                    <div class="error">
+                        {% for error in form.location_name.errors %}
+                            <span>
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                 </div>
-                {% endif %}
-            </div>
-            <div class="input-box">
-                {{ location_form.postal_code.label }}
-                {{ location_form.postal_code }}
-                {% if location_form.postal_code.errors %}
-                <div class="error">
-                    {% for error in location_form.postal_code.errors %}
-                        <span>
-                            {{ error }}
-                        </span>
-                    {% endfor %}
+                <div class="input-box">
+                    {{ form.address.label }}
+                    {{ form.address }}
+                    {% if form.address.errors %}
+                    <div class="error">
+                        {% for error in form.address.errors %}
+                            <span>
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                 </div>
-                {% endif %}
-            </div><div class="input-box">
-                {{ location_form.city.label }}
-                {{ location_form.city }}
-                {% if location_form.city.errors %}
-                <div class="error">
-                    {% for error in location_form.city.errors %}
-                        <span>
-                            {{ error }}
-                        </span>
-                    {% endfor %}
+                <div class="input-box">
+                    {{ form.postal_code.label }}
+                    {{ form.postal_code }}
+                    {% if form.postal_code.errors %}
+                    <div class="error">
+                        {% for error in form.postal_code.errors %}
+                            <span>
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div><div class="input-box">
+                    {{ form.city.label }}
+                    {{ form.city }}
+                    {% if form.city.errors %}
+                    <div class="error">
+                        {% for error in form.city.errors %}
+                            <span>
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                 </div>
-                {% endif %}
-            </div>
-            <div class="input-box">
-                {{ location_form.coordinates.label }}
-                {{ location_form.coordinates }}
-                {% if location_form.coordinates.errors %}
-                <div class="error">
-                    {% for error in location_form.coordinates.errors %}
-                        <span>
-                            {{ error }}
-                        </span>
-                    {% endfor %}
+                <div class="input-box">
+                        {{ form.country.label }}
+                        {{ form.country }}
+                        {% if form.country.errors %}
+                        <div class="error">
+                            {% for error in form.country.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                <div class="input-box">
+                    {{ form.coordinate_lat.label }}
+                    {{ form.coordinate_lat }}
+                    {% if form.coordinate_lat.errors %}
+                    <div class="error">
+                        {% for error in form.coordinate_lat.errors %}
+                            <span>
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                 </div>
-                {% endif %}
+                <div class="input-box">
+                    {{ form.coordinate_long.label }}
+                    {{ form.coordinate_long }}
+                    {% if form.coordinate_lat.errors %}
+                    <div class="error">
+                        {% for error in form.coordinate_long.errors %}
+                            <span>
+                                {{ error }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
             </div>
-        </form>
-    </div>
 
-    <!-- Charger form -->
-    <div class="grey-container survey-form">
-        <form action="">
-            {{ charger_form.hidden_tag() }}
+        <!-- Charger form -->
+        <div class="grey-container survey-form">
             <div class="survey-header">
                 <img class="svg-icon" src="{{ url_for('static', filename='img/icon_lightning.svg') }}" alt="lightning icon">
                 <legend>Charger</legend>
             </div>
             <div class="input-box">
-                {{ charger_form.dc_ac.label }}
-                {{ charger_form.dc_ac }}
-                {% if charger_form.dc_ac.errors %}
+                {{ form.dc_ac.label }}
+                {{ form.dc_ac }}
+                {% if form.dc_ac.errors %}
                 <div class="error">
-                    {% for error in charger_form.dc_ac.errors %}
+                    {% for error in form.dc_ac.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -162,11 +195,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ charger_form.manufacturer.label }}
-                {{ charger_form.manufacturer }}
-                {% if charger_form.manufacturer.errors %}
+                {{ form.manufacturer.label }}
+                {{ form.manufacturer }}
+                {% if form.manufacturer.errors %}
                 <div class="error">
-                    {% for error in charger_form.manufacturer.errors %}
+                    {% for error in form.manufacturer.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -175,11 +208,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ charger_form.model.label }}
-                {{ charger_form.model }}
-                {% if charger_form.model.errors %}
+                {{ form.model.label }}
+                {{ form.model }}
+                {% if form.model.errors %}
                 <div class="error">
-                    {% for error in charger_form.model.errors %}
+                    {% for error in form.model.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -188,11 +221,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ charger_form.charger_amount.label }}
-                {{ charger_form.charger_amount }}
-                {% if charger_form.charger_amount.errors %}
+                {{ form.charger_amount.label }}
+                {{ form.charger_amount }}
+                {% if form.charger_amount.errors %}
                 <div class="error">
-                    {% for error in charger_form.charger_amount.errors %}
+                    {% for error in form.charger_amount.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -201,11 +234,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ charger_form.charging_power.label }}
-                {{ charger_form.charging_power }}
-                {% if charger_form.charging_power.errors %}
+                {{ form.charging_power.label }}
+                {{ form.charging_power }}
+                {% if form.charging_power.errors %}
                 <div class="error">
-                    {% for error in charger_form.charging_power.errors %}
+                    {% for error in form.charging_power.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -214,11 +247,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ charger_form.installation_method.label }}
-                {{ charger_form.installation_method }}
-                {% if charger_form.installation_method.errors %}
+                {{ form.installation_method.label }}
+                {{ form.installation_method }}
+                {% if form.installation_method.errors %}
                 <div class="error">
-                    {% for error in charger_form.installation_method.errors %}
+                    {% for error in form.installation_method.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -227,11 +260,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ charger_form.communication.label }}
-                {{ charger_form.communication }}
-                {% if charger_form.communication.errors %}
+                {{ form.communication.label }}
+                {{ form.communication }}
+                {% if form.communication.errors %}
                 <div class="error">
-                    {% for error in charger_form.communication.errors %}
+                    {% for error in form.communication.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -240,11 +273,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ charger_form.foundation.label }}
-                {{ charger_form.foundation }}
-                {% if charger_form.foundation.errors %}
+                {{ form.foundation.label }}
+                {{ form.foundation }}
+                {% if form.foundation.errors %}
                 <div class="error">
-                    {% for error in charger_form.foundation.errors %}
+                    {% for error in form.foundation.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -252,23 +285,21 @@
                 </div>
                 {% endif %}
             </div>
-        </form>
-    </div>
+        </div>
 
-    <!-- Installation form -->
-    <div class="grey-container survey-form">
-        <form action="">
-            {{ installation_form.hidden_tag() }}
+        <!-- Installation form -->
+        <div class="grey-container survey-form">
+            {{ form.hidden_tag() }}
             <div class="survey-header">
                 <img class="svg-icon" src="{{ url_for('static', filename='img/icon_build.svg') }}" alt="wrench icon">
-                <legend>Charger</legend>
+                <legend>Installation</legend>
             </div>
             <div class="input-box">
-                {{ installation_form.grid_connection.label }}
-                {{ installation_form.grid_connection }}
-                {% if installation_form.grid_connection.errors %}
+                {{ form.grid_connection.label }}
+                {{ form.grid_connection }}
+                {% if form.grid_connection.errors %}
                 <div class="error">
-                    {% for error in installation_form.grid_connection.errors %}
+                    {% for error in form.grid_connection.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -277,11 +308,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ installation_form.grid_cable.label }}
-                {{ installation_form.grid_cable }}
-                {% if installation_form.grid_cable.errors %}
+                {{ form.grid_cable.label }}
+                {{ form.grid_cable }}
+                {% if form.grid_cable.errors %}
                 <div class="error">
-                    {% for error in installation_form.grid_cable.errors %}
+                    {% for error in form.grid_cable.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -290,11 +321,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ installation_form.max_power.label }}
-                {{ installation_form.max_power }}
-                {% if installation_form.max_power.errors %}
+                {{ form.max_power.label }}
+                {{ form.max_power }}
+                {% if form.max_power.errors %}
                 <div class="error">
-                    {% for error in installation_form.max_power.errors %}
+                    {% for error in form.max_power.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -303,11 +334,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ installation_form.consumption_point_fuse.label }}
-                {{ installation_form.consumption_point_fuse }}
-                {% if installation_form.consumption_point_fuse.errors %}
+                {{ form.consumption_point_fuse.label }}
+                {{ form.consumption_point_fuse }}
+                {% if form.consumption_point_fuse.errors %}
                 <div class="error">
-                    {% for error in installation_form.consumption_point_fuse.errors %}
+                    {% for error in form.consumption_point_fuse.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -316,11 +347,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ installation_form.maincabinet_rating.label }}
-                {{ installation_form.maincabinet_rating }}
-                {% if installation_form.maincabinet_rating.errors %}
+                {{ form.maincabinet_rating.label }}
+                {{ form.maincabinet_rating }}
+                {% if form.maincabinet_rating.errors %}
                 <div class="error">
-                    {% for error in installation_form.maincabinet_rating.errors %}
+                    {% for error in form.maincabinet_rating.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -329,11 +360,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ installation_form.empty_fuses.label }}
-                {{ installation_form.empty_fuses }}
-                {% if installation_form.empty_fuses.errors %}
+                {{ form.empty_fuses.label }}
+                {{ form.empty_fuses }}
+                {% if form.empty_fuses.errors %}
                 <div class="error">
-                    {% for error in installation_form.empty_fuses.errors %}
+                    {% for error in form.empty_fuses.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -342,11 +373,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ installation_form.number_of_slots.label }}
-                {{ installation_form.number_of_slots }}
-                {% if installation_form.number_of_slots.errors %}
+                {{ form.number_of_slots.label }}
+                {{ form.number_of_slots }}
+                {% if form.number_of_slots.errors %}
                 <div class="error">
-                    {% for error in installation_form.number_of_slots.errors %}
+                    {% for error in form.number_of_slots.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -355,11 +386,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ installation_form.signal_strength.label }}
-                {{ installation_form.signal_strength }}
-                {% if installation_form.signal_strength.errors %}
+                {{ form.signal_strength.label }}
+                {{ form.signal_strength }}
+                {% if form.signal_strength.errors %}
                 <div class="error">
-                    {% for error in installation_form.signal_strength.errors %}
+                    {% for error in form.signal_strength.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -368,11 +399,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ installation_form.installation_location.label }}
-                {{ installation_form.installation_location }}
-                {% if installation_form.installation_location.errors %}
+                {{ form.installation_location.label }}
+                {{ form.installation_location }}
+                {% if form.installation_location.errors %}
                 <div class="error">
-                    {% for error in installation_form.installation_location.errors %}
+                    {% for error in form.installation_location.errors %}
                         <span>
                             {{ error }}
                         </span>
@@ -380,11 +411,12 @@
                 </div>
                 {% endif %}
             </div>
-        </form>
-    </div>
+        </div>
+        {{ form.submit }}
+    </form>
 </div>
-<!-- Floating footer for tabs and save -->
 
+<!-- Floating footer for tabs and save -->
 <footer class="fixed-footer">
     <span id="customer">Customer</span>
     <span id="installation">Installation</span>
