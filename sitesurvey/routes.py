@@ -5,14 +5,12 @@ from sitesurvey.forms import (SurveyForm, CustomerForm, LocationForm, AddCharger
                               CreateUserForm, LogInForm, UpdateAccountForm, ChargerForm,
                               AddOrganizationForm, CreateContactForm, AddOrgTypeForm)
 from sitesurvey.models import User, Organization, Survey, Charger, Location, Orgtype, Contactperson
-import sys
 
 @app.route("/")
 def index():
-    print(f' current user is {current_user.id}', file=sys.stderr)
-
+    surveys = Location.query.all()
     dummy_locations = [{'name':'Example site name 1', 'street':'Example street 1', 'post_code':'00100', 'city':'Helsinki', 'distance':50}, {'name':'Example site name 2', 'street':'Example street 1', 'post_code':'00100', 'city':'Helsinki', 'distance':50}]
-    return render_template('index.html', locations=dummy_locations)
+    return render_template('index.html', locations=dummy_locations, surveys=surveys)
 
 @app.route("/survey/create", methods=["GET", "POST"])
 @login_required
@@ -20,7 +18,7 @@ def create_survey():
     
     form = SurveyForm()
     # Get the number of surveys in DB and do running numbering (+1)
-    survey_id = Survey.query.order_by(Survey.id.desc()).first()
+    survey_id = Survey.query.order_by(Survey.id.desc()).first().id
     
     # If Survey query returns None this is the first survey.
     if survey_id == None:

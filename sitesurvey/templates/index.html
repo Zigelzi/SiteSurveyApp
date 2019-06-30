@@ -18,16 +18,30 @@
 
 <!-- Listing of locations -->
 {% if locations %}
-{% for location in locations %}
-<div class="grey-container location">
-    <p>{{ location.name }}</p>
-    <p class="text-small">{{ location.street }} {{  location.post_code }} {{  location.city }} ({{ location.distance }} km)</p>
-</div>
-{% endfor %}
+    {% for location in locations %}
+    <div class="grey-container location">
+        <p>{{ location.name }}</p>
+        <p class="text-small">{{ location.street }} {{  location.post_code }} {{  location.city }} ({{ location.distance }} km)</p>
+    </div>
+    {% endfor %}
+{% else %}
+    <div class="grey-container">
+        <p>No locations to show</p>
+    </div>
+{% endif %}
+
+{% if surveys %}
+    {% for survey in surveys %}
+    <div class="grey-container location">
+        <a href="#">{{ survey.name }}</a>
+        <p class="text-small">{{ survey.address }} {{  survey.postal_code }} {{  survey.city }}</p>
+    </div>
+    {% endfor %}
 {% else %}
 <div class="grey-container">
     <p>No locations to show</p>
 </div>
 {% endif %}
+
 {% endblock %}
 
