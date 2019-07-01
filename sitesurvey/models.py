@@ -61,8 +61,7 @@ class Organization(db.Model):
     
 
     def __repr__(self):
-        return f"""Organization <{self.org_name} | {self.org_number} | {self.address} | {self.postal_code} |
-                                 {self.city} | {self.country}"""
+        return f'Organization <{self.org_name} | {self.org_number} | {self.address} | {self.postal_code} | {self.city} | {self.country}'
 
 class Survey(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -85,8 +84,7 @@ class Survey(db.Model):
     contact_person = db.relationship('Contactperson', secondary=survey_contact_rel, backref='surveys', lazy=True)
 
     def __repr__(self):
-        return f""" Survey <{self.id} |{self.grid_connection} |{self.grid_cable} | {self.max_power} |
-                            {self.maincabinet_rating}>"""
+        return f'Survey <{self.id} |{self.grid_connection} |{self.grid_cable} | {self.max_power} | {self.maincabinet_rating}>'
 
 class Charger(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -123,9 +121,7 @@ class Charger(db.Model):
         return (self.model.lower(), self.model)
 
     def __repr__(self):
-        return f"""Charger <{self.manufacturer} |{self.model} |{self.product_no} |{self.dc_ac} |
-                            {self.type_of_outlet} |{self.no_of_outlets} |{self.communication} | 
-                            {self.max_power}>"""
+        return f'Charger <{self.manufacturer} |{self.model} |{self.product_no} |{self.dc_ac} | {self.type_of_outlet} | {self.no_of_outlets} |{self.communication} | {self.max_power}>'
 
 class Location(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -141,8 +137,7 @@ class Location(db.Model):
     survey_id = db.Column(db.Integer, db.ForeignKey('survey.id'))
 
     def __repr__(self):
-        return f"""Location <{self.name} |{self.address} |{self.postal_code} |{self.city} |
-                            {self.country}>"""
+        return f'Location <{self.name} |{self.address} |{self.postal_code} |{self.city} | {self.country}>'
 
 class Orgtype(db.Model):
     id = db.Column(db.Integer, primary_key=True)

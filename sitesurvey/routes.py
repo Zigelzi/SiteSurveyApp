@@ -5,6 +5,8 @@ from sitesurvey.forms import (SurveyForm, CustomerForm, LocationForm, AddCharger
                               CreateUserForm, LogInForm, UpdateAccountForm, ChargerForm,
                               AddOrganizationForm, CreateContactForm, AddOrgTypeForm)
 from sitesurvey.models import User, Organization, Survey, Charger, Location, Orgtype, Contactperson
+import sys
+
 
 @app.route("/")
 def index():
@@ -26,6 +28,7 @@ def create_survey():
     else:
         survey_id += 1
 
+    print(f'Survey ID: {survey_id}', file=sys.stderr)
     if form.validate_on_submit():
         # Query the selected charger model and it's id and enter it as charger_id
         charger_id = Charger.query.filter_by(model=form.model.data).first().id
@@ -61,6 +64,11 @@ def create_survey():
         db.session.add(location)
         db.session.add(survey)
         db.session.commit()
+
+        print(charger_id, file=sys.stderr)
+        print(contact_person, file=sys.stderr)
+        print(location, file=sys.stderr)
+        print(survey, file=sys.stderr)
 
         # Append the contact person as Surveys contact person
         survey.contact_person.append(contact_person)
