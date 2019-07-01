@@ -1,0 +1,19 @@
+{% extends layout.html %}
+
+{% block content %}
+
+<div id="index-main-card" class="grey-container">
+    <h1>Survey: {{ survey.id }}</h1>
+    <p><span>Creator of survey: </span>{{ survey.user.first_name }} {{ survey.user.last_name }} </p>
+    <p><span>Grid connection: </span> {{ survey.grid_connection }} </p>
+    <p><span>Grid cable:</span> {{ survey.grid_cable }} </p>
+    <p><span>Maximum power: </span>{{ survey.max_power }}</p>
+    <p><span>Consupmtion point fuse: </span>{{ survey.consumtion_fuse }}</p>
+    <p><span>Maincabinet rating (In): </span>{{ survey.maincabinet_rating }}</p>
+    <p><span>Empty fuse slots: </span>{{ survey.empty_fuses }}</p>
+    <p><span>Number of empty fuse slots: </span>{{ survey.number_of_slots }}</p>
+    <p><span>Mobile signal strength: </span>{{ survey.signal_strength }}</p>
+    <p><span>Installation location: </span>{{ survey.installation_location }}</p>
+</div>
+
+{% endblock %}

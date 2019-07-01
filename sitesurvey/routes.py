@@ -11,7 +11,7 @@ import sys
 @app.route("/")
 def index():
     surveys = Location.query.all()
-    dummy_locations = [{'name':'Example site name 1', 'street':'Example street 1', 'post_code':'00100', 'city':'Helsinki', 'distance':50}, {'name':'Example site name 2', 'street':'Example street 1', 'post_code':'00100', 'city':'Helsinki', 'distance':50}]
+    # dummy_locations = [{'name':'Example site name 1', 'street':'Example street 1', 'post_code':'00100', 'city':'Helsinki', 'distance':50}, {'name':'Example site name 2', 'street':'Example street 1', 'post_code':'00100', 'city':'Helsinki', 'distance':50}]
     return render_template('index.html', locations=dummy_locations, surveys=surveys)
 
 @app.route("/survey/create", methods=["GET", "POST"])
@@ -19,17 +19,17 @@ def index():
 def create_survey():
     
     form = SurveyForm()
-    # Get the number of surveys in DB and do running numbering (+1)
-    survey_id = Survey.query.order_by(Survey.id.desc()).first().id
-    
-    # If Survey query returns None this is the first survey.
-    if survey_id == None:
-        survey_id = 0
-    else:
-        survey_id += 1
 
-    print(f'Survey ID: {survey_id}', file=sys.stderr)
     if form.validate_on_submit():
+        # Get the number of surveys in DB and do running numbering (+1)
+        survey_id = Survey.query.order_by(Survey.id.desc()).first().id
+        
+        # If Survey query returns None this is the first survey.
+        if survey_id == None:
+            survey_id = 0
+        else:
+            survey_id += 1
+
         # Query the selected charger model and it's id and enter it as charger_id
         charger_id = Charger.query.filter_by(model=form.model.data).first().id
         contact_person = Contactperson(first_name=form.first_name.data,
@@ -50,7 +50,7 @@ def create_survey():
         survey = Survey(grid_connection=form.grid_connection.data,
                         grid_cable=form.grid_cable.data,
                         max_power=form.max_power.data,
-                        consumtion_fuse=form.consumption_point_fuse.data,
+                        consumption_fuse=form.consumption_point_fuse.data,
                         maincabinet_rating=form.maincabinet_rating.data,
                         empty_fuses=form.empty_fuses.data,
                         number_of_slots=form.number_of_slots.data,
@@ -79,7 +79,12 @@ def create_survey():
     # location_form = LocationForm()
     # charger_form = ChargerForm()
     # installation_form = InstallationForm()
-    return render_template('forms/survey.html', title='Survey', form=form)
+    return render_template('surveys/create_survey.html', title='Survey', form=form)
+
+@app.route('/survey/<int:survey_id>')
+def survey(survey_id):
+    survey = Survey.query.get_or_404(survey_id)
+    render_template('surveys/survey.html', survey=survey)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

@@ -65,10 +65,13 @@ class Organization(db.Model):
 
 class Survey(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    create_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    update_date = db.Column(db.Datetime, nullable=False, default=datetime.utcnow)
+    status = db.Column(db.String(20), nullable=False, default='created')
     grid_connection = db.Column(db.Integer)
     grid_cable = db.Column(db.String(15))
     max_power = db.Column(db.Float)
-    consumtion_fuse = db.Column(db.Integer) # TYPO! Fix this
+    consumption_fuse = db.Column(db.Integer) # TYPO! Fix this
     maincabinet_rating = db.Column(db.Integer)
     empty_fuses = db.Column(db.Boolean)
     number_of_slots = db.Column(db.Integer)
@@ -78,7 +81,11 @@ class Survey(db.Model):
     # Foreign keys to User and Charger models
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     charger_id = db.Column(db.Integer, db.ForeignKey('charger.id'))
+    location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
+
     # TODO: Add locations ForeignKey so you can query location of the survey
+    # TODO: Add creation and updated timestamps
+    # TODO: Add status information
 
     # Many-to-Many relationships
     contact_person = db.relationship('Contactperson', secondary=survey_contact_rel, backref='surveys', lazy=True)
@@ -135,6 +142,9 @@ class Location(db.Model):
 
     # Foreign keys
     survey_id = db.Column(db.Integer, db.ForeignKey('survey.id'))
+
+    # Backrefs to other tables
+    survey = db.relationship('Survey', backref='location', lazy=True)
 
     def __repr__(self):
         return f'Location <{self.name} |{self.address} |{self.postal_code} |{self.city} | {self.country}>'

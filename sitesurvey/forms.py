@@ -108,7 +108,6 @@ class SurveyForm(FlaskForm):
     installation_location = TextAreaField('Installation location')
     submit = SubmitField('Submit')
 
-
 class CustomerForm(FlaskForm):
     first_name = StringField('Full name', validators=[DataRequired(message=data_req_msg)])
     title = StringField('Title', validators=[DataRequired(message=data_req_msg)])
