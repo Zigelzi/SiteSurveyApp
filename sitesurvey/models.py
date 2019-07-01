@@ -1,6 +1,8 @@
 from sitesurvey import db, app, login_manager, bcrypt
 from datetime import datetime
+
 from flask_login import UserMixin
+
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 @login_manager.user_loader
@@ -66,12 +68,12 @@ class Organization(db.Model):
 class Survey(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    update_date = db.Column(db.Datetime, nullable=False, default=datetime.utcnow)
-    status = db.Column(db.String(20), nullable=False, default='created')
+    update_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    status = db.Column(db.String(30), nullable=False, default='created')
     grid_connection = db.Column(db.Integer)
     grid_cable = db.Column(db.String(15))
     max_power = db.Column(db.Float)
-    consumption_fuse = db.Column(db.Integer) # TYPO! Fix this
+    consumption_fuse = db.Column(db.Integer)
     maincabinet_rating = db.Column(db.Integer)
     empty_fuses = db.Column(db.Boolean)
     number_of_slots = db.Column(db.Integer)
@@ -144,7 +146,7 @@ class Location(db.Model):
     survey_id = db.Column(db.Integer, db.ForeignKey('survey.id'))
 
     # Backrefs to other tables
-    survey = db.relationship('Survey', backref='location', lazy=True)
+    #survey = db.relationship('Survey', backref='location', lazy=True)
 
     def __repr__(self):
         return f'Location <{self.name} |{self.address} |{self.postal_code} |{self.city} | {self.country}>'
