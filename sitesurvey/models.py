@@ -85,10 +85,6 @@ class Survey(db.Model):
     charger_id = db.Column(db.Integer, db.ForeignKey('charger.id'))
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
 
-    # TODO: Add locations ForeignKey so you can query location of the survey
-    # TODO: Add creation and updated timestamps
-    # TODO: Add status information
-
     # Many-to-Many relationships
     contact_person = db.relationship('Contactperson', secondary=survey_contact_rel, backref='surveys', lazy=True)
 
@@ -146,7 +142,7 @@ class Location(db.Model):
     survey_id = db.Column(db.Integer, db.ForeignKey('survey.id'))
 
     # Backrefs to other tables
-    #survey = db.relationship('Survey', backref='location', lazy=True)
+    survey = db.relationship('Survey', backref='location',foreign_keys='Survey.location_id', lazy=True)
 
     def __repr__(self):
         return f'Location <{self.name} |{self.address} |{self.postal_code} |{self.city} | {self.country}>'

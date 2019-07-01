@@ -11,6 +11,7 @@ import sys
 @app.route("/")
 def index():
     surveys = Location.query.all()
+    dummy_locations = []
     # dummy_locations = [{'name':'Example site name 1', 'street':'Example street 1', 'post_code':'00100', 'city':'Helsinki', 'distance':50}, {'name':'Example site name 2', 'street':'Example street 1', 'post_code':'00100', 'city':'Helsinki', 'distance':50}]
     return render_template('index.html', locations=dummy_locations, surveys=surveys)
 
@@ -124,9 +125,7 @@ def organizations():
 def create_organization():
     form = AddOrganizationForm()
     if form.validate_on_submit():
-        org_type_query = Orgtype.query.filter_by(title=form.org_type.data.capitalize()).first()
-        org_type = Orgtype(title=org_type_query.title,
-                            description=org_type_query.description)
+        org_type = Orgtype.query.get(form.org_type.data)
         # Take the form input and create db entry and commit it
         organization = Organization(org_name=form.org_name.data,
                      org_number=form.org_number.data,

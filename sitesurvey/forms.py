@@ -108,6 +108,8 @@ class SurveyForm(FlaskForm):
     installation_location = TextAreaField('Installation location')
     submit = SubmitField('Submit')
 
+    
+
 class CustomerForm(FlaskForm):
     first_name = StringField('Full name', validators=[DataRequired(message=data_req_msg)])
     title = StringField('Title', validators=[DataRequired(message=data_req_msg)])
@@ -187,24 +189,27 @@ class InstallationForm(FlaskForm):
 
 class CreateUserForm(FlaskForm):
     # Query list of existing organizations from DB
-    orgs = Organization.query.all()
-    orgs_list = []
+    # orgs = Organization.query.all()
+    # orgs_list = []
 
-    for org in orgs:
-        orgs_list.append((org.org_name[:5].lower(), org.org_name))
+    # for org in orgs:
+    #     orgs_list.append((org.org_name[:5].lower(), org.org_name))
 
     first_name = StringField('First name', validators=[DataRequired(message=data_req_msg)])
     last_name = StringField('Last name', validators=[DataRequired(message=data_req_msg)])
     email = StringField('Email',
                         validators=[DataRequired(message=data_req_msg), Email(message="Not valid email")])
-    organization = SelectField('Organization', validators=[DataRequired(message=data_req_msg)],
-                                choices=orgs_list)
+    organization = SelectField('Organization', validators=[DataRequired(message=data_req_msg)])
     password = PasswordField('Password',
                              validators=[DataRequired(message=data_req_msg),
                                          Length(min=8, message="Password must be at least 8 characters")])
     confirm_pw = PasswordField('Confirm password',
                                validators= [DataRequired(message=data_req_msg), EqualTo('password', message="Passwords do not match")])
     submit = SubmitField('Create account')
+
+    def __init__(self, *args, **kwargs):
+        super(CreateUserForm, self).__init__(*args, **kwargs)
+        self.organization.choices = [(org.id, org.org_name) for org in Organization.query.all()]
 
     # Custom validation to validate that email is not in use
     def validate_email(self, email):
@@ -289,14 +294,10 @@ class AddChargerForm(FlaskForm):
     submit = SubmitField('Add charger')
 
 class AddOrganizationForm(FlaskForm):
+
     # List of countries for the country selection
     # TODO: Should this be queried from DB or from external API?
     countries = [('fi', 'Finland'), ('swe', 'Sweden'), ('no', 'Norway'), ('ger', 'Germany')]
-    org_types = Orgtype.query.all()
-    org_type_list = []
-    # Loop through the organization types and create array for SelectField with format ('id', 'value')
-    for org in org_types:
-        org_type_list.append((org.title.lower(), org.title))
     
     contact_persons = Contactperson.query.all()
     contact_person_list = []
@@ -316,8 +317,12 @@ class AddOrganizationForm(FlaskForm):
     country = SelectField('Country', validators=[DataRequired(message=data_req_msg)], choices=countries)
     # Select field is not good field for this use case. Should be multiple checkboxes.
     # TODO: Add logic to add BooleanFields for each organization type
-    org_type = SelectField('Organization type', choices=org_type_list)
+    org_type = SelectField('Organization type', coerce=int)
     submit = SubmitField('Create organization')
+
+    def __init__(self, *args, **kwargs):
+        super(AddOrganizationForm, self).__init__(*args, **kwargs)
+        self.org_type.choices = [(org.id, org.title) for org in Orgtype.query.all()]
 
 class AddOrgTypeForm(FlaskForm):
     title = StringField('Organization type title', validators=[DataRequired(message=data_req_msg)])
