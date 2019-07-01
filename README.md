@@ -22,7 +22,7 @@ Application for doing site survey when planning electric vehicle charger install
 - [ ] Add filtering of locations
 - [ ] Sort out the many-to-many contact and location forms in survey. Possible?
 - [ ] Embedding Google Maps / OpenStreetmap to enter coordinates?
- 
+- [ ] Add status indication (created, waiting, ready) to survey table
 ### Account / Users
 - [ ] Add email authentication to new users
 - [ ] Highlight the nav user account so it's more noticeable (not clear it's clicable)
