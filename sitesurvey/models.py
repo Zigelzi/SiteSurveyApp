@@ -32,6 +32,8 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(30), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
+
+    # Foreign keys
     org_id = db.Column(db.Integer, db.ForeignKey('organization.id'))
 
     # Backref to show surveys done by user
@@ -44,7 +46,7 @@ class User(db.Model, UserMixin):
         return bcrypt.check_password_hash(self.password, password)
 
     def __repr__(self):
-        return f'User <{self.first_name} | {self.last_name} | {self.email}>'
+        return f'User <{self.first_name} | {self.last_name} | {self.email} | {self.organization}>'
 
 class Organization(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -55,21 +57,31 @@ class Organization(db.Model):
     city = db.Column(db.String(30), nullable=False)
     country = db.Column(db.String(30), nullable=False)
 
-    # Foreign keys
-    contact_person = db.Column(db.Integer, db.ForeignKey('contactperson.id'))
-
     # Organization type mapping
     org_type = db.relationship('Orgtype', secondary=org_type_rel, backref='organizations', lazy=True)
-    
+    contact_persons = db.relationship('Contactperson', backref='organization', lazy=True)
 
     def __repr__(self):
-        return f'Organization <{self.org_name} | {self.org_number} | {self.address} | {self.postal_code} | {self.city} | {self.country}'
+        return f'Organization <{self.org_name} | {self.org_number} | {self.city} | {self.country}'
 
 class Survey(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     update_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    requested_date = db.Column(db.DateTime) # Requested delivery date when the project is ready
+    ready_date = db.Column(db.DateTime) # When the project was actually ready
     status = db.Column(db.String(30), nullable=False, default='created')
+
+    # Location related information
+    name = db.Column(db.String(100), nullable=False)
+    address = db.Column(db.String(100), nullable=False)
+    postal_code = db.Column(db.String(10), nullable=False)
+    city = db.Column(db.String(30), nullable=False)
+    country = db.Column(db.String(30), nullable=False)
+    coordinate_lat = db.Column(db.Float)
+    coordinate_long = db.Column(db.Float)
+
+    # Installation related information
     grid_connection = db.Column(db.Integer)
     grid_cable = db.Column(db.String(15))
     max_power = db.Column(db.Float)
@@ -80,16 +92,17 @@ class Survey(db.Model):
     signal_strength = db.Column(db.Float)
     installation_location = db.Column(db.String(255))
 
-    # Foreign keys to User and Charger models
+    # Foreign keys to User model
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    charger_id = db.Column(db.Integer, db.ForeignKey('charger.id'))
-    location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
+
+    # Backrefs to other tables
+    chargers = db.relationship('Charger', backref='survey', lazy=True)
 
     # Many-to-Many relationships
     contact_person = db.relationship('Contactperson', secondary=survey_contact_rel, backref='surveys', lazy=True)
 
     def __repr__(self):
-        return f'Survey <{self.id} |{self.grid_connection} |{self.grid_cable} | {self.max_power} | {self.maincabinet_rating}>'
+        return f'Survey <{self.id} | {self.name} | {self.address} | {self.postal_code} | {self.city}>'
 
 class Charger(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -115,8 +128,8 @@ class Charger(db.Model):
     cable_cu_allowed = db.Column(db.Boolean, nullable=False)
     cable_al_allowed = db.Column(db.Boolean, nullable=False)
 
-    # Backref to survey to see which chargers are used in which surveys
-    charger_id = db.relationship('Survey', backref='charger', lazy='dynamic')
+    # Foreign key to survey to see which chargers are used in the survey
+    charger_id = db.Column(db.Integer, db.ForeignKey('survey.id'))
 
     # Create FlaskForm SelectField choices tuple with format ('id', 'title')
     def manufacturer_choices(self):
@@ -127,25 +140,6 @@ class Charger(db.Model):
 
     def __repr__(self):
         return f'Charger <{self.manufacturer} |{self.model} |{self.product_no} |{self.dc_ac} | {self.type_of_outlet} | {self.no_of_outlets} |{self.communication} | {self.max_power}>'
-
-class Location(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    address = db.Column(db.String(100), nullable=False)
-    postal_code = db.Column(db.String(10), nullable=False)
-    city = db.Column(db.String(30), nullable=False)
-    country = db.Column(db.String(30), nullable=False)
-    coordinate_lat = db.Column(db.Float)
-    coordinate_long = db.Column(db.Float)
-
-    # Foreign keys
-    survey_id = db.Column(db.Integer, db.ForeignKey('survey.id'))
-
-    # Backrefs to other tables
-    survey = db.relationship('Survey', backref='location',foreign_keys='Survey.location_id', lazy=True)
-
-    def __repr__(self):
-        return f'Location <{self.name} |{self.address} |{self.postal_code} |{self.city} | {self.country}>'
 
 class Orgtype(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -162,6 +156,9 @@ class Contactperson(db.Model):
     title = db.Column(db.String(40))
     email = db.Column(db.String(120))
     phone_number = db.Column(db.String(20))
+
+    # Foreign keys
+    parent_org = db.Column(db.Integer, db.ForeignKey('organization.id'))
 
     def __repr__(self):
         return f' ContactPerson <{self.first_name} | {self.last_name} | {self.title} |{self.email} | {self.phone_number}>'

@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
 from flask_login import current_user
 from wtforms import (StringField, IntegerField, SelectField, FloatField,
-                     RadioField, TextAreaField, BooleanField, PasswordField, SubmitField)
+                     RadioField, TextAreaField, BooleanField, PasswordField, SubmitField,
+                     DateTimeField)
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
 from sitesurvey.models import User, Organization, Orgtype, Contactperson, Charger
 
@@ -10,16 +11,15 @@ chargers = [{'manufacturer':'Ensto', 'model':'EVF200', 'DC/AC':'AC'}, {'manufact
 
 class SurveyForm(FlaskForm):
     # Query charger information from database and create SelectField tuples for every charger
-    chargers = Charger.query.all()
-    manufacturer_choices = []
-    model_choices = []
+    # chargers = Charger.query.all()
+    # manufacturer_choices = []
+    # model_choices = []
 
-    # Append the ('id', 'title') tuple from all queried chargers to the lists passed to SelectFields
-    for charger in chargers:
-        manufacturer_choices.append(charger.manufacturer_choices())
-        model_choices.append(charger.model_choices())
+    # for charger in chargers:
+    #     manufacturer_choices.append(charger.manufacturer_choices())
+    #     model_choices.append(charger.model_choices())
 
-    # Customer selections
+    # Contact person selections
     first_name = StringField('First name', validators=[DataRequired(message=data_req_msg)])
     last_name = StringField('Last name', validators=[DataRequired(message=data_req_msg)])
     title = StringField('Title', validators=[DataRequired(message=data_req_msg)])
@@ -27,8 +27,6 @@ class SurveyForm(FlaskForm):
                                              Email(message='Not valid email')])
 
     phone_number = StringField('Phone number', validators=[DataRequired(message=data_req_msg)])
-    email = StringField('Email', validators=[DataRequired(message=data_req_msg),
-                                                    Email(message='Not valid email')])
 
     # Location selections                                                    
     location_name = StringField('Location name', validators=[DataRequired(message=data_req_msg)])
@@ -46,10 +44,8 @@ class SurveyForm(FlaskForm):
     # Charger selections
     dc_ac = SelectField('DC / AC', validators=[DataRequired(message=data_req_msg)],
                         choices=[('DC', 'DC'), ('AC', 'AC')])
-    manufacturer = SelectField('Charger manufacturer', validators=[DataRequired(message=data_req_msg)],
-                                choices=manufacturer_choices)
-    model = SelectField('Charger model', validators=[DataRequired(message=data_req_msg)],
-                        choices=model_choices)
+    manufacturer = SelectField('Charger manufacturer', validators=[DataRequired(message=data_req_msg)])
+    model = SelectField('Charger model', validators=[DataRequired(message=data_req_msg)])
     charger_amount = IntegerField('Number of chargers', validators=[DataRequired(message=data_req_msg)])
     charging_power = FloatField('Charging point charging power (kW)', validators=[DataRequired(message=data_req_msg)])
     installation_method = RadioField('Installation method', validators=[DataRequired(message=data_req_msg)],
@@ -64,6 +60,7 @@ class SurveyForm(FlaskForm):
                                      ('no', 'No')])
 
     # Installation selections
+    requested_date = DateTimeField('Requested delivery date', validators=[DataRequired(message=data_req_msg)])
     grid_connection = SelectField('Current grid connection', validators=[DataRequired(message=data_req_msg)],
                                     choices=[('25','25 A'),
                                             ('35','35 A'),
@@ -108,7 +105,18 @@ class SurveyForm(FlaskForm):
     installation_location = TextAreaField('Installation location')
     submit = SubmitField('Submit')
 
-    
+    #TODO: Add image upload fields
+    # Image of main cabinet
+    # Image of installation location
+    # Image of subcabinet (optional)
+    # Additional image
+    # Additional image
+
+    # Append the ('id', 'title') tuple from all queried chargers to the lists passed to SelectFields
+    def __init__(self, *args, **kwargs):
+        super(SurveyForm, self).__init__(*args, **kwargs)
+        self.manufacturer.choices = [(charger.manufacturer.lower(), charger.manufacturer) for charger in Charger.query.all()]
+        self.model.choices = [(charger.model.lower(), charger.model) for charger in Charger.query.all()]
 
 class CustomerForm(FlaskForm):
     first_name = StringField('Full name', validators=[DataRequired(message=data_req_msg)])
@@ -188,13 +196,6 @@ class InstallationForm(FlaskForm):
     installation_location = TextAreaField('Installation location')
 
 class CreateUserForm(FlaskForm):
-    # Query list of existing organizations from DB
-    # orgs = Organization.query.all()
-    # orgs_list = []
-
-    # for org in orgs:
-    #     orgs_list.append((org.org_name[:5].lower(), org.org_name))
-
     first_name = StringField('First name', validators=[DataRequired(message=data_req_msg)])
     last_name = StringField('Last name', validators=[DataRequired(message=data_req_msg)])
     email = StringField('Email',
@@ -208,6 +209,7 @@ class CreateUserForm(FlaskForm):
     submit = SubmitField('Create account')
 
     def __init__(self, *args, **kwargs):
+        # Query list of existing organizations from DB when form is created
         super(CreateUserForm, self).__init__(*args, **kwargs)
         self.organization.choices = [(org.id, org.org_name) for org in Organization.query.all()]
 

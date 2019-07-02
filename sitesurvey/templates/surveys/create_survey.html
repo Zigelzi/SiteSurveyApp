@@ -289,10 +289,22 @@
 
         <!-- Installation form -->
         <div class="grey-container survey-form">
-            {{ form.hidden_tag() }}
             <div class="survey-header">
                 <img class="svg-icon" src="{{ url_for('static', filename='img/icon_build.svg') }}" alt="wrench icon">
                 <legend>Installation</legend>
+            </div>
+            <div class="input-box">
+                {{ form.requested_date.label }}
+                {{ form.requested_date }}
+                {% if form.requested_date.errors %}
+                <div class="error">
+                    {% for error in form.requested_date.errors %}
+                        <span>
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
             <div class="input-box">
                 {{ form.grid_connection.label }}
