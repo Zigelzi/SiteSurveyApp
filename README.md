@@ -32,7 +32,7 @@ Application for doing site survey when planning electric vehicle charger install
 - [ ] Tidy up the view chargers page formatting. Transposing the table for readability?
 
 ### Organizations
-- [  Add listing of all organizations and link to individual organizations
+- [ ] Add listing of all organizations and link to individual organizations
 - [ ] List users of organization
 
 ### General
