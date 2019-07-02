@@ -21,7 +21,7 @@
     {% for survey in surveys %}
     <div class="grey-container location">
         <a href="{{ url_for('survey', survey_id=survey.id) }} ">{{ survey.name }}</a>
-        <p class="text-small">{{ survey.address }} {{ survey.postal_code }} {{  survey.city }}</p>
+        <p class="text-small">{{ survey.address }}, {{ survey.postal_code }} {{  survey.city }}</p>
     </div>
     {% endfor %}
 {% else %}

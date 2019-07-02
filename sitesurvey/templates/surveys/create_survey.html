@@ -295,7 +295,7 @@
             </div>
             <div class="input-box">
                 {{ form.requested_date.label }}
-                {{ form.requested_date }}
+                {{ form.requested_date(placeholder="1.1.2019") }}
                 {% if form.requested_date.errors %}
                 <div class="error">
                     {% for error in form.requested_date.errors %}

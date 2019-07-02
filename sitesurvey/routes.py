@@ -1,6 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from sitesurvey import app, db
+
 from sitesurvey.forms import (SurveyForm, CustomerForm, LocationForm, AddChargerForm, InstallationForm,
                               CreateUserForm, LogInForm, UpdateAccountForm, ChargerForm,
                               AddOrganizationForm, CreateContactForm, AddOrgTypeForm)
@@ -10,7 +11,7 @@ import sys
 
 @app.route("/")
 def index():
-    surveys = Location.query.all()
+    surveys = Survey.query.all()
     dummy_locations = []
     # dummy_locations = [{'name':'Example site name 1', 'street':'Example street 1', 'post_code':'00100', 'city':'Helsinki', 'distance':50}, {'name':'Example site name 2', 'street':'Example street 1', 'post_code':'00100', 'city':'Helsinki', 'distance':50}]
     return render_template('index.html', locations=dummy_locations, surveys=surveys)
@@ -33,13 +34,15 @@ def create_survey():
         else:
             survey_id.id += 1
 
+        # Convert all the 
+        print(form.data.items(), file=sys.stderr)
         contact_person = Contactperson(first_name=form.first_name.data,
                                         last_name=form.last_name.data,
                                         title=form.title.data,
                                         email=form.email.data,
                                         phone_number=form.phone_number.data)
 
-        survey = Survey(name=form.name.data,
+        survey = Survey(name=form.location_name.data,
                         address=form.address.data,
                         postal_code=form.postal_code.data,
                         city=form.city.data,
@@ -56,8 +59,7 @@ def create_survey():
                         number_of_slots=form.number_of_slots.data,
                         signal_strength=form.signal_strength.data,
                         installation_location=form.installation_location.data,
-                        user_id = current_user.id,
-                        charger_id=charger_id)
+                        user_id = current_user.id)
         
         # Add all information from form to DB session and commit the changes
         db.session.add(contact_person)
@@ -68,11 +70,6 @@ def create_survey():
         survey.contact_person.append(contact_person)
         db.session.commit()
 
-    # Old separate forms. Testing our single form input
-    # customer_form = CustomerForm()
-    # location_form = LocationForm()
-    # charger_form = ChargerForm()
-    # installation_form = InstallationForm()
     return render_template('surveys/create_survey.html', title='Survey', form=form)
 
 @app.route('/survey/<int:survey_id>')
@@ -214,7 +211,6 @@ def chargers():
 def add_charger():
     form = AddChargerForm()
     if form.validate_on_submit():
-        # Hash the given PW to enter it to database
 
         # Take the form input and create db entry and commit it
         charger = Charger(manufacturer=form.manufacturer.data,

@@ -34,10 +34,10 @@ class SurveyForm(FlaskForm):
     postal_code = StringField('Postal code', validators=[DataRequired(data_req_msg)])
     city = StringField('City', validators=[DataRequired(message=data_req_msg)])
     country = SelectField('Country', validators=[DataRequired(message=data_req_msg)],
-                                     choices=[('fi', 'Finland'),
-                                              ('swe', 'Sweden'),
-                                              ('no', 'Norway'),
-                                              ('ger', 'Germany')])
+                                     choices=[('Finland', 'Finland'),
+                                              ('Sweden', 'Sweden'),
+                                              ('Norway', 'Norway'),
+                                              ('Germany', 'Germany')])
     coordinate_lat = FloatField('Lateral coordinates')
     coordinate_long = FloatField('Longitudal coordinates')
 
@@ -60,7 +60,7 @@ class SurveyForm(FlaskForm):
                                      ('no', 'No')])
 
     # Installation selections
-    requested_date = DateTimeField('Requested delivery date', validators=[DataRequired(message=data_req_msg)])
+    requested_date = DateTimeField('Requested delivery date', validators=[DataRequired(message=data_req_msg)],format='%d.%m.%Y')
     grid_connection = SelectField('Current grid connection', validators=[DataRequired(message=data_req_msg)],
                                     choices=[('25','25 A'),
                                             ('35','35 A'),

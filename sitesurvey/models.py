@@ -46,7 +46,7 @@ class User(db.Model, UserMixin):
         return bcrypt.check_password_hash(self.password, password)
 
     def __repr__(self):
-        return f'User <{self.first_name} | {self.last_name} | {self.email} | {self.organization}>'
+        return f'User <{self.first_name} | {self.last_name} | {self.email} |>'
 
 class Organization(db.Model):
     id = db.Column(db.Integer, primary_key=True)

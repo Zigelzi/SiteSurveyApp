@@ -2,8 +2,31 @@
 
 {% block content %}
 
-<div id="index-main-card" class="grey-container">
-    <h1>Survey: {{ survey.id }}</h1>
+<div class="grey-container">
+    <h1>{{ survey.name }}</h1>
+    <p><span>Created: </span> {{ survey.create_date.strftime('%d.%m.%Y - %H:%M') }}</p>
+    <p><span>Updated: </span> {{ survey.update_date.strftime('%d.%m.%Y - %H:%M') }} </p>
+
+    <h2>Location</h2>
+    <p><span>Requested delivery date: </span> {{ survey.requested_date.strftime('%d.%m.%Y') }} </p>
+    <p><span>Site completed: </span> {{ survey.ready_date }} </p>
+    <p><span>Survey Status: </span> {{ survey.status }} </p>
+    <p><span>Address: </span> {{ survey.address }} </p>
+    <p><span>Postal code: </span> {{ survey.postal_code }} </p>
+    <p><span>City: </span> {{ survey.city }} </p>
+    <p><span>Country: </span> {{ survey.country }} </p>
+    <p><span>Coordinate (Lat): </span> {{ survey.coordinate_lat }} </p>
+    <p><span>Coordinate (Long): </span> {{ survey.coordinate_long }} </p>
+    
+    <h2>Contact persons</h2>
+    {% for contact_person in survey.contact_person %}
+        <p><span>Name: </span>{{ contact_person.first_name }} {{ contact_person.last_name }}</p>
+        <p><span>Title: </span>{{ contact_person.title }}</p>
+        <p><span>Email: </span>{{ contact_person.email }}</p>
+        <p><span>Phone: </span>{{ contact_person.phone_number }}</p>
+    {% endfor %}
+
+    <h2>Installation</h2>
     <p><span>Creator of survey: </span>{{ survey.user.first_name }} {{ survey.user.last_name }} </p>
     <p><span>Grid connection: </span> {{ survey.grid_connection }} </p>
     <p><span>Grid cable:</span> {{ survey.grid_cable }} </p>
@@ -14,6 +37,9 @@
     <p><span>Number of empty fuse slots: </span>{{ survey.number_of_slots }}</p>
     <p><span>Mobile signal strength: </span>{{ survey.signal_strength }}</p>
     <p><span>Installation location: </span>{{ survey.installation_location }}</p>
+
+    <h2>Chargers</h2>
+
 </div>
 
 {% endblock %}
