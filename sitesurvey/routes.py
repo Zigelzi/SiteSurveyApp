@@ -4,7 +4,7 @@ from sitesurvey import app, db
 from sitesurvey.forms import (SurveyForm, CustomerForm, LocationForm, AddChargerForm, InstallationForm,
                               CreateUserForm, LogInForm, UpdateAccountForm, ChargerForm,
                               AddOrganizationForm, CreateContactForm, AddOrgTypeForm)
-from sitesurvey.models import User, Organization, Survey, Charger, Location, Orgtype, Contactperson
+from sitesurvey.models import User, Organization, Survey, Charger, Orgtype, Contactperson
 import sys
 
 

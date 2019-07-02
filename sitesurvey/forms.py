@@ -301,14 +301,14 @@ class AddOrganizationForm(FlaskForm):
     # TODO: Should this be queried from DB or from external API?
     countries = [('fi', 'Finland'), ('swe', 'Sweden'), ('no', 'Norway'), ('ger', 'Germany')]
     
-    contact_persons = Contactperson.query.all()
-    contact_person_list = []
+    # contact_persons = Contactperson.query.all()
+    # contact_person_list = []
     # Loop through the contact persons and create array for SelectField with format ('id', 'value')
     # TODO: Don't show users full names to everyone!
-    for contact_person in contact_persons:
-        fullname_id = contact_person.first_name[:2].lower() + contact_person.last_name.lower()
-        fullname = contact_person.first_name + ' ' + contact_person.last_name
-        contact_person_list.append((fullname_id, fullname))
+    # for contact_person in contact_persons:
+    #     fullname_id = contact_person.first_name[:2].lower() + contact_person.last_name.lower()
+    #     fullname = contact_person.first_name + ' ' + contact_person.last_name
+    #     contact_person_list.append((fullname_id, fullname))
 
 
     org_name = StringField('Organization name', validators=[DataRequired(message=data_req_msg)])
