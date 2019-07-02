@@ -33,7 +33,7 @@ class SurveyForm(FlaskForm):
     # Location selections                                                    
     location_name = StringField('Location name', validators=[DataRequired(message=data_req_msg)])
     address = StringField('Address', validators=[DataRequired(message=data_req_msg)])
-    postal_code = IntegerField('Postal code', validators=[DataRequired(data_req_msg)])
+    postal_code = StringField('Postal code', validators=[DataRequired(data_req_msg)])
     city = StringField('City', validators=[DataRequired(message=data_req_msg)])
     country = SelectField('Country', validators=[DataRequired(message=data_req_msg)],
                                      choices=[('fi', 'Finland'),
