@@ -23,16 +23,16 @@ def create_survey():
 
     if form.validate_on_submit():
         # Get the number of surveys in DB and do running numbering (+1)
-        survey_id = Survey.query.order_by(Survey.id.desc()).first().id
+        survey_id = Survey.query.order_by(Survey.id.desc()).first()
         
         # If Survey query returns None this is the first survey.
         if survey_id == None:
             survey_id = 0
         else:
-            survey_id += 1
+            survey_id.id += 1
 
         # Query the selected charger model and it's id and enter it as charger_id
-        charger_id = Charger.query.filter_by(model=form.model.data).first().id
+        charger_id = Charger.query.filter_by(model=form.model.data).first()
         contact_person = Contactperson(first_name=form.first_name.data,
                                         last_name=form.last_name.data,
                                         title=form.title.data,
@@ -85,7 +85,7 @@ def create_survey():
 @app.route('/survey/<int:survey_id>')
 def survey(survey_id):
     survey = Survey.query.get_or_404(survey_id)
-    render_template('surveys/survey.html', survey=survey)
+    return render_template('surveys/survey.html', survey=survey)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
