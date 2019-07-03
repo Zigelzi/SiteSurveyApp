@@ -39,7 +39,11 @@
     <p><span>Installation location: </span>{{ survey.installation_location }}</p>
 
     <h2>Chargers</h2>
-
+    <a href="#"><span></span>{{ survey.charger.manufacturer }} {{ survey.charger.model }}</a href="#">
+    <p><span>Number of chargers to be installed:</span> {{ survey.number_of_chargers }} </p>
+    <p><span>Single charging point max power (kW): </span> {{ survey.cp_charging_power }} </p>
+    <p><span>Installation method: </span> {{ survey.installation_method }} </p>
+    <p><span>Concrete foundation needed: </span> {{ survey.concrete_foundation }} </p>
 </div>
 
 {% endblock %}

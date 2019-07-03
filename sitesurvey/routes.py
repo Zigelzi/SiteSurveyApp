@@ -35,7 +35,6 @@ def create_survey():
             survey_id.id += 1
 
         # Convert all the 
-        print(form.data.items(), file=sys.stderr)
         contact_person = Contactperson(first_name=form.first_name.data,
                                         last_name=form.last_name.data,
                                         title=form.title.data,
@@ -49,6 +48,10 @@ def create_survey():
                         country=form.country.data,
                         coordinate_lat=form.coordinate_lat.data,
                         coordinate_long=form.coordinate_long.data,
+                        number_of_chargers=form.charger_amount.data,
+                        cp_charging_power=form.charging_power.data,
+                        installation_method=form.installation_method.data,
+                        concrete_foundation=form.foundation.data,
                         requested_date=form.requested_date.data,
                         grid_connection=form.grid_connection.data,
                         grid_cable=form.grid_cable.data,
@@ -59,6 +62,7 @@ def create_survey():
                         number_of_slots=form.number_of_slots.data,
                         signal_strength=form.signal_strength.data,
                         installation_location=form.installation_location.data,
+                        charger_id=charger_id,
                         user_id = current_user.id)
         
         # Add all information from form to DB session and commit the changes

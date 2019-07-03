@@ -55,9 +55,7 @@ class SurveyForm(FlaskForm):
                                 choices=[('mobile_internal', 'Mobile with internal modem'),
                                         ('mobile_external', 'Mobile with external modem'),
                                         ('lan', 'LAN (ethernet) to customers network')])
-    foundation = RadioField('Concrete foundation needed?', validators=[DataRequired(message=data_req_msg)],
-                            choices=[('yes', 'Yes'),
-                                     ('no', 'No')])
+    foundation = BooleanField('Concrete foundation needed?')
 
     # Installation selections
     requested_date = DateTimeField('Requested delivery date', validators=[DataRequired(message=data_req_msg)],format='%d.%m.%Y')
