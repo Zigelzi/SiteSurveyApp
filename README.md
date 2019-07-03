@@ -20,6 +20,7 @@ Application for doing site survey when planning electric vehicle charger install
 -> In main form create multiple (4?) contact persons but only toggle them as visible?
 -> New form for each contact/location?
 - [ ] Add filtering of locations
+- [ ] Add dynamic field selection to charger
 - [x] Sort out the many-to-many contact and location forms in survey. Possible?
 - [ ] Embedding Google Maps / OpenStreetmap to enter coordinates?
 - [x] Add status indication (created, waiting, ready) to survey table

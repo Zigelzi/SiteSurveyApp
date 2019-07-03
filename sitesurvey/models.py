@@ -81,6 +81,12 @@ class Survey(db.Model):
     coordinate_lat = db.Column(db.Float)
     coordinate_long = db.Column(db.Float)
 
+    # Charger related information
+    number_of_chargers = db.Column(db.Integer, nullable=False)
+    cp_charging_power = db.Column(db.Float, nullable=False)
+    installation_method = db.Column(db.String(30), nullable=False)
+    concrete_foundation = db.Column(db.Boolean)
+
     # Installation related information
     grid_connection = db.Column(db.Integer)
     grid_cable = db.Column(db.String(15))
@@ -94,9 +100,7 @@ class Survey(db.Model):
 
     # Foreign keys to User model
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    # Backrefs to other tables
-    chargers = db.relationship('Charger', backref='survey', lazy=True)
+    charger_id = db.Column(db.Integer, db.ForeignKey('charger.id'))
 
     # Many-to-Many relationships
     contact_person = db.relationship('Contactperson', secondary=survey_contact_rel, backref='surveys', lazy=True)
@@ -128,8 +132,8 @@ class Charger(db.Model):
     cable_cu_allowed = db.Column(db.Boolean, nullable=False)
     cable_al_allowed = db.Column(db.Boolean, nullable=False)
 
-    # Foreign key to survey to see which chargers are used in the survey
-    charger_id = db.Column(db.Integer, db.ForeignKey('survey.id'))
+    # Backref to surveys to query charger used in survey
+    surveys = db.relationship('Survey', backref='charger', lazy=True)
 
     # Create FlaskForm SelectField choices tuple with format ('id', 'title')
     def manufacturer_choices(self):
