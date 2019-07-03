@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="grey-container">
+    <h1>{{contact_person.first_name}} {{contact_person.last_name}}</h1>
+    <h4>{{contact_person.title}}</h4>
+    <p><span></span>{{contact_person.email}}</p>
+    <p><span></span>{{contact_person.phone_number}}</p>
+</div>
+
+{% endblock %}

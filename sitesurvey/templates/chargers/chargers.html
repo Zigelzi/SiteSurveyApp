@@ -6,5 +6,11 @@
     <a href="{{ url_for('add_charger') }}" class="btn">Add new charger</a>
     <a href="{{ url_for('view_chargers') }}" class="btn">View existing chargers</a>
 </div>
+
+<div class="grey-container">
+    {% for charger in chargers %}
+    <a href="{{ url_for('charger', charger_id=charger.id) }}">{{ charger.manufacturer }} {{ charger.model }} </a>
+    {% endfor %}
+</div>
 {% endblock %}
 

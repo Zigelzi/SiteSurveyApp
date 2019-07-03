@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="grey-container">
+    <h1>{{ charger.manufacturer }} {{ charger.model }}</h1>
+    <p><span>Product number: </span>{{ charger.product_no }}</p>
+    <p><span>Price: </span>{{ charger.price }}</p>
+    <p><span>Outlet: </span>{{ charger.type_of_outlet }}</p>
+    <p><span>Number of outlets: </span>{{ charger.no_of_outlets }}</p>
+    <p><span>DC/AC: </span>{{ charger.dc_ac }}</p>
+    <p><span>Communication: </span>{{ charger.communication }}</p>
+    <p><span>Can be mounted to wall: </span>{{ charger.mounting_wall }}</p>
+    <p><span>Can be mounted to ground: </span>{{ charger.mounting_ground }}</p>
+    <p><span>Maximum charging power per outlet: </span>{{ charger.max_power }}</p>
+    <p><span>MCB in charger: </span>{{ charger.mcb }}</p>
+    <p><span>RCD type A in charger: </span>{{ charger.rcd_typea }}</p>
+    <p><span>RCD type A with 6mA DC current detection or 30 mA type B RCD: </span>{{ charger.rcd_typeb }}</p>
+    <p><span>Automatically reclosable RCD: </span>{{ charger.automatic_rcd }}</p>
+    <p><span>Power outage equipment: </span>{{ charger.pwr_outage_eq }}</p>
+    <p><span>MID-meter in the charger: </span>{{ charger.mid_meter }}</p>
+    <p><span>MID-meter visible from outside </span>{{ charger.mid_readable }}</p>
+    <p><span>Maximum supply cable diameter: </span>{{ charger.max_cable_d }} mm2</p>
+    <p><span>Copper cable allowed: </span>{{ charger.cable_cu_allowed }}</p>
+    <p><span>Aluminium cable allowed: </span>{{ charger.cable_al_allowed }}</p>
+</div>
+
+{% endblock %}

@@ -297,7 +297,7 @@ class AddOrganizationForm(FlaskForm):
 
     # List of countries for the country selection
     # TODO: Should this be queried from DB or from external API?
-    countries = [('fi', 'Finland'), ('swe', 'Sweden'), ('no', 'Norway'), ('ger', 'Germany')]
+    countries = [('Finland', 'Finland'), ('Sweden', 'Sweden'), ('Norway', 'Norway'), ('Germany', 'Germany')]
     
     # contact_persons = Contactperson.query.all()
     # contact_person_list = []

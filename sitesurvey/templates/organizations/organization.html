@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="grey-container">
+    <h1>{{ organization.org_name }}</h1>
+    <h4></h4>
+    <p><span>Organization number: </span>{{ organization.org_number }}</p>
+    <p><span>Address: </span>{{ organization.address }}</p>
+    <p><span>Postal Code: </span>{{ organization.postal_code }}</p>
+    <p><span>City: </span>{{ organization.city }}</p>
+    <p><span>Country: </span>{{ organization.country }}</p>
+    
+    <h4>Organization types</h4>
+    {% for org_type in organization.org_type %}
+        <a href="{{ url_for('org_type', org_type_id=org_type.id) }} ">{{ org_type.title }}</a>
+    {% endfor %}
+</div> 
+<div class="grey-container">
+    {% if organization.contact_persons %}
+        <h4>Contact persons:</h4>
+        {% for contact_person in organization.contact_persons %}
+        <p>{{ contact_person.first_name }} {{ contact_person.last_name }}</p> 
+        <p><span>Title: </span>{{ contact_person.title }} </p>
+        <span>Email: </span><a href="mailto:{{ contact_person.email }}">{{ contact_person.email }}</a>
+        <p><span>Phone number: </span>{{ contact_person.phone_number }} </p>
+        {% endfor %}
+    {% endif %}
+</div>
+<div class="grey-container">
+    {% if organization.users %}
+        <h4>System users</h4>
+        {% for user in organization.users %}
+        <a href="{{url_for('user', user_id=user.id)}}">{{ user.first_name }} {{ user.last_name }}</a>
+        <a href="mailto:{{ user.email }} ">{{ user.email }}</a>
+        {% endfor %}
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -112,7 +112,14 @@ def logout():
 @app.route('/organizations')
 @login_required
 def organizations():
-    return render_template('organizations/organizations.html', title='Organizations', active='organizations')
+    organizations = Organization.query.all()
+    return render_template('organizations/organizations.html', title='Organizations', active='organizations', organizations=organizations)
+
+@app.route('/organizations/organization/<int:organization_id>')
+@login_required
+def organization(organization_id):
+    organization = Organization.query.get_or_404(organization_id)
+    return render_template('organizations/organization.html', organization=organization)
 
 @app.route('/organizations/create_organization', methods=["GET", "POST"])
 @login_required
@@ -149,10 +156,22 @@ def create_organization_tag():
         return redirect(url_for('create_organization_tag'))
     return render_template('organizations/add_organization_type.html', title='Create organization type', form=form, active='add_organization_type')
 
+@app.route('/organizations/org_type/<int:org_type_id>')
+@login_required
+def org_type(org_type_id):
+    org_type = Orgtype.query.get_or_404(org_type_id)
+    return render_template('organizations/org_type.html', org_type=org_type)
+
 @app.route('/users')
 @login_required
 def users():
     return render_template('/users/users.html', title='Users', active='users')
+
+@app.route('/users/user/<int:user_id>')
+@login_required
+def user(user_id):
+    user = User.query.get_or_404(user_id)
+    return render_template('users/user.html', user=user)
 
 @app.route('/users/create_contactperson', methods=["GET", "POST"])
 @login_required
@@ -169,6 +188,12 @@ def create_contact_person():
         db.session.commit()
         flash(f'Contact person has been created. They can now log in', 'success')
     return render_template('users/create_contactperson.html', title='Create contact', form=form, active='create_contact')
+
+@app.route('/users/contact_person/<int:contact_person_id>')
+@login_required
+def contact_person(contact_person_id):
+    contact_person = Contactperson.query.get_or_404(contact_person_id)
+    return render_template('users/contact_person.html', contact_person=contact_person)
 
 @app.route('/users/create_user', methods=["GET", "POST"])
 @login_required
@@ -208,7 +233,13 @@ def account():
 @app.route('/chargers')
 @login_required
 def chargers():
-    return render_template('chargers/chargers.html', title='Chargers', active='chargers')
+    chargers = Charger.query.all()
+    return render_template('chargers/chargers.html', title='Chargers', active='chargers', chargers=chargers)
+
+@app.route('/chargers/charger/<int:charger_id>')
+def charger(charger_id):
+    charger = Charger.query.get_or_404(charger_id)
+    return render_template('chargers/charger.html', charger=charger)
 
 @app.route('/chargers/add_charger', methods=["GET", "POST"])
 @login_required

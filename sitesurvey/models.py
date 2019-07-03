@@ -60,6 +60,7 @@ class Organization(db.Model):
     # Organization type mapping
     org_type = db.relationship('Orgtype', secondary=org_type_rel, backref='organizations', lazy=True)
     contact_persons = db.relationship('Contactperson', backref='organization', lazy=True)
+    users = db.relationship('User', backref='organization', lazy=True)
 
     def __repr__(self):
         return f'Organization <{self.org_name} | {self.org_number} | {self.city} | {self.country}'
