@@ -329,6 +329,12 @@ class AddOrgTypeForm(FlaskForm):
     description = TextAreaField('Description', validators=[DataRequired(message=data_req_msg)])
     submit = SubmitField('Create organization type')
 
+class RequestPasswordForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(data_req_msg),
+                         Email(message='Not valid email')])
+    submit = SubmitField('Request Password Reset')
     
-    
-
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    password2 = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset password')

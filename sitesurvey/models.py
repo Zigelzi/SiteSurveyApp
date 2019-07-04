@@ -1,7 +1,9 @@
 from sitesurvey import db, app, login_manager, bcrypt
 from datetime import datetime
+from time import time
 
 from flask_login import UserMixin
+import jwt
 
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
@@ -44,6 +46,19 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password, password)
+
+    def get_password_token(self, expires_in=600):
+        return jwt.encode({'reset_password':self.id, 'exp': time() + expires_in}, 
+                            app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
+
+    @staticmethod
+    def verify_password_token(token):
+        try:
+            id = jwt.decode(token, app.config['SECRET_KEY'],
+                             algorithms=['HS256'])['reset_password']
+        except:
+            return
+        return User.query.get(id)
 
     def __repr__(self):
         return f'User <{self.first_name} | {self.last_name} | {self.email} |>'

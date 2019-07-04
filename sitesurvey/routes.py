@@ -4,8 +4,9 @@ from sitesurvey import app, db
 
 from sitesurvey.forms import (SurveyForm, CustomerForm, LocationForm, AddChargerForm, InstallationForm,
                               CreateUserForm, LogInForm, UpdateAccountForm, ChargerForm,
-                              AddOrganizationForm, CreateContactForm, AddOrgTypeForm)
+                              AddOrganizationForm, CreateContactForm, AddOrgTypeForm, RequestPasswordForm)
 from sitesurvey.models import User, Organization, Survey, Charger, Orgtype, Contactperson
+from sitesurvey.utils import send_email, send_password_reset_email
 import sys
 
 
@@ -108,6 +109,36 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/request_password_reset', methods=['GET', 'POST'])
+def request_password_reset():
+    expires_in = 600
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = RequestPasswordForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            send_password_reset_email(user)
+        flash('Password reset request sent! You will receive password reset email shorty.')
+        return redirect(url_for('login'))
+    return render_template('user/request_password_reset.html', title='Request new password', form=form)
+    
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    user = User.verify_password_token(token)
+    if not user:
+        return redirect(url_for('index'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Password has been reset!')
+        return redirect(url_for('login'))
+    return render_template('user/reset_password.html', title='Reset password', form=form)
 
 @app.route('/organizations')
 @login_required

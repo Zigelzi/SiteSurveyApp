@@ -5,13 +5,13 @@ import unittest
 parent_dir = os.path.dirname
 
 # Add the package root directory to sys.path so imports work
-sys.path.append(parnet_dir(parnet_dir(parnet_dir(os.path.abspath(__file__)))))
+sys.path.append(parent_dir(parent_dir(parent_dir(os.path.abspath(__file__)))))
 
-from sitesurvey.config import basedir
 from sitesurvey import app, db
 
 TEST_DB = 'test.db'
-sql_lite_db_uri = 'sqlite:///' + os.path.join(basedir, TEST_DB) 
+current_dir = os.path.abspath(os.curdir)
+sql_lite_db_uri = 'sqlite:///' + os.path.join(current_dir, TEST_DB) 
 
 class BasicTest(unittest.TestCase):
 
