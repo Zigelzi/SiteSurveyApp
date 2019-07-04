@@ -4,7 +4,8 @@ from sitesurvey import app, db
 
 from sitesurvey.forms import (SurveyForm, CustomerForm, LocationForm, AddChargerForm, InstallationForm,
                               CreateUserForm, LogInForm, UpdateAccountForm, ChargerForm,
-                              AddOrganizationForm, CreateContactForm, AddOrgTypeForm, RequestPasswordForm)
+                              AddOrganizationForm, CreateContactForm, AddOrgTypeForm, RequestPasswordForm,
+                              ResetPasswordForm)
 from sitesurvey.models import User, Organization, Survey, Charger, Orgtype, Contactperson
 from sitesurvey.utils import send_email, send_password_reset_email
 import sys
@@ -112,7 +113,6 @@ def logout():
 
 @app.route('/request_password_reset', methods=['GET', 'POST'])
 def request_password_reset():
-    expires_in = 600
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = RequestPasswordForm()
@@ -122,7 +122,7 @@ def request_password_reset():
             send_password_reset_email(user)
         flash('Password reset request sent! You will receive password reset email shorty.')
         return redirect(url_for('login'))
-    return render_template('user/request_password_reset.html', title='Request new password', form=form)
+    return render_template('users/request_password_reset.html', title='Request new password', form=form)
     
 @app.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
@@ -138,7 +138,7 @@ def reset_password(token):
         db.session.commit()
         flash('Password has been reset!')
         return redirect(url_for('login'))
-    return render_template('user/reset_password.html', title='Reset password', form=form)
+    return render_template('users/reset_password.html', form=form)
 
 @app.route('/organizations')
 @login_required
@@ -234,7 +234,8 @@ def create_user():
         # Take the form input and create db entry and commit it
         user = User(first_name=form.first_name.data,
                      last_name=form.last_name.data,
-                     email=form.email.data)
+                     email=form.email.data,
+                     org_id=form.organization.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()

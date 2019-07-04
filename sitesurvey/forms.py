@@ -198,7 +198,8 @@ class CreateUserForm(FlaskForm):
     last_name = StringField('Last name', validators=[DataRequired(message=data_req_msg)])
     email = StringField('Email',
                         validators=[DataRequired(message=data_req_msg), Email(message="Not valid email")])
-    organization = SelectField('Organization', validators=[DataRequired(message=data_req_msg)])
+    organization = SelectField('Organization', validators=[DataRequired(message=data_req_msg)],
+                                coerce=int)
     password = PasswordField('Password',
                              validators=[DataRequired(message=data_req_msg),
                                          Length(min=8, message="Password must be at least 8 characters")])
@@ -336,5 +337,5 @@ class RequestPasswordForm(FlaskForm):
     
 class ResetPasswordForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
-    password2 = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset password')
