@@ -1,6 +1,3 @@
-"""
-Helper and utility functions for the application
-"""
 from datetime import datetime
 from sitesurvey import app, mail
 from flask import render_template
@@ -22,6 +19,10 @@ def send_email(subject, sender, recipients, text_body, html_body):
     mail.send(msg)
     
 def send_password_reset_email(user):
+    """
+    Send the password reset email with JWT token and reset time to user via Flask-Mail
+    """
+
     token = user.get_password_token()
     reset_time=datetime.now()
     send_email('[SiteSurveyApp] Account password reset',

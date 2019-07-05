@@ -18,5 +18,6 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message = 'Log in to access this page'
 login_manager.session_protection = 'strong'
+data_req_msg = 'Required field' # Variable for error message shown in FlaskForms
 
 from sitesurvey import routes

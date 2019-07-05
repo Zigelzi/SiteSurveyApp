@@ -25,7 +25,7 @@ Application for doing site survey when planning electric vehicle charger install
 - [ ] Embedding Google Maps / OpenStreetmap to enter coordinates?
 - [x] Add status indication (created, waiting, ready) to survey table
 ### Account / Users
-- [ ] Add email authentication to new users
+- [x] Add email authentication to new users
 - [ ] Highlight the nav user account so it's more noticeable (not clear it's clicable)
 - [ ] Send sign up link on new user creation rather than entering password for user
 
