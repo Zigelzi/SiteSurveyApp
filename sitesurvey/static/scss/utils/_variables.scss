@@ -3,7 +3,6 @@
 // =================== */
 
 // ---- Colors ----
-
 $main-font: 'Karla', sans-serif;
 $header-font: 'Oswald', sans-serif;
 $bg-white: #f7f7f7;
@@ -11,5 +10,10 @@ $lightgrey: #e7e7e7;
 $darkgrey: #c4c4c4;
 $darkgrey-hover: lighten($darkgrey, 5%);
 $lightblack: lighten(black, 25%);
+$accent-blue: #4869D8;
 
+// ---- Common margins and paddings ----
+$input-margin-left: 23%;
+
+// ---- Typography ----
 $text-small: 0.8rem;

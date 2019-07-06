@@ -64,3 +64,18 @@ a {
     }
 }
 
+button,
+input[type=submit] {
+    background-color: $darkgrey;
+    padding: 10px;
+    display: block;
+    margin: 10px auto;
+    max-width: 30%;
+    border: none;
+
+    // Hover style for the button
+    &:hover {
+        background-color: $darkgrey-hover;
+    }
+}
+

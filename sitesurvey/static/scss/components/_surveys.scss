@@ -37,7 +37,7 @@
     textarea {
         display: block;
         width: 67%; /* Margin-left + width = 90% and rest 10% is margin-right */
-        margin-left: 23%;
+        margin-left: $input-margin-left;
     }
     label {
         font-size: 1.25rem;
@@ -62,7 +62,7 @@
     */
     ul {
         list-style: none;
-        margin-left: 23%;
+        margin-left: $input-margin-left;
         li {
             display: inline-flex;
             justify-content: space-evenly;
@@ -83,6 +83,71 @@
             font-size: 1rem;
             align-self: center;
             margin-bottom: 0;
+        }
+    }
+
+    // Changing the checkbox style to slider using the ::before and ::after pseudo-elements
+    // in .label class inserted to <label>
+    
+    // <div> parent element for the checkbox
+    .slider-checkbox {
+        position: relative;
+        margin-left: $input-margin-left;
+
+        // Hide the original checkbox and adjust the absolute positioning
+        input {
+            position: absolute;
+            margin: 0;
+            margin-top: 1px;
+            cursor: pointer;
+            opacity: 0;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 20px;
+
+            // When the hidden checkbox is checked change the .label::before element to $accent-blue
+            // color
+            &:checked + .label {
+                &:before {
+                    content: "";
+                    background-color: $accent-blue;
+                }
+                // Moving the box element to right side to show "checked" status
+                &:after {
+                    left: 1px;
+                }
+            }
+        }
+
+        .label {
+            position: relative;
+            padding-left: 46px;
+            margin-left: 0;
+            width: 87%;
+            
+            &:before,
+            &:after {
+                position: absolute;
+                transition: background-color 0.3s, left 0.3s;
+            }
+            &:before {
+                content: "";
+                background-color: $darkgrey;
+                left: 0;
+                top: 0;
+                height: 20px;
+                width: 40px;
+
+            }
+            &:after {
+                content: "";
+                background: white;
+                left: 21px;
+                top: 1px;
+                height: 18px;
+                width: 18px;
+            }
         }
     }
 }

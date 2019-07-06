@@ -273,8 +273,11 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ form.foundation.label }}
-                {{ form.foundation }}
+                <div class="slider-checkbox">
+                    {{ form.foundation }}
+                    {{ form.foundation.label(class="label") }}
+                    
+                </div>
                 {% if form.foundation.errors %}
                 <div class="error">
                     {% for error in form.foundation.errors %}
