@@ -16,7 +16,7 @@ Application for doing site survey when planning electric vehicle charger install
 - [ ] Add work creation site
 - [x] Add surveys to index page
 - [ ] Add save to localStorage (JS) feature to survey
-- [ ] Add Customer - Instalation switching animation to survey page
+- [ ] Add Customer - Installation switching animation to survey page
 -> In main form create multiple (4?) contact persons but only toggle them as visible?
 -> New form for each contact/location?
 - [ ] Add filtering of locations
@@ -37,6 +37,6 @@ Application for doing site survey when planning electric vehicle charger install
 - [x] List users of organization
 
 ### General
-- [ ] Update styling on all forms (submit button and fieldsets)
+- [x] Update styling on all forms (submit button and fieldsets)
 - [ ] User permissions
 - [ ] Set up db check so you can initialize the app the first time. Currently it crashes on imports if no DB exists
