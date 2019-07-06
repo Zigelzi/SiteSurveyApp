@@ -16,6 +16,7 @@ def chargers():
     return render_template('charger/chargers.html', title='Chargers', active='chargers', chargers=chargers)
 
 @bp_charger.route('/chargers/charger/<int:charger_id>')
+@login_required
 def charger(charger_id):
     charger = Charger.query.get_or_404(charger_id)
     return render_template('charger/charger.html', charger=charger)

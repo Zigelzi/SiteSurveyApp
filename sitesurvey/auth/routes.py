@@ -6,8 +6,7 @@ from sitesurvey.auth.forms import LogInForm, RequestPasswordForm, ResetPasswordF
 from sitesurvey.auth.utils import send_email, send_password_reset_email
 from sitesurvey.user.models import User, Organization, Orgtype, Contactperson
 
-
-
+# Initializing bluepring to register to app.
 bp_auth = Blueprint('auth', __name__)
 
 @bp_auth.route("/login", methods=["GET", "POST"])

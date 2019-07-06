@@ -9,8 +9,8 @@ from sitesurvey.charger.models import Charger
 
 bp_survey = Blueprint('survey', __name__)
 
-@login_required
 @bp_survey.route("/survey/create", methods=["GET", "POST"])
+@login_required
 def create_survey():
     
     form = SurveyForm()
@@ -56,7 +56,7 @@ def create_survey():
                         signal_strength=form.signal_strength.data,
                         installation_location=form.installation_location.data,
                         charger_id=charger_id,
-                        user_id = current_user.id)
+                        user_id=current_user.id)
         
         # Add all information from form to DB session and commit the changes
         db.session.add(contact_person)
@@ -69,8 +69,9 @@ def create_survey():
 
     return render_template('survey/create_survey.html', title='Survey', form=form)
 
-@login_required
+
 @bp_survey.route('/survey/<int:survey_id>')
+@login_required
 def survey(survey_id):
     survey = Survey.query.get_or_404(survey_id)
     return render_template('survey/survey.html', survey=survey)
