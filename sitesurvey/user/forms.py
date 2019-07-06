@@ -3,9 +3,9 @@ from flask_login import current_user
 from wtforms import StringField, SelectField, PasswordField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
 
+from sitesurvey import data_req_msg
 from sitesurvey.user.models import User, Organization, Orgtype
 
-data_req_msg = 'Required field'
 
 class CreateUserForm(FlaskForm):
     first_name = StringField('First name', validators=[DataRequired(message=data_req_msg)])

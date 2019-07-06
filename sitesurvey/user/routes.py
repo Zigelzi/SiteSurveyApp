@@ -11,13 +11,13 @@ bp_user = Blueprint('user', __name__)
 @login_required
 def organizations():
     organizations = Organization.query.all()
-    return render_template('organizations/organizations.html', title='Organizations', active='organizations', organizations=organizations)
+    return render_template('user/organizations.html', title='Organizations', active='organizations', organizations=organizations)
 
 @bp_user.route('/organizations/organization/<int:organization_id>')
 @login_required
 def organization(organization_id):
     organization = Organization.query.get_or_404(organization_id)
-    return render_template('organizations/organization.html', organization=organization)
+    return render_template('user/organization.html', organization=organization)
 
 @bp_user.route('/organizations/create_organization', methods=["GET", "POST"])
 @login_required
@@ -38,7 +38,7 @@ def create_organization():
         db.session.commit()
 
         flash(f'Organization has been created.', 'success')
-    return render_template('organizations/add_organization.html', title='Create organization', form=form, active='add_organization')
+    return render_template('user/add_organization.html', title='Create organization', form=form, active='add_organization')
 
 @bp_user.route('/organizations/create_organization_tag', methods=["GET", "POST"])
 @login_required
@@ -52,24 +52,24 @@ def create_organization_tag():
         db.session.commit()
         flash(f'Organization type has been created.', 'success')
         return redirect(url_for('user.create_organization_tag'))
-    return render_template('organizations/add_organization_type.html', title='Create organization type', form=form, active='add_organization_type')
+    return render_template('user/add_organization_type.html', title='Create organization type', form=form, active='add_organization_type')
 
 @bp_user.route('/organizations/org_type/<int:org_type_id>')
 @login_required
 def org_type(org_type_id):
     org_type = Orgtype.query.get_or_404(org_type_id)
-    return render_template('organizations/org_type.html', org_type=org_type)
+    return render_template('user/org_type.html', org_type=org_type)
 
 @bp_user.route('/users')
 @login_required
 def users():
-    return render_template('/users/users.html', title='Users', active='users')
+    return render_template('user/users.html', title='Users', active='users')
 
 @bp_user.route('/users/user/<int:user_id>')
 @login_required
 def user(user_id):
     user = User.query.get_or_404(user_id)
-    return render_template('users/user.html', user=user)
+    return render_template('user/user.html', user=user)
 
 @bp_user.route('/users/create_contactperson', methods=["GET", "POST"])
 @login_required
@@ -85,13 +85,13 @@ def create_contact_person():
         db.session.add(contact_person)
         db.session.commit()
         flash(f'Contact person has been created. They can now log in', 'success')
-    return render_template('users/create_contactperson.html', title='Create contact', form=form, active='create_contact')
+    return render_template('user/create_contactperson.html', title='Create contact', form=form, active='create_contact')
 
 @bp_user.route('/users/contact_person/<int:contact_person_id>')
 @login_required
 def contact_person(contact_person_id):
     contact_person = Contactperson.query.get_or_404(contact_person_id)
-    return render_template('users/contact_person.html', contact_person=contact_person)
+    return render_template('user/contact_person.html', contact_person=contact_person)
 
 @bp_user.route('/users/create_user', methods=["GET", "POST"])
 @login_required
@@ -108,7 +108,7 @@ def create_user():
         db.session.commit()
         flash(f'User has been created. They can now log in', 'success')
         return redirect(url_for('auth.login'))
-    return render_template('users/create_user.html', title='Create user', form=form, active='create_user')
+    return render_template('user/create_user.html', title='Create user', form=form, active='create_user')
 
 
 @bp_user.route('/account', methods=['GET', 'POST'])
@@ -127,4 +127,4 @@ def account():
         form.first_name.data = current_user.first_name
         form.last_name.data = current_user.last_name
         form.email.data = current_user.email
-    return render_template('forms/account.html', title='Account', active='account', form=form)
+    return render_template('user/account.html', title='Account', active='account', form=form)

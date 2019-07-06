@@ -28,7 +28,7 @@ def send_password_reset_email(user):
     send_email('[SiteSurveyApp] Account password reset',
                 recipients=[user.email],
                 sender=app.config['MAIL_DEFAULT_SENDER'],
-                text_body=render_template('users/email/reset_password.txt',
+                text_body=render_template('auth/emails/reset_password.txt',
                                            user=user, token=token, reset_time=reset_time),
-                html_body=render_template('users/email/reset_password.html',
+                html_body=render_template('auth/emails/reset_password.html',
                                            user=user, token=token, reset_time=reset_time))

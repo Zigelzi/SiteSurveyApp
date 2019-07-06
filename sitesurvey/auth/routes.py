@@ -30,7 +30,7 @@ def login():
         else:
             # Login is failed and prompt the user for checking the email/password
             flash('Login failed. Please check the email and password.', 'alert')
-    return render_template('login.html', title='Log in', form=form, active='login')
+    return render_template('auth/login.html', title='Log in', form=form, active='login')
 
 @bp_auth.route('/logout')
 def logout():
@@ -48,7 +48,7 @@ def request_password_reset():
             send_password_reset_email(user)
         flash('Password reset request sent! You will receive password reset email shorty.')
         return redirect(url_for('auth.login'))
-    return render_template('request_password_reset.html', title='Request new password', form=form)
+    return render_template('auth/request_password_reset.html', title='Request new password', form=form)
     
 @bp_auth.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
@@ -64,4 +64,4 @@ def reset_password(token):
         db.session.commit()
         flash('Password has been reset!')
         return redirect(url_for('auth.login'))
-    return render_template('reset_password.html', form=form)
+    return render_template('auth/reset_password.html', form=form)

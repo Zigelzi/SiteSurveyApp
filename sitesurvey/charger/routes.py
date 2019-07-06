@@ -13,12 +13,12 @@ bp_charger = Blueprint('charger', __name__)
 @login_required
 def chargers():
     chargers = Charger.query.all()
-    return render_template('chargers/chargers.html', title='Chargers', active='chargers', chargers=chargers)
+    return render_template('charger/chargers.html', title='Chargers', active='chargers', chargers=chargers)
 
 @bp_charger.route('/chargers/charger/<int:charger_id>')
 def charger(charger_id):
     charger = Charger.query.get_or_404(charger_id)
-    return render_template('chargers/charger.html', charger=charger)
+    return render_template('charger/charger.html', charger=charger)
 
 @bp_charger.route('/chargers/add_charger', methods=["GET", "POST"])
 @login_required
@@ -52,10 +52,10 @@ def add_charger():
         db.session.commit()
         flash(f'Charger has been created in the database.', 'success')
         return redirect(url_for('charger.add_charger'))
-    return render_template('chargers/add_charger.html', title='Add charger', form=form, active='add_charger')
+    return render_template('charger/add_charger.html', title='Add charger', form=form, active='add_charger')
 
 @bp_charger.route('/chargers/view_chargers', methods=["GET"])
 @login_required
 def view_chargers():
     chargers = Charger.query.all()
-    return render_template('chargers/view_chargers.html', title='View chargers', chargers=chargers)
+    return render_template('charger/view_chargers.html', title='View chargers', chargers=chargers)

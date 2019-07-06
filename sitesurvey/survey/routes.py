@@ -67,10 +67,10 @@ def create_survey():
         survey.contact_person.append(contact_person)
         db.session.commit()
 
-    return render_template('surveys/create_survey.html', title='Survey', form=form)
+    return render_template('survey/create_survey.html', title='Survey', form=form)
 
 @login_required
 @bp_survey.route('/survey/<int:survey_id>')
 def survey(survey_id):
     survey = Survey.query.get_or_404(survey_id)
-    return render_template('surveys/survey.html', survey=survey)
+    return render_template('survey/survey.html', survey=survey)
