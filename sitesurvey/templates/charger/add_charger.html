@@ -119,8 +119,10 @@
                     {% endif %}
                 </div>
                 <div class="input-box">
-                    {{ form.mounting_wall.label }}
-                    {{ form.mounting_wall(placeholder="") }}
+                    <div class="slider-checkbox">
+                        {{ form.mounting_wall }}       
+                        {{ form.mounting_wall.label(class="label") }}
+                    </div>
                     {% if form.mounting_wall.errors %}
                         <div class="error">
                             {% for error in form.mounting_wall.errors %}
@@ -132,8 +134,10 @@
                     {% endif %}
                 </div>
                 <div class="input-box">
-                    {{ form.mounting_ground.label }}
-                    {{ form.mounting_ground(placeholder="") }}
+                    <div class="slider-checkbox">
+                        {{ form.mounting_ground }}
+                        {{ form.mounting_ground.label(class="label") }}
+                    </div>
                     {% if form.mounting_ground.errors %}
                         <div class="error">
                             {% for error in form.mounting_ground.errors %}
@@ -158,8 +162,10 @@
                     {% endif %}
                 </div>
                 <div class="input-box">
-                    {{ form.mcb.label }}
-                    {{ form.mcb(placeholder="") }}
+                    <div class="slider-checkbox">
+                        {{ form.mcb }}
+                        {{ form.mcb.label(class="label") }}
+                    </div>
                     {% if form.mcb.errors %}
                         <div class="error">
                             {% for error in form.mcb.errors %}
@@ -171,8 +177,10 @@
                     {% endif %}
                 </div>
                 <div class="input-box">
-                    {{ form.rcd_typea.label }}
-                    {{ form.rcd_typea(placeholder="") }}
+                    <div class="slider-checkbox">
+                        {{ form.rcd_typea }}
+                        {{ form.rcd_typea.label(class="label") }}
+                    </div>
                     {% if form.rcd_typea.errors %}
                         <div class="error">
                             {% for error in form.rcd_typea.errors %}
@@ -184,8 +192,10 @@
                     {% endif %}
                 </div>
                 <div class="input-box">
-                    {{ form.rcd_typeb.label }}
-                    {{ form.rcd_typeb(placeholder="") }}
+                    <div class="slider-checkbox">
+                        {{ form.rcd_typeb }}
+                        {{ form.rcd_typeb.label(class="label") }}
+                    </div>
                     {% if form.rcd_typeb.errors %}
                         <div class="error">
                             {% for error in form.rcd_typeb.errors %}
@@ -197,8 +207,10 @@
                     {% endif %}
                 </div>
                 <div class="input-box">
-                    {{ form.automatic_rcd.label }}
-                    {{ form.automatic_rcd(placeholder="") }}
+                    <div class="slider-checkbox">
+                        {{ form.automatic_rcd }}
+                        {{ form.automatic_rcd.label(class="label") }}
+                    </div>
                     {% if form.automatic_rcd.errors %}
                         <div class="error">
                             {% for error in form.automatic_rcd.errors %}
@@ -210,8 +222,10 @@
                     {% endif %}
                 </div>
                 <div class="input-box">
-                    {{ form.pwr_outage_eq.label }}
-                    {{ form.pwr_outage_eq(placeholder="") }}
+                    <div class="slider-checkbox">
+                        {{ form.pwr_outage_eq }}
+                        {{ form.pwr_outage_eq.label(class="label") }}
+                    </div>
                     {% if form.pwr_outage_eq.errors %}
                         <div class="error">
                             {% for error in form.pwr_outage_eq.errors %}
@@ -223,8 +237,10 @@
                     {% endif %}
                 </div>
                 <div class="input-box">
-                    {{ form.mid_meter.label }}
-                    {{ form.mid_meter(placeholder="") }}
+                    <div class="slider-checkbox">
+                        {{ form.mid_meter }}
+                        {{ form.mid_meter.label(class="label") }}
+                    </div>
                     {% if form.mid_meter.errors %}
                         <div class="error">
                             {% for error in form.mid_meter.errors %}
@@ -236,8 +252,10 @@
                     {% endif %}
                 </div>
                 <div class="input-box">
-                    {{ form.mid_readable.label }}
-                    {{ form.mid_readable(placeholder="") }}
+                    <div class="slider-checkbox">
+                        {{ form.mid_readable }}
+                        {{ form.mid_readable.label(class="label") }}
+                    </div>
                     {% if form.mid_readable.errors %}
                         <div class="error">
                             {% for error in form.mid_readable.errors %}
@@ -250,7 +268,7 @@
                 </div>
                 <div class="input-box">
                     {{ form.max_cable_d.label }}
-                    {{ form.max_cable_d(placeholder="") }}
+                    {{ form.max_cable_d }}
                     {% if form.max_cable_d.errors %}
                         <div class="error">
                             {% for error in form.max_cable_d.errors %}
@@ -262,8 +280,10 @@
                     {% endif %}
                 </div>
                 <div class="input-box">
-                    {{ form.cable_cu_allowed.label }}
-                    {{ form.cable_cu_allowed(placeholder="") }}
+                    <div class="slider-checkbox">
+                        {{ form.cable_cu_allowed }}
+                        {{ form.cable_cu_allowed.label(class="label") }}
+                    </div>
                     {% if form.cable_cu_allowed.errors %}
                         <div class="error">
                             {% for error in form.cable_cu_allowed.errors %}
@@ -275,8 +295,10 @@
                     {% endif %}
                 </div>
                 <div class="input-box">
-                    {{ form.cable_al_allowed.label }}
-                    {{ form.cable_al_allowed(placeholder="") }}
+                    <div class="slider-checkbox">
+                        {{ form.cable_al_allowed }}
+                        {{ form.cable_al_allowed.label(class="label") }}
+                    </div>
                     {% if form.cable_al_allowed.errors %}
                         <div class="error">
                             {% for error in form.cable_al_allowed.errors %}

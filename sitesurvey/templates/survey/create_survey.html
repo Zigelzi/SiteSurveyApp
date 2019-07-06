@@ -247,8 +247,17 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ form.installation_method.label }}
-                {{ form.installation_method }}
+                
+
+                <div>
+                    {{ form.installation_method.label  }}
+                    {% for subfield in form.installation_method %}
+                    <div class="slider-checkbox">
+                        {{ subfield }}
+                        {{ subfield.label(class="label") }}
+                    </div>
+                    {% endfor %}
+                </div>
                 {% if form.installation_method.errors %}
                 <div class="error">
                     {% for error in form.installation_method.errors %}
@@ -275,8 +284,7 @@
             <div class="input-box">
                 <div class="slider-checkbox">
                     {{ form.foundation }}
-                    {{ form.foundation.label(class="label") }}
-                    
+                    {{ form.foundation.label(class="label") }}          
                 </div>
                 {% if form.foundation.errors %}
                 <div class="error">
@@ -375,8 +383,10 @@
                 {% endif %}
             </div>
             <div class="input-box">
-                {{ form.empty_fuses.label }}
-                {{ form.empty_fuses }}
+                <div class="slider-checkbox">
+                    {{ form.empty_fuses }}
+                    {{ form.empty_fuses.label(class="label") }}
+                </div>
                 {% if form.empty_fuses.errors %}
                 <div class="error">
                     {% for error in form.empty_fuses.errors %}

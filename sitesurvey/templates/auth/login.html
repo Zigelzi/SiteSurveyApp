@@ -38,11 +38,10 @@
                     <a href="{{ url_for('auth.request_password_reset')}} ">Forgot password?</a>
                 </div>
                 <div class="input-box checkbox">
-                    
-                    {{ form.remember }}
-                    <!-- Custom checkbox made with CSS -->
-                    {{ form.remember.label }}
-                    <!-- Original checkbox hidden with CSS -->
+                    <div class="slider-checkbox">
+                        {{ form.remember.label(class="label") }}
+                        {{ form.remember }}
+                    </div>
                     
                 </div>
             </fieldset>
