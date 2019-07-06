@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, redirect, flash
 from flask_login import current_user, login_required
 
+import sys
+
 from sitesurvey import db
 from sitesurvey.survey.models import Survey
 from sitesurvey.survey.forms import SurveyForm
@@ -61,11 +63,14 @@ def create_survey():
         # Add all information from form to DB session and commit the changes
         db.session.add(contact_person)
         db.session.add(survey)
+        print(f'Contact person: {contact_person}', file=sys.stderr)
+        print(f'Survey: {survey}', file=sys.stderr)
         db.session.commit()
 
         # Append the contact person as Surveys contact person
         survey.contact_person.append(contact_person)
         db.session.commit()
+        flash(f'Survey created successfully!', 'success')
 
     return render_template('survey/create_survey.html', title='Survey', form=form)
 

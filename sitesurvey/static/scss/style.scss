@@ -4,7 +4,8 @@
 
 // Utilities
 @import 'utils/variables',
-        'utils/mixins';
+        'utils/mixins',
+        'utils/keyframes';
 
 // Base styles and resets
 @import 'base/base',
@@ -19,4 +20,5 @@
 @import 'components/nav',
         'components/icons',
         'components/buttons',
-        'components/surveys';
+        'components/surveys',
+        'components/notes';

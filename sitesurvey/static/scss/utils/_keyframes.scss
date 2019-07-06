@@ -1,0 +1,15 @@
+@keyframes fade-in-out {
+    // Keyframe for fading elements in and out. Used for example in .note-container class
+    0% {
+        opacity: 0;
+     }
+     15% {
+        opacity: 1;
+     }
+     75% {
+         opacity: 1;
+     }
+    100% {
+        opacity: 0;
+     }
+}

@@ -1,3 +1,17 @@
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 * {
   padding: 0;
   margin: 0;
@@ -636,6 +650,34 @@ header {
   font-size: 1rem;
   align-self: center;
   margin-bottom: 0;
+}
+
+.note-container {
+  position: relative;
+  opacity: 0;
+  animation: fade-in-out ease-in;
+  animation-duration: 6s;
+  transform-origin: left;
+}
+.note-container .note {
+  position: fixed;
+  text-align: center;
+  top: 60px;
+  left: 45%;
+  padding: 0.75em 0.625em;
+  border-radius: 2px;
+  width: 32em;
+  z-index: 998;
+  transform: translate(-50%);
+  /* Centering the container horizontally to middle of the screen */
+}
+.note-container .note-success {
+  background-color: #4bb543;
+  color: #ebffe9;
+}
+.note-container .note-alert {
+  background-color: #cc0000;
+  color: #d1b5b5;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -45,7 +45,7 @@ def request_password_reset():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             send_password_reset_email(user)
-        flash('Password reset request sent! You will receive password reset email shorty.')
+        flash('Password reset request sent! You will receive password reset email shortly.', 'success')
         return redirect(url_for('auth.login'))
     return render_template('auth/request_password_reset.html', title='Request new password', form=form)
     
@@ -61,6 +61,6 @@ def reset_password(token):
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Password has been reset!')
+        flash('Password has been reset!', 'sucess')
         return redirect(url_for('auth.login'))
     return render_template('auth/reset_password.html', form=form)

@@ -52,6 +52,17 @@
             <label for="nav-menu" class="nav-menu-label">
                 <span></span>
             </label>
+            <div class="note-container">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                        <div class="note note-{{ category }}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                </div> 
         </header>  
         <div class="">
             <div class="collapse-fix"></div>
