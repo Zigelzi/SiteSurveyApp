@@ -3,12 +3,12 @@
 {% block content %}
 <div class="grey-container">
     <h1>Organizations</h1>
-    <a href="{{ url_for('create_organization') }}" class="btn">Create new organization</a>
-    <a href="{{ url_for('create_organization_tag') }}" class="btn">Create new organization type</a>
+    <a href="{{ url_for('user.create_organization') }}" class="btn">Create new organization</a>
+    <a href="{{ url_for('user.create_organization_tag') }}" class="btn">Create new organization type</a>
 </div>
 <div class="grey-container">
     {% for organization in organizations %}
-    <a href="{{ url_for('organization', organization_id=organization.id) }}">{{ organization.org_name }} </a>
+    <a href="{{ url_for('user.organization', organization_id=organization.id) }}">{{ organization.org_name }} </a>
     {% endfor %}
 </div>
 {% endblock %}

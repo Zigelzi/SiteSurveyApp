@@ -4,7 +4,7 @@
 <div id="index-main-card" class="grey-container">
     <h1>Site survey</h1>
     <p>Create new site survey to document the site</p>
-    <a href="{{ url_for('create_survey') }}" class="btn">New survey</a>
+    <a href="{{ url_for('survey.create_survey') }}" class="btn">New survey</a>
 </div>
 
 <!-- Filter button -->
@@ -20,7 +20,7 @@
 {% if surveys %}
     {% for survey in surveys %}
     <div class="grey-container location">
-        <a href="{{ url_for('survey', survey_id=survey.id) }} ">{{ survey.name }}</a>
+        <a href="{{ url_for('survey.survey', survey_id=survey.id) }} ">{{ survey.name }}</a>
         <p class="text-small">{{ survey.address }}, {{ survey.postal_code }} {{  survey.city }}</p>
     </div>
     {% endfor %}

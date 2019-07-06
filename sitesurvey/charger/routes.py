@@ -51,7 +51,7 @@ def add_charger():
         db.session.add(charger)
         db.session.commit()
         flash(f'Charger has been created in the database.', 'success')
-        return redirect(url_for('add_charger'))
+        return redirect(url_for('charger.add_charger'))
     return render_template('chargers/add_charger.html', title='Add charger', form=form, active='add_charger')
 
 @bp_charger.route('/chargers/view_chargers', methods=["GET"])

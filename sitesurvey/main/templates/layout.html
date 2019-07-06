@@ -17,33 +17,33 @@
     <body>
         <header>
             <div class="profile-link">
-                <a href="{{ url_for('account') }}">{{current_user.first_name }} {{ current_user.last_name }}</a>
+                <a href="{{ url_for('user.account') }}">{{current_user.first_name }} {{ current_user.last_name }}</a>
             </div>
             <input type="checkbox" class="nav-menu" id="nav-menu">
             <nav class="nav">
                 <ul class="">
                     <li class="{% if active=='index' %}active-nav{% endif %}">
-                        <a href="{{ url_for('index') }}">Home</a>
+                        <a href="{{ url_for('main.index') }}">Home</a>
                     </li>
                     {% if current_user.is_authenticated %}
                     <li class="{% if active=='create_survey' %}active-nav{% endif %}">
-                        <a href="{{ url_for('create_survey') }}">Create survey</a>
+                        <a href="{{ url_for('survey.create_survey') }}">Create survey</a>
                     </li>
                     <li class="">
-                        <a href="{{ url_for('users') }}">Users</a>
+                        <a href="{{ url_for('user.users') }}">Users</a>
                     </li>
                     <li class="">
-                        <a href="{{ url_for('organizations') }}">Organizations</a>
+                        <a href="{{ url_for('user.organizations') }}">Organizations</a>
                     </li>
                     <li class="">
-                            <a href="{{ url_for('chargers') }}">Chargers</a>
+                            <a href="{{ url_for('charger.chargers') }}">Chargers</a>
                     </li>
                     <li class="">
-                        <a href="{{ url_for('logout') }}">Logout</a>
+                        <a href="{{ url_for('auth.logout') }}">Logout</a>
                     </li>
                     {% else %}
                     <li class="{% if active=='login' %}active-nav{% endif %}">
-                        <a href="{{ url_for('login') }}">Log in</a>
+                        <a href="{{ url_for('auth.login') }}">Log in</a>
                     </li>
                     {% endif %}
                 </ul>

@@ -51,7 +51,7 @@ def create_organization_tag():
         db.session.add(org_type)
         db.session.commit()
         flash(f'Organization type has been created.', 'success')
-        return redirect(url_for('create_organization_tag'))
+        return redirect(url_for('user.create_organization_tag'))
     return render_template('organizations/add_organization_type.html', title='Create organization type', form=form, active='add_organization_type')
 
 @bp_user.route('/organizations/org_type/<int:org_type_id>')
@@ -107,7 +107,7 @@ def create_user():
         db.session.add(user)
         db.session.commit()
         flash(f'User has been created. They can now log in', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
     return render_template('users/create_user.html', title='Create user', form=form, active='create_user')
 
 
@@ -122,7 +122,7 @@ def account():
         current_user.email = form.email.data
         db.session.commit()
         flash('Account information updated!', 'success')
-        return redirect(url_for('account'))
+        return redirect(url_for('user.account'))
     elif request.method == 'GET':
         form.first_name.data = current_user.first_name
         form.last_name.data = current_user.last_name

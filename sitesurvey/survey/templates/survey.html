@@ -4,7 +4,7 @@
 
 <div class="grey-container">
     <h1>{{ survey.name }}</h1>
-    <a href="{{ url_for('user', user_id=survey.user.id) }} ">Made by: {{ survey.user.first_name }} {{ survey.user.last_name }} </a>
+    <a href="{{ url_for('user.user', user_id=survey.user.id) }} ">Made by: {{ survey.user.first_name }} {{ survey.user.last_name }} </a>
     <p><span>Created: </span> {{ survey.create_date.strftime('%d.%m.%Y - %H:%M') }}</p>
     <p><span>Updated: </span> {{ survey.update_date.strftime('%d.%m.%Y - %H:%M') }} </p>
 

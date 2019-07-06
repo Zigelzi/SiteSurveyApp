@@ -7,13 +7,13 @@
     <h4>Email:</h4>
     <a href="mailto:{{ user.email }}">{{ user.email }}</a>
     <h4>Organization:</h4>
-    <a href="{{url_for('organization', organization_id=user.organization.id)}} "> {{ user.organization.org_name }} </a>
+    <a href="{{url_for('user.organization', organization_id=user.organization.id)}} "> {{ user.organization.org_name }} </a>
 </div>
 <div class="grey-container">
 <h4>Surveys</h4>
 {% for survey in user.surveys %}
 
-    <a href="{{ url_for('survey', survey_id=survey.id) }} ">{{ survey.name }} - {{ survey.address }}, {{ survey.postal_code }} {{ survey.city }}</a>
+    <a href="{{ url_for('survey.survey', survey_id=survey.id) }} ">{{ survey.name }} - {{ survey.address }}, {{ survey.postal_code }} {{ survey.city }}</a>
     <p><span>Created: </span>{{ survey.create_date.strftime('%d.%m.%Y - %H:%M') }} - <span>Status: </span>{{ survey.status }} </p>
 
 {% endfor %}

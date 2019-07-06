@@ -13,7 +13,7 @@
     
     <h4>Organization types</h4>
     {% for org_type in organization.org_type %}
-        <a href="{{ url_for('org_type', org_type_id=org_type.id) }} ">{{ org_type.title }}</a>
+        <a href="{{ url_for('user.org_type', org_type_id=org_type.id) }} ">{{ org_type.title }}</a>
     {% endfor %}
 </div> 
 <div class="grey-container">
@@ -31,7 +31,7 @@
     {% if organization.users %}
         <h4>System users</h4>
         {% for user in organization.users %}
-        <a href="{{url_for('user', user_id=user.id)}}">{{ user.first_name }} {{ user.last_name }}</a>
+        <a href="{{url_for('user.user', user_id=user.id)}}">{{ user.first_name }} {{ user.last_name }}</a>
         <a href="mailto:{{ user.email }} ">{{ user.email }}</a>
         {% endfor %}
     {% endif %}
