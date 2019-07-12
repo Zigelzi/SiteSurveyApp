@@ -624,6 +624,9 @@ header {
   /* Margin-left + width = 90% and rest 10% is margin-right */
   margin-left: 23%;
 }
+.input-box button {
+  margin-left: 23%;
+}
 .input-box label {
   font-size: 1.25rem;
   margin-bottom: 5px;

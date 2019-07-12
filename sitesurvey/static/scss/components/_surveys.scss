@@ -39,6 +39,10 @@
         width: 67%; /* Margin-left + width = 90% and rest 10% is margin-right */
         margin-left: $input-margin-left;
     }
+    button {
+        margin-left: $input-margin-left;
+    }
+
     label {
         font-size: 1.25rem;
         margin-bottom: 5px;

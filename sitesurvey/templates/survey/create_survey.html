@@ -135,18 +135,22 @@
                     {% endif %}
                 </div>
                 <div class="input-box">
-                        {{ form.country.label }}
-                        {{ form.country }}
-                        {% if form.country.errors %}
-                        <div class="error">
-                            {% for error in form.country.errors %}
-                                <span>
-                                    {{ error }}
-                                </span>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
+                    {{ form.country.label }}
+                    {{ form.country }}
+                    {% if form.country.errors %}
+                    <div class="error">
+                        {% for error in form.country.errors %}
+                            <span>
+                                {{ error }}
+                            </span>
+                        {% endfor %}
                     </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    <button id="btn-coords" type="button">Use my coordinates</button>
+                    <p id="error"></p>
+                </div>
                 <div class="input-box">
                     {{ form.coordinate_lat.label }}
                     {{ form.coordinate_lat }}
