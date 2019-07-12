@@ -11,8 +11,8 @@ Application for doing site survey when planning electric vehicle charger install
 ### Survey
 - [x] Add individual survey page
 - [x] Link survey to location
-- [ ] Add FileField to Survey form
-- [ ] Add ability to save photos to harddrive
+- [x] Add FileField to Survey form
+- [x] Add ability to save photos to harddrive
 - [ ] Add work creation site
 - [x] Add surveys to index page
 - [ ] Add save to localStorage (JS) feature to survey
@@ -39,4 +39,4 @@ Application for doing site survey when planning electric vehicle charger install
 ### General
 - [x] Update styling on all forms (submit button and fieldsets)
 - [ ] User permissions
-- [ ] Set up db check so you can initialize the app the first time. Currently it crashes on imports if no DB exists
+- [x] Set up db check so you can initialize the app the first time. Currently it crashes on imports if no DB exists
