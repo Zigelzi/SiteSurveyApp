@@ -1,11 +1,12 @@
-from flask import Blueprint, render_template, redirect, flash
+from flask import Blueprint, render_template, redirect, flash, url_for
 from flask_login import current_user, login_required
 
 import sys
 
 from sitesurvey import db
-from sitesurvey.survey.models import Survey
+from sitesurvey.survey.models import Survey, Surveypicture
 from sitesurvey.survey.forms import SurveyForm
+from sitesurvey.survey.utils import save_picture
 from sitesurvey.user.models import Contactperson
 from sitesurvey.charger.models import Charger
 
@@ -18,18 +19,12 @@ def create_survey():
     form = SurveyForm()
 
     if form.validate_on_submit():
-        # Get the number of surveys in DB and do running numbering (+1)
-        survey_id = Survey.query.order_by(Survey.id.desc()).first()
         # Query the selected charger model and it's id and enter it as charger_id
         charger_id = Charger.query.get(form.model.data)
-        
-        # If Survey query returns None this is the first survey.
-        if survey_id == None:
-            survey_id = 1
-        else:
-            survey_id.id += 1
 
-        # Convert all the 
+        # Create list of pictures and check if any of them has content to be submitted to DB
+
+        # Convert all the from values to DB models and commit them to DB
         contact_person = Contactperson(first_name=form.first_name.data,
                                         last_name=form.last_name.data,
                                         title=form.title.data,
@@ -60,17 +55,47 @@ def create_survey():
                         charger_id=charger_id,
                         user_id=current_user.id)
         
-        # Add all information from form to DB session and commit the changes
         db.session.add(contact_person)
         db.session.add(survey)
+        db.session.commit()
+
+
+        # Saving the installation location picture to file system and creating DB entry
+        pic_installation_location_file = save_picture(form.pic_installation_location.data)
+        sp_installation_location = Surveypicture(survey_id=survey.id,
+                                                    picture_filename=pic_installation_location_file)
+
+        # Saving the main cabinet picture to file system and creating DB entry
+        pic_maincabinet_file = save_picture(form.pic_maincabinet.data)
+        sp_maincabinet = Surveypicture(survey_id=survey.id,
+                                        picture_filename=pic_maincabinet_file)
+
+        # Saving the subcabinet picture if it exists to file system and creating DB entry
+        if form.pic_subcabinet.data:
+            pic_subcabinet_file = save_picture(form.pic_subcabinet.data)
+            sp_subcabinet = Surveypicture(survey_id=survey.id,
+                                            picture_filename=pic_subcabinet_file)
+            db.session.add(sp_subcabinet)
+
+        # Saving the additional picture if it exists to file system and creating DB entry
+        if form.pic_additional.data:
+            pic_additional_file = save_picture(form.pic_additional.data)
+            sp_additional = Surveypicture(survey_id=survey.id,
+                                            picture_filename=pic_additional_file)
+            db.session.add(sp_additional)
+        
+        # Add all information from form to DB session and commit the changes
+
+        db.session.add(sp_installation_location)
+        db.session.add(sp_maincabinet)
         print(f'Contact person: {contact_person}', file=sys.stderr)
         print(f'Survey: {survey}', file=sys.stderr)
-        db.session.commit()
 
         # Append the contact person as Surveys contact person
         survey.contact_person.append(contact_person)
         db.session.commit()
         flash(f'Survey created successfully!', 'success')
+        return redirect(url_for('survey.survey', survey_id=survey.id))
 
     return render_template('survey/create_survey.html', title='Survey', form=form)
 
@@ -79,4 +104,8 @@ def create_survey():
 @login_required
 def survey(survey_id):
     survey = Survey.query.get_or_404(survey_id)
-    return render_template('survey/survey.html', survey=survey)
+    filenames = []
+    # Append all the filenames for creating the url_for to display the pictures
+    for picture in survey.pictures:
+        filenames.append('survey_pictures/'+ picture.picture_filename)
+    return render_template('survey/survey.html', survey=survey, filenames=filenames)

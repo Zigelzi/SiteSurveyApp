@@ -42,8 +42,16 @@ class Survey(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     charger_id = db.Column(db.Integer, db.ForeignKey('charger.id'))
 
-    # Many-to-Many relationships
+    # Table relationshipts and backrefs
     contact_person = db.relationship('Contactperson', secondary=survey_contact_rel, backref='surveys', lazy=True)
+    pictures = db.relationship('Surveypicture', backref='survey', lazy=True)
 
     def __repr__(self):
         return f'Survey <{self.id} | {self.name} | {self.address} | {self.postal_code} | {self.city}>'
+
+class Surveypicture(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    picture_filename = db.Column(db.String(15), nullable=False)
+
+    # Foreign keys
+    survey_id = db.Column(db.Integer, db.ForeignKey('survey.id'))

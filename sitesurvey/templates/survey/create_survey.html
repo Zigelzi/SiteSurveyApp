@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="content">
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
         <!-- Customer form -->
         <div class="grey-container survey-form">
             {{ form.hidden_tag() }}
@@ -433,6 +433,58 @@
                 {% if form.installation_location.errors %}
                 <div class="error">
                     {% for error in form.installation_location.errors %}
+                        <span>
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="input-box">
+                {{ form.pic_installation_location.label }}
+                {{ form.pic_installation_location }}
+                {% if form.pic_installation_location.errors %}
+                <div class="error">
+                    {% for error in form.pic_installation_location.errors %}
+                        <span>
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="input-box">
+                {{ form.pic_maincabinet.label }}
+                {{ form.pic_maincabinet }}
+                {% if form.pic_maincabinet.errors %}
+                <div class="error">
+                    {% for error in form.pic_maincabinet.errors %}
+                        <span>
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="input-box">
+                {{ form.pic_subcabinet.label }}
+                {{ form.pic_subcabinet }}
+                {% if form.pic_subcabinet.errors %}
+                <div class="error">
+                    {% for error in form.pic_subcabinet.errors %}
+                        <span>
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="input-box">
+                {{ form.pic_additional.label }}
+                {{ form.pic_additional }}
+                {% if form.pic_additional.errors %}
+                <div class="error">
+                    {% for error in form.pic_additional.errors %}
                         <span>
                             {{ error }}
                         </span>

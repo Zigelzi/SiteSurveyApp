@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, flash, url_for
 from flask_login import login_required
 
-from sitesurvey import login_manager
+from sitesurvey import login_manager, db
 from sitesurvey.charger.models import Charger
 from sitesurvey.charger.forms import AddChargerForm
 

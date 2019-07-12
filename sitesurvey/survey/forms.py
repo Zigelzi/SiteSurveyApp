@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import (StringField, SelectField, FloatField, BooleanField, DateTimeField,
                      IntegerField, TextAreaField, SubmitField, RadioField)
 from wtforms.validators import DataRequired, Email
@@ -99,6 +100,10 @@ class SurveyForm(FlaskForm):
     number_of_slots = IntegerField('Number of empty fuse slots')
     signal_strength = FloatField('Mobile signal strength')
     installation_location = TextAreaField('Installation location')
+    pic_installation_location = FileField('Installation location', validators=[FileAllowed(['jpg', 'png']), DataRequired(message=data_req_msg)])
+    pic_maincabinet = FileField('Main cabinet', validators=[FileAllowed(['jpg', 'png']), DataRequired(message=data_req_msg)])
+    pic_subcabinet = FileField('Subcabinet', validators=[FileAllowed(['jpg', 'png'])])
+    pic_additional = FileField('Additional picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Submit')
 
     #TODO: Add image upload fields

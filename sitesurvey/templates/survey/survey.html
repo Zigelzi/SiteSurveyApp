@@ -45,6 +45,14 @@
     <p><span>Single charging point max power (kW): </span> {{ survey.cp_charging_power }} </p>
     <p><span>Installation method: </span> {{ survey.installation_method }} </p>
     <p><span>Concrete foundation needed: </span> {{ survey.concrete_foundation }} </p>
+    <div>
+        {# Insert all the pictures from the surveys to the page #}
+        {% for file in filenames %}
+            <img src="{{ url_for('static', filename=file) }} " alt="">
+        {% endfor %}
+    </div>
 </div>
+
+
 
 {% endblock %}
