@@ -119,3 +119,4 @@ class SurveyForm(FlaskForm):
         super(SurveyForm, self).__init__(*args, **kwargs)
         self.manufacturer.choices = [(charger.manufacturer.lower(), charger.manufacturer) for charger in Charger.query.all()]
         self.model.choices = [(charger.model.lower(), charger.model) for charger in Charger.query.all()]
+
