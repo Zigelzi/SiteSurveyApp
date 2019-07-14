@@ -109,3 +109,8 @@ def survey(survey_id):
     for picture in survey.pictures:
         filenames.append('survey_pictures/'+ picture.picture_filename)
     return render_template('survey/survey.html', survey=survey, filenames=filenames)
+
+@bp_survey.route('survey/create_workorder')
+@login_required
+def create_workorder():
+    return render_template('survey/create_workorder.html')
