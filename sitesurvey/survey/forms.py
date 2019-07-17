@@ -106,13 +106,6 @@ class SurveyForm(FlaskForm):
     pic_additional = FileField('Additional picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Submit')
 
-    #TODO: Add image upload fields
-    # Image of main cabinet
-    # Image of installation location
-    # Image of subcabinet (optional)
-    # Additional image
-    # Additional image
-
     # Append the ('id', 'title') tuple from all queried chargers to the lists passed to SelectFields
     def __init__(self, *args, **kwargs):
         """Initialize the class with the most recent DB data for SelectField."""
@@ -120,3 +113,30 @@ class SurveyForm(FlaskForm):
         self.manufacturer.choices = [(charger.manufacturer.lower(), charger.manufacturer) for charger in Charger.query.all()]
         self.model.choices = [(charger.model.lower(), charger.model) for charger in Charger.query.all()]
 
+class WorkorderForm(FlaskForm):
+    organization_name = StringField('Organization name')
+
+    location_name = StringField('Location name', validators=[DataRequired(message=data_req_msg)])
+    address = StringField('Address', validators=[DataRequired(message=data_req_msg)])
+    postal_code = StringField('Postal code', validators=[DataRequired(data_req_msg)])
+    city = StringField('City', validators=[DataRequired(message=data_req_msg)])
+    country = SelectField('Country', validators=[DataRequired(message=data_req_msg)],
+                                    choices=[('Finland', 'Finland'),
+                                            ('Sweden', 'Sweden'),
+                                            ('Norway', 'Norway'),
+                                            ('Germany', 'Germany')])
+
+    public_chargers = IntegerField('Number of public chargers', validators=[DataRequired(message=data_req_msg)])
+    public_installation_location = TextAreaField('Installation location description')
+    private_chargers = IntegerField('Number of private chargers', validators=[DataRequired(message=data_req_msg)])
+    private_installation_location = TextAreaField('Installation location description')
+    attachment_1 = FileField('Attach file', validators=[FileAllowed(['jpg', 'png', 'pdf'])])
+    attachment_2 = FileField('Attach file', validators=[FileAllowed(['jpg', 'png', 'pdf'])])
+    attachment_3 = FileField('Attach file', validators=[FileAllowed(['jpg', 'png', 'pdf'])])
+
+    installation_type = RadioField('Installation type', validators=[DataRequired(message=data_req_msg)],
+                                    choices=[('turnkey', 'Turn-key installation'),
+                                             ('charger', 'Charger installation')])
+
+
+    

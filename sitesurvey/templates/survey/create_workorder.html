@@ -2,19 +2,69 @@
 
 {% block content %}
 <div class="content">
-    <form action="" method="POST" enctype="multipart/form-data">
-        
-        <!-- Customer form -->
-        <div class="grey-container survey-form">
-            <div class="survey-header">
-                <img class="svg-icon" src="{{ url_for('static', filename='img/icon_person.svg') }}" alt="person icon">
-                <legend>Customer</legend>
-            </div>
-            <div class="input-box">
-                <label for="">Customer</label>
-                <p>Customer name example</p>
+    <div class="grey-container survey-form">
+        <div class="survey-header">
+            <img class="svg-icon" src="{{ url_for('static', filename='img/icon_person.svg') }}" alt="person icon">
+            <legend>Customer</legend>
+        </div>
+        <div class="input-box">
+            {{ form.organization_name.label }}
+            {{ form.organization_name }}
+            <label for="">Contact person</label>
+            <p>Firstname Lastname</p>
+            <p>Phonenumber</p>
+            <p>Email</p>
+        </div>
+        <button type="button">Create new customer</button>
+    </div>
+    <div class="grey-container survey-form">
+        <div class="survey-header">
+            <img class="svg-icon" src="{{ url_for('static', filename='img/icon_building.svg') }}" alt="building icon">
+            <legend>Location</legend>
+        </div>
+        <div class="input-box">
+            {{ form.location_name.label }}
+            {{ form.location_name }}
+            {{ form.address.label }}
+            {{ form.address }}
+            {{ form.postal_code.label }}
+            {{ form.postal_code }}
+            {{ form.city.label }}
+            {{ form.city }}
+            {{ form.country.label }}
+            {{ form.country }}
+        </div>
+    </div>
+    <div class="grey-container survey-form">
+        <div class="survey-header">
+            <img class="svg-icon" src="{{ url_for('static', filename='img/icon_build.svg') }}" alt="wrench icon">
+            <legend>Installation</legend>
+        </div>
+        <div class="input-box">
+            {{form.public_chargers.label}}
+            {{form.public_chargers}}
+            {{form.public_installation_location.label}}
+            {{form.public_installation_location}}
+            {{form.private_chargers.label}}
+            {{form.private_chargers}}
+            {{form.private_installation_location.label}}
+            {{form.private_installation_location}}
+            {{form.attachment_1.label}}
+            {{form.attachment_1}}
+            {{form.attachment_2.label}}
+            {{form.attachment_2}}
+            {{form.attachment_3.label}}
+            {{form.attachment_3}}
+            <div>
+                {{form.installation_type.label}}
+                {% for subfield in form.installation_type %}
+                <div class="slider-checkbox">
+                    {{ subfield }}
+                    {{ subfield.label(class="label") }}
+                </div>
+                {% endfor %}
             </div>
         </div>
-    </form>
+    </div>
 </div>
 {% endblock %}

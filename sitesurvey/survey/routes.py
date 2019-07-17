@@ -5,7 +5,7 @@ import sys
 
 from sitesurvey import db
 from sitesurvey.survey.models import Survey, Surveypicture
-from sitesurvey.survey.forms import SurveyForm
+from sitesurvey.survey.forms import SurveyForm, WorkorderForm
 from sitesurvey.survey.utils import save_picture
 from sitesurvey.user.models import Contactperson
 from sitesurvey.charger.models import Charger
@@ -113,4 +113,5 @@ def survey(survey_id):
 @bp_survey.route('/survey/create_workorder')
 @login_required
 def create_workorder():
-    return render_template('survey/create_workorder.html')
+    form = WorkorderForm()
+    return render_template('survey/create_workorder.html', form=form)
