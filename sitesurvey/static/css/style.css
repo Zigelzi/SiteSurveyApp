@@ -67,7 +67,6 @@ input[type=submit] {
   padding: 10px;
   display: block;
   margin: 10px auto;
-  max-width: 30%;
   border: none;
 }
 button:hover,
@@ -610,6 +609,8 @@ header {
 .input-box {
   padding-bottom: 20px;
   text-align: left;
+  margin-left: 23%;
+  margin-right: 10%;
   /* 
   Radio buttons are nested inside ul-li element. Label and imput styling need to be adjusted to
   get matching style with other input elements
@@ -620,12 +621,8 @@ header {
 .input-box select,
 .input-box textarea {
   display: block;
-  width: 67%;
+  width: 100%;
   /* Margin-left + width = 90% and rest 10% is margin-right */
-  margin-left: 23%;
-}
-.input-box button {
-  margin-left: 23%;
 }
 .input-box label {
   font-size: 1.25rem;
@@ -643,7 +640,6 @@ header {
 }
 .input-box ul {
   list-style: none;
-  margin-left: 23%;
 }
 .input-box ul li {
   display: inline-flex;
@@ -670,7 +666,6 @@ header {
 }
 .input-box .slider-checkbox {
   position: relative;
-  margin-left: 23%;
 }
 .input-box .slider-checkbox input {
   position: absolute;

@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="content">
+    <form action="" method="POST" enctype="multipart/form-data">
+        
+        <!-- Customer form -->
+        <div class="grey-container survey-form">
+            <div class="survey-header">
+                <img class="svg-icon" src="{{ url_for('static', filename='img/icon_person.svg') }}" alt="person icon">
+                <legend>Customer</legend>
+            </div>
+            <div class="input-box">
+                <label for="">Customer</label>
+                <p>Customer name example</p>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
