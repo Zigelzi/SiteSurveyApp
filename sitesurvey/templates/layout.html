@@ -30,6 +30,9 @@
                     <li class="{% if active=='create_survey' %}active-nav{% endif %}">
                         <a href="{{ url_for('survey.create_survey') }}">Create survey</a>
                     </li>
+                    <li class="{% if active=='create_survey' %}active-nav{% endif %}">
+                        <a href="{{ url_for('survey.create_workorder') }}">Create work order</a>
+                    </li>
                     <li class="">
                         <a href="{{ url_for('user.users') }}">Users</a>
                     </li>
