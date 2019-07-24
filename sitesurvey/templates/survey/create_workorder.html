@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
 
+{% block javascript %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/workorder.js') }}" defer></script>
+{% endblock %}
+
 {% block content %}
 <div class="content">
     <div class="grey-container survey-form">
@@ -67,7 +71,7 @@
         </div>
     </div>
     <div class="grey-container">
-        <table>
+        <table id="productTable">
             <thead>
                 <tr>
                     <th>#</th>
@@ -79,7 +83,7 @@
                     <th>Total</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="productBody">
                 <tr>
                     <td>1</td>
                     <td>CND-1000</td>
@@ -92,12 +96,12 @@
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td><input type="text"></td>
+                    <td><input type="text" id="productField" list="productList"></td>
                     <td>Example product</td>
-                    <td><input type="text"></td>
+                    <td><input type="number" id="amountField"></td>
                     <td>pcs</td>
-                    <td>1 200,25 €</td>
-                    <td>2 400,50 €</td>
+                    <td>1 200,25</td>
+                    <td class="totalColumn">2 400,50</td>
                     <td>TB</td>
                 </tr>
             </tbody>
@@ -108,6 +112,7 @@
                 </tr>
             </tfoot>
         </table>
+        <datalist id="productList"></datalist>
     </div>
 </div>
 {% endblock %}
