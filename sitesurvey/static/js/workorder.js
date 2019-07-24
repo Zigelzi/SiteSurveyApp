@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const productField = document.getElementById('productField')
     const amountField = document.getElementById('amountField');
     const productBody = document.getElementById('productBody');
+    const addTableRow = document.getElementById('addTableRow');
 
     /* Create MutationObserver to observe changes in productBody for calculating
      the order total*/ 
@@ -56,6 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (productList[i].value === productNo) {
                 // Take the full product data from JSON response
                 fillTableData(tableRow, productNo);
+                break;
+            } else {
+                // If the inputted productNo is not in the list zero the values
+                tableRow.children[2].textContent = "-"; 
+                tableRow.children[5].textContent = "-";  
             }
         }
     }
@@ -76,26 +82,41 @@ document.addEventListener('DOMContentLoaded', () => {
         let tableRow = event.target.parentElement.parentElement;
         let amount = parseInt(event.target.value);
         let price = parseFloat(tableRow.children[5].textContent.replace(",",".").replace(' ',''));
-        let totalTd = tableRow.children[6];
-        totalTd.textContent = amount * price + " €";
+        let rowTotalTd = tableRow.children[6];
+        if (amount >= 0) {
+            rowTotalTd.textContent = amount * price + " €";
+        } else {
+            rowTotalTd.textContent = 0;
+        }
     }
 
     // Calculate the complete order total to tfoot
     function tableTotal(mutations) {
+        const tableTotalTd = document.getElementById('tableTotalTd')
+        let totalSum = 0;
         mutations.forEach(function(mutation) {
             if (mutation.target.className === 'totalColumn') {
                 const productBody = mutation.target.parentElement.parentElement;
                 for (let i = 0; i < productBody.children.length; i++) {
-                    console.log(`Value of total column: ${productBody.children[i].children[6].textContent}`);
-                    // TODO: Calculate the total value and change the tfoot total value correspondingly.
+                    totalSum += parseFloat(productBody.children[i].children[6].textContent.replace(",",".").replace(' ',''));
                 }
             }       
         });
+        tableTotalTd.textContent = totalSum + " €";
     }
 
-    
+    function addRow(event) {
+        const tableRow = event.target;
+        let newRow = document.createElement('tr')
+        let newColumn = document.createElement('td')
+        newRow.appendChild(newColumn);
+        productBody.appendChild(newRow);
+        console.log(tableRow);
+    }
 
     addSuggestions()
     productField.addEventListener('input', onDatalistInput);
+    productField.addEventListener('input', rowTotal);
     amountField.addEventListener('input', rowTotal);
+    addTableRow.addEventListener('click', addRow)
 })
