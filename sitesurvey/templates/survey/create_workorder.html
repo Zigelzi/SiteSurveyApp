@@ -86,23 +86,53 @@
             <tbody id="productBody">
                 <tr>
                     <td>1</td>
-                    <td>CND-1000</td>
-                    <td>Example product</td>
-                    <td>2</td>
-                    <td>pcs</td>
-                    <td>1 200,25 €</td>
-                    <td>2 400,50 €</td>
-                    <td>TB</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><input type="text" id="productField" list="productList"></td>
+                    <td><input type="text" class="productField" list="productList"></td>
                     <td></td>
-                    <td><input type="number" id="amountField"></td>
+                    <td><input type="number" class="amountField"></td>
                     <td>pcs</td>
                     <td></td>
                     <td class="totalColumn"></td>
-                    <td>TB</td>
+                    <td><img class="icon-small" src="{{ url_for('static', filename='img/icon_trash.svg') }}" alt="Trash bin icon"></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><input type="text" class="productField" list="productList"></td>
+                    <td></td>
+                    <td><input type="number" class="amountField"></td>
+                    <td>pcs</td>
+                    <td></td>
+                    <td class="totalColumn"></td>
+                    <td><img class="icon-small" src="{{ url_for('static', filename='img/icon_trash.svg') }}" alt="Trash bin icon"></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><input type="text" class="productField" list="productList"></td>
+                    <td></td>
+                    <td><input type="number" class="amountField"></td>
+                    <td>pcs</td>
+                    <td></td>
+                    <td class="totalColumn"></td>
+                    <td><img class="icon-small" src="{{ url_for('static', filename='img/icon_trash.svg') }}" alt="Trash bin icon"></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><input type="text" class="productField" list="productList"></td>
+                    <td></td>
+                    <td><input type="number" class="amountField"></td>
+                    <td>pcs</td>
+                    <td></td>
+                    <td class="totalColumn"></td>
+                    <td><img class="icon-small" src="{{ url_for('static', filename='img/icon_trash.svg') }}" alt="Trash bin icon"></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td><input type="text" class="productField" list="productList"></td>
+                    <td></td>
+                    <td><input type="number" class="amountField"></td>
+                    <td>pcs</td>
+                    <td></td>
+                    <td class="totalColumn"></td>
+                    <td><img class="icon-small" src="{{ url_for('static', filename='img/icon_trash.svg') }}" alt="Trash bin icon"></td>
                 </tr>
             </tbody>
             <tfoot>
@@ -111,7 +141,7 @@
                 </tr>
                 <tr>
                     <th scope="row" colspan="6">Order total</th>
-                    <td id="tableTotalTd">2 400,50 €</td>
+                    <td id="tableTotalTd"></td>
                 </tr>
             </tfoot>
         </table>

@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const productField = document.getElementById('productField')
-    const amountField = document.getElementById('amountField');
+    const productField = document.getElementsByClassName('productField')
+    const amountField = document.getElementsByClassName('amountField');
     const productBody = document.getElementById('productBody');
     const addTableRow = document.getElementById('addTableRow');
 
@@ -97,8 +97,12 @@ document.addEventListener('DOMContentLoaded', () => {
         mutations.forEach(function(mutation) {
             if (mutation.target.className === 'totalColumn') {
                 const productBody = mutation.target.parentElement.parentElement;
+                let totalCellValue
                 for (let i = 0; i < productBody.children.length; i++) {
-                    totalSum += parseFloat(productBody.children[i].children[6].textContent.replace(",",".").replace(' ',''));
+                    totalCellValue = productBody.children[i].children[6].textContent
+                    if (totalCellValue != "") {
+                        totalSum += parseFloat(productBody.children[i].children[6].textContent.replace(",",".").replace(' ',''));
+                    }
                 }
             }       
         });
@@ -107,16 +111,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function addRow(event) {
         const tableRow = event.target;
-        let newRow = document.createElement('tr')
+        const newRow = document.createElement('tr')
         let newColumn = document.createElement('td')
-        newRow.appendChild(newColumn);
+        const textInput = document.createElement('input')
+        const numberInput = document.createElement('input')
+        const columnCount = productBody.children[0].childElementCount;
+
+        // Set the input attributes and classes
+        textInput.type = "text";
+        numberInput.type = "number";
+
+        // Adding the input elements to td elements
+        for (let i = 0; i < columnCount; i++) {
+            // Add additional elements and attributes to selected columns
+            if (i === 1) {
+                newColumn.appendChild(textInput);
+                newColumn.addEventListener('input', onDatalistInput);
+                newColumn.addEventListener('input', rowTotal);
+            } 
+            if (i === 3) {
+                newColumn.appendChild(numberInput);
+                newColumn.addEventListener('input', rowTotal)
+            }
+            if (i === 6) {
+                newColumn.className = "totalColumn"
+            }
+            newRow.appendChild(newColumn);
+                        
+        }
         productBody.appendChild(newRow);
         console.log(tableRow);
     }
 
     addSuggestions()
-    productField.addEventListener('input', onDatalistInput);
-    productField.addEventListener('input', rowTotal);
-    amountField.addEventListener('input', rowTotal);
+    for (let i = 0; i < productField.length; i++) {
+        productField[i].addEventListener('input', onDatalistInput);
+        productField[i].addEventListener('input', rowTotal);
+    }
+    for (let i = 0; i < amountField.length; i++) {
+        amountField[i].addEventListener('input', rowTotal);
+    }
     addTableRow.addEventListener('click', addRow)
 })
