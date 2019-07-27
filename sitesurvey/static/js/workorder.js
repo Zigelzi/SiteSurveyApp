@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const productField = document.getElementsByClassName('productField')
+    const productField = document.getElementsByClassName('productField');
     const amountField = document.getElementsByClassName('amountField');
+    const deleteRow = document.getElementsByClassName('deleteRow');
     const productBody = document.getElementById('productBody');
     const addTableRow = document.getElementById('addTableRow');
 
@@ -72,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (testJSON.products[i].productno === productNo) {
                 let prodInfo = testJSON.products[i];
                 tableRowElement.children[2].textContent = prodInfo.manufacturer + " " + prodInfo.model;
-                tableRowElement.children[5].textContent = prodInfo.price;
+                tableRowElement.children[5].textContent = prodInfo.price + " €";
             }
         }
     }
@@ -86,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (amount >= 0) {
             rowTotalTd.textContent = amount * price + " €";
         } else {
-            rowTotalTd.textContent = 0;
+            rowTotalTd.textContent = 0 + " €";
         }
     }
 
@@ -94,7 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function tableTotal(mutations) {
         const tableTotalTd = document.getElementById('tableTotalTd')
         let totalSum = 0;
+
+        // Looping through all the happened mutations and performing task based on mutation target
         mutations.forEach(function(mutation) {
+            // If total column sum changes (changed product or amount), recalculate the total order sum in tfoot.
             if (mutation.target.className === 'totalColumn') {
                 const productBody = mutation.target.parentElement.parentElement;
                 let totalCellValue
@@ -104,43 +108,93 @@ document.addEventListener('DOMContentLoaded', () => {
                         totalSum += parseFloat(productBody.children[i].children[6].textContent.replace(",",".").replace(' ',''));
                     }
                 }
-            }       
+            }
+            // If table rows get removed redo the running numbering of rows
+            if (mutation.removedNodes.length !== 0) {
+                if (mutation.removedNodes[0].nodeName === 'TR') {
+                    const tableRows = productBody.children;
+                    // Loop though all the rows
+                    for (let i = 0; i < productBody.childElementCount; i++) {
+                        // Replace the first td (index = 0) value with running numbering
+                        tableRows[i].children[0].textContent = i + 1;
+                    }
+                }  
+            }
+                 
         });
         tableTotalTd.textContent = totalSum + " €";
     }
 
-    function addRow(event) {
-        const tableRow = event.target;
-        const newRow = document.createElement('tr')
-        let newColumn = document.createElement('td')
-        const textInput = document.createElement('input')
-        const numberInput = document.createElement('input')
-        const columnCount = productBody.children[0].childElementCount;
+    function addRow() {
+        const newRow = document.createElement('tr');
+        let columnCount;
+        let lastRowNo;
+        let cellText;  
 
-        // Set the input attributes and classes
-        textInput.type = "text";
-        numberInput.type = "number";
-
-        // Adding the input elements to td elements
+        // Check if there's existing rows in the table. If not, then create first row
+        if (productBody.children.length === 0) {
+            columnCount = 8;
+            lastRowNo = 0;
+        } else {
+            columnCount = productBody.children[0].childElementCount;
+            // Get the previous rows number (# column)
+            lastRowNo = parseInt(productBody.lastElementChild.firstElementChild.textContent);
+        }
+              
+        // Creating the td elements and their contents
         for (let i = 0; i < columnCount; i++) {
+            let newCell = document.createElement('td');
+            
+            if (i === 0) {
+                // Add current row number (previous row + 1)
+                cellText = document.createTextNode(lastRowNo + 1);
+                newCell.appendChild(cellText);
+            }
             // Add additional elements and attributes to selected columns
             if (i === 1) {
-                newColumn.appendChild(textInput);
-                newColumn.addEventListener('input', onDatalistInput);
-                newColumn.addEventListener('input', rowTotal);
+                const textInput = document.createElement('input');
+                const productList = document.getElementById('productList').id;
+                textInput.type = "text";
+                textInput.setAttribute('list', productList);
+                newCell.appendChild(textInput);
+                newCell.addEventListener('input', onDatalistInput);
+                newCell.addEventListener('input', rowTotal);
             } 
             if (i === 3) {
-                newColumn.appendChild(numberInput);
-                newColumn.addEventListener('input', rowTotal)
+                const numberInput = document.createElement('input')
+                numberInput.type = "number";
+                newCell.appendChild(numberInput);
+                newCell.addEventListener('input', rowTotal);
+            }
+            if (i === 4) {
+                cellText = document.createTextNode('pcs');
+                newCell.appendChild(cellText);
             }
             if (i === 6) {
-                newColumn.className = "totalColumn"
+                newCell.className = "totalColumn";
             }
-            newRow.appendChild(newColumn);
+            if (i === 7) {
+                const trashIcon = document.createElement('img');
+                trashIcon.src = '/static/img/icon_trash.svg';
+                trashIcon.alt = 'Trash bin icon';
+                trashIcon.className = 'icon-small';
+                newCell.appendChild(trashIcon);
+                newCell.addEventListener('click', removeRow);
+                
+            }
+            newRow.appendChild(newCell);
                         
         }
         productBody.appendChild(newRow);
-        console.log(tableRow);
+    }
+
+    // Callback to remove the clicked row
+    function removeRow(event) {
+        if (event.target.nodeName === 'IMG') {
+            const table = document.getElementById('productTable');
+            const row = event.target.parentElement.parentElement;
+            table.deleteRow(row.rowIndex);
+        } 
     }
 
     addSuggestions()
@@ -151,5 +205,9 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < amountField.length; i++) {
         amountField[i].addEventListener('input', rowTotal);
     }
+    for (let i = 0; i < deleteRow.length; i++) {
+        deleteRow[i].addEventListener('click', removeRow);
+    }
+
     addTableRow.addEventListener('click', addRow)
 })
