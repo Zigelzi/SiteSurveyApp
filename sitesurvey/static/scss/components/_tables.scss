@@ -1,0 +1,34 @@
+.productField,
+.amountField {
+    width: 100%;
+}
+
+#productTable {
+    thead {
+        /* Size the columns */
+        th:nth-child(1) {
+            width: 3%;
+        }
+        th:nth-child(2) {
+            width: 15%;
+        }
+        th:nth-child(3) {
+
+        }
+        th:nth-child(4) {
+            width: 10%;
+        }
+        th:nth-child(5) {
+            width: 5%;
+        }
+        th:nth-child(6) {
+            width: 15%;
+        }
+        th:nth-child(7) {
+            width: 15%;
+        }
+        th:nth-child(8) {
+            width: 3%;
+        }
+    }
+}

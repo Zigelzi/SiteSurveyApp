@@ -78,3 +78,20 @@ input[type=submit] {
     }
 }
 
+table {
+    /* Table layout fixed so table behaves more predictable and being able to size the
+    columns based on the th width */
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    thead {
+        tr {
+            background: $darkgrey;
+            margin-bottom: 15px;
+            th {
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+        }
+    }
+}

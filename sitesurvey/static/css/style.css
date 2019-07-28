@@ -74,6 +74,22 @@ input[type=submit]:hover {
   background-color: #d1d1d1;
 }
 
+table {
+  /* Table layout fixed so table behaves more predictable and being able to size the
+  columns based on the th width */
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+}
+table thead tr {
+  background: #c4c4c4;
+  margin-bottom: 15px;
+}
+table thead tr th {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 /* Document
    ========================================================================== */
@@ -742,6 +758,36 @@ header {
 .note-container .note-alert {
   background-color: #cc0000;
   color: #d1b5b5;
+}
+
+.productField,
+.amountField {
+  width: 100%;
+}
+
+#productTable thead {
+  /* Size the columns */
+}
+#productTable thead th:nth-child(1) {
+  width: 3%;
+}
+#productTable thead th:nth-child(2) {
+  width: 15%;
+}
+#productTable thead th:nth-child(4) {
+  width: 10%;
+}
+#productTable thead th:nth-child(5) {
+  width: 5%;
+}
+#productTable thead th:nth-child(6) {
+  width: 15%;
+}
+#productTable thead th:nth-child(7) {
+  width: 15%;
+}
+#productTable thead th:nth-child(8) {
+  width: 3%;
 }
 
 /*# sourceMappingURL=style.css.map */

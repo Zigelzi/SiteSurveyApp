@@ -61,8 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
             } else {
                 // If the inputted productNo is not in the list zero the values
-                tableRow.children[2].textContent = "-"; 
-                tableRow.children[5].textContent = "-";  
+                tableRow.children[2].textContent = "--"; 
+                tableRow.children[5].textContent = "--";  
             }
         }
     }
@@ -156,6 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const productList = document.getElementById('productList').id;
                 textInput.type = "text";
                 textInput.setAttribute('list', productList);
+                textInput.className = 'productField';
+                textInput.class
                 newCell.appendChild(textInput);
                 newCell.addEventListener('input', onDatalistInput);
                 newCell.addEventListener('input', rowTotal);
@@ -163,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (i === 3) {
                 const numberInput = document.createElement('input')
                 numberInput.type = "number";
+                numberInput.className = 'amountField';
                 newCell.appendChild(numberInput);
                 newCell.addEventListener('input', rowTotal);
             }
