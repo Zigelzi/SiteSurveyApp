@@ -3,6 +3,11 @@ from datetime import datetime
 from sitesurvey import db
 from sitesurvey.user.models import survey_contact_rel
 
+# Many-to-Many relationship table(s)
+product_category_rel = db.Table('product_category',
+                        db.Column('product_id', db.Integer, db.ForeignKey('product.id')),
+                         db.Column('product_category_id', db.Integer, db.ForeignKey('productcategory.id'))
+                         )
 
 class Survey(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -74,6 +79,7 @@ class Location(db.Model):
 
 class Workorder(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(30), nullable=False)
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     update_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     requested_date = db.Column(db.DateTime) # Requested delivery date when the project is ready
@@ -84,7 +90,10 @@ class Workorder(db.Model):
     org_id = db.Column(db.Integer, db.ForeignKey('organization.id'))
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
 
-class LineItems(db.Model):
+    def __repr__(self):
+        return f'Workorder <{self.id} | {self.title}'
+
+class Lineitem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     discount = db.Column(db.Decimal, default=0.00)
     quantity = db.Column(db.Integer, nullable=False)
@@ -94,7 +103,7 @@ class LineItems(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
     workorder_id = db.Column(db.Integer, db.ForeignKey('workorder.id'))
 
-class Products(db.Model):
+class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     product_number = db.Column(db.String(8), nullable=False, unique=True)
     product_name = db.Column(db.String(30), nullable=False)
@@ -102,14 +111,8 @@ class Products(db.Model):
     price = db.Column(db.Float(), nullable=False)
     #category = TODO: Add product categories and link the many-to-many tables
 
-"""
 class Productcategory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    TODO: Add rest of the column
+    title = db.Column(db.String(40), nullable=False, unique=True)
+    description = db.Column(db.String(255), nullable=False)
 
-product_category_rel = db.Table('product_category',
-                        db.Column('product_id', db.Integer, db.ForeignKey('product.id')),
-                         db.Column('product_category_id', db.Integer, db.ForeignKey('productcategory.id'))
-                         )
-
-"""
