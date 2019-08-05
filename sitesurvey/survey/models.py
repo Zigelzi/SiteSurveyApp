@@ -55,3 +55,61 @@ class Surveypicture(db.Model):
 
     # Foreign keys
     survey_id = db.Column(db.Integer, db.ForeignKey('survey.id'))
+
+class Location(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    address = db.Column(db.String(100), nullable=False)
+    postal_code = db.Column(db.String(10), nullable=False)
+    city = db.Column(db.String(30), nullable=False)
+    country = db.Column(db.String(30), nullable=False)
+    coordinate_lat = db.Column(db.Float)
+    coordinate_long = db.Column(db.Float)
+
+    # Backref to Workorder table
+    workorders = db.relationship('Workorder', backref='location', lazy=True)
+
+    def __repr__(self):
+        return f'Location <{self.name} | {self.address} | {self.postal_code} | {self.city} | {self.country}>'
+
+class Workorder(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    create_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    update_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    requested_date = db.Column(db.DateTime) # Requested delivery date when the project is ready
+    ready_date = db.Column(db.DateTime) # When the project was actually ready
+    status = db.Column(db.String(30), nullable=False, default='created')
+
+    # Foreign keys
+    org_id = db.Column(db.Integer, db.ForeignKey('organization.id'))
+    location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
+
+class LineItems(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    discount = db.Column(db.Decimal, default=0.00)
+    quantity = db.Column(db.Integer, nullable=False)
+    total = db.Column(db.Float, nullable=False)
+
+    # Foreign keys
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
+    workorder_id = db.Column(db.Integer, db.ForeignKey('workorder.id'))
+
+class Products(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    product_number = db.Column(db.String(8), nullable=False, unique=True)
+    product_name = db.Column(db.String(30), nullable=False)
+    unit_of_material = db.Column(db.String(8), nullable=False, default='pcs')
+    price = db.Column(db.Float(), nullable=False)
+    #category = TODO: Add product categories and link the many-to-many tables
+
+"""
+class Productcategory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    TODO: Add rest of the column
+
+product_category_rel = db.Table('product_category',
+                        db.Column('product_id', db.Integer, db.ForeignKey('product.id')),
+                         db.Column('product_category_id', db.Integer, db.ForeignKey('productcategory.id'))
+                         )
+
+"""
