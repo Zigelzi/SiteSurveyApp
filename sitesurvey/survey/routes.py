@@ -1,11 +1,11 @@
-from flask import Blueprint, render_template, redirect, flash, url_for
+from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import current_user, login_required
 
 import sys
 
 from sitesurvey import db
-from sitesurvey.survey.models import Survey, Surveypicture
-from sitesurvey.survey.forms import SurveyForm, WorkorderForm
+from sitesurvey.survey.models import Survey, Surveypicture, Location, Workorder
+from sitesurvey.survey.forms import SurveyForm, WorkorderForm, LocationForm
 from sitesurvey.survey.utils import save_picture
 from sitesurvey.user.models import Contactperson
 from sitesurvey.charger.models import Charger
@@ -115,3 +115,30 @@ def survey(survey_id):
 def create_workorder():
     form = WorkorderForm()
     return render_template('survey/create_workorder.html', form=form)
+
+@bp_survey.route('/survey/create_location', methods=["GET", "POST"])
+@login_required
+def create_location():
+    form = LocationForm()
+    
+    if form.validate_on_submit() and request.method == 'POST':
+        location = Location(name=form.location_name.data,
+                            address=form.address.data,
+                            postal_code=form.postal_code.data,
+                            city=form.city.data,
+                            country=form.country.data,
+                            coordinate_lat=form.coordinate_lat.data,
+                            coordinate_long=form.coordinate_long.data)
+        print('Location submitted successfully!')
+        print(location)
+        db.session.add(location)
+        db.session.commit()
+        flash(f'Location created successfully!', 'success')
+        return redirect(url_for('survey.location', location_id=location.id))
+    return render_template('survey/create_location.html', title='Create location', form=form)
+
+@bp_survey.route('/survey/location/<int:location_id>')
+@login_required
+def location(location_id):
+    location = Location.query.get_or_404(location_id)
+    return render_template('survey/location.html', location=location)

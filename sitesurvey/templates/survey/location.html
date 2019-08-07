@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="grey-container">
+    <h1>{{ location.name }}</h1>
+    <p> {{ location.address }} {{ location.postal_code }} {{ location.city }}, {{ location.country }}</p>
+    <h4>Coordinates</h4>
+    <p>Lat: {{ location.coordinate_lat }}</p>
+    <p>Long: {{ location.coordinate_long }}</p>
+</div>
+
+{% endblock %}

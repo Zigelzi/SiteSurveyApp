@@ -2,6 +2,7 @@ from datetime import datetime
 
 from sitesurvey import db
 from sitesurvey.user.models import survey_contact_rel
+from sitesurvey.charger.models import Product, Productcategory
 
 # Many-to-Many relationship table(s)
 product_category_rel = db.Table('product_category',
@@ -13,26 +14,11 @@ class Survey(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     update_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    requested_date = db.Column(db.DateTime) # Requested delivery date when the project is ready
-    ready_date = db.Column(db.DateTime) # When the project was actually ready
     status = db.Column(db.String(30), nullable=False, default='created')
 
-    # Location related information
-    name = db.Column(db.String(100), nullable=False)
-    address = db.Column(db.String(100), nullable=False)
-    postal_code = db.Column(db.String(10), nullable=False)
-    city = db.Column(db.String(30), nullable=False)
-    country = db.Column(db.String(30), nullable=False)
-    coordinate_lat = db.Column(db.Float)
-    coordinate_long = db.Column(db.Float)
-
-    # Charger related information
-    number_of_chargers = db.Column(db.Integer, nullable=False)
-    cp_charging_power = db.Column(db.Float, nullable=False)
+    # Installation related information
     installation_method = db.Column(db.String(30), nullable=False)
     concrete_foundation = db.Column(db.Boolean)
-
-    # Installation related information
     grid_connection = db.Column(db.Integer)
     grid_cable = db.Column(db.String(15))
     max_power = db.Column(db.Float)
@@ -45,14 +31,15 @@ class Survey(db.Model):
 
     # Foreign keys to User model
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    charger_id = db.Column(db.Integer, db.ForeignKey('charger.id'))
+    workorder_id = db.Column(db.Integer, db.ForeignKey('workorder.id'))
+    location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
 
     # Table relationshipts and backrefs
     contact_person = db.relationship('Contactperson', secondary=survey_contact_rel, backref='surveys', lazy=True)
     pictures = db.relationship('Surveypicture', backref='survey', lazy=True)
 
     def __repr__(self):
-        return f'Survey <{self.id} | {self.name} | {self.address} | {self.postal_code} | {self.city}>'
+        return f'Survey <Survey ID {self.id} | Workorder ID {self.workorder_id}>'
 
 class Surveypicture(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -73,6 +60,7 @@ class Location(db.Model):
 
     # Backref to Workorder table
     workorders = db.relationship('Workorder', backref='location', lazy=True)
+    surveys = db.relationship('Survey', backref='location', lazy=True)
 
     def __repr__(self):
         return f'Location <{self.name} | {self.address} | {self.postal_code} | {self.city} | {self.country}>'
@@ -85,34 +73,39 @@ class Workorder(db.Model):
     requested_date = db.Column(db.DateTime) # Requested delivery date when the project is ready
     ready_date = db.Column(db.DateTime) # When the project was actually ready
     status = db.Column(db.String(30), nullable=False, default='created')
+    number_of_chargers = db.Column(db.Integer, nullable=False)
+    cp_charging_power = db.Column(db.Float, nullable=False)
 
     # Foreign keys
     org_id = db.Column(db.Integer, db.ForeignKey('organization.id'))
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
 
     def __repr__(self):
-        return f'Workorder <{self.id} | {self.title}'
+        return f'Workorder <{self.id} | {self.title} | Created {self.create_date} | Updated {self.update_date} | {self.status}>'
 
 class Lineitem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    discount = db.Column(db.Decimal, default=0.00)
+    discount = db.Column(db.DECIMAL(3,2), default=0.00)
     quantity = db.Column(db.Integer, nullable=False)
     total = db.Column(db.Float, nullable=False)
-
+    
     # Foreign keys
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
     workorder_id = db.Column(db.Integer, db.ForeignKey('workorder.id'))
 
-class Product(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    product_number = db.Column(db.String(8), nullable=False, unique=True)
-    product_name = db.Column(db.String(30), nullable=False)
-    unit_of_material = db.Column(db.String(8), nullable=False, default='pcs')
-    price = db.Column(db.Float(), nullable=False)
-    #category = TODO: Add product categories and link the many-to-many tables
+    def __repr__(self):
+        return f'LineItem <{self.id} | {self.quantity} | {self.total}>'
 
-class Productcategory(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(40), nullable=False, unique=True)
-    description = db.Column(db.String(255), nullable=False)
 
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    comment = db.Column(db.Text, nullable=False)
+    create_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    update_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    # Foreign keys
+    workorder_id = db.Column(db.Integer, db.ForeignKey('workorder.id'))
+
+    def __repr__(self):
+        return f'<Comment <{self.comment} | Created {self.create_date} | Updated {self.update_date}> '

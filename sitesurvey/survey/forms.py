@@ -9,15 +9,6 @@ from sitesurvey.charger.models import Charger
 
 
 class SurveyForm(FlaskForm):
-    # Query charger information from database and create SelectField tuples for every charger
-    # chargers = Charger.query.all()
-    # manufacturer_choices = []
-    # model_choices = []
-
-    # for charger in chargers:
-    #     manufacturer_choices.append(charger.manufacturer_choices())
-    #     model_choices.append(charger.model_choices())
-
     # Contact person selections
     first_name = StringField('First name', validators=[DataRequired(message=data_req_msg)])
     last_name = StringField('Last name', validators=[DataRequired(message=data_req_msg)])
@@ -37,8 +28,6 @@ class SurveyForm(FlaskForm):
                                               ('Sweden', 'Sweden'),
                                               ('Norway', 'Norway'),
                                               ('Germany', 'Germany')])
-    coordinate_lat = FloatField('Lateral coordinates')
-    coordinate_long = FloatField('Longitudal coordinates')
 
     # Charger selections
     dc_ac = SelectField('DC / AC', validators=[DataRequired(message=data_req_msg)],
@@ -116,15 +105,7 @@ class SurveyForm(FlaskForm):
 class WorkorderForm(FlaskForm):
     organization_name = StringField('Organization name')
 
-    location_name = StringField('Location name', validators=[DataRequired(message=data_req_msg)])
-    address = StringField('Address', validators=[DataRequired(message=data_req_msg)])
-    postal_code = StringField('Postal code', validators=[DataRequired(data_req_msg)])
-    city = StringField('City', validators=[DataRequired(message=data_req_msg)])
-    country = SelectField('Country', validators=[DataRequired(message=data_req_msg)],
-                                    choices=[('Finland', 'Finland'),
-                                            ('Sweden', 'Sweden'),
-                                            ('Norway', 'Norway'),
-                                            ('Germany', 'Germany')])
+    
 
     public_chargers = IntegerField('Number of public chargers', validators=[DataRequired(message=data_req_msg)])
     public_installation_location = TextAreaField('Installation location description')
@@ -138,5 +119,17 @@ class WorkorderForm(FlaskForm):
                                     choices=[('turnkey', 'Turn-key installation'),
                                              ('charger', 'Charger installation')])
 
-
+class LocationForm(FlaskForm):
+	location_name = StringField('Location name', validators=[DataRequired(message=data_req_msg)])
+	address = StringField('Address', validators=[DataRequired(message=data_req_msg)])
+	postal_code = StringField('Postal code', validators=[DataRequired(data_req_msg)])
+	city = StringField('City', validators=[DataRequired(message=data_req_msg)])
+	country = SelectField('Country', validators=[DataRequired(message=data_req_msg)],
+                                    choices=[('Finland', 'Finland'),
+                                            ('Sweden', 'Sweden'),
+                                            ('Norway', 'Norway'),
+                                            ('Germany', 'Germany')])
+	coordinate_lat = FloatField('Lateral coordinates')
+	coordinate_long = FloatField('Longitudal coordinates')
+	submit = SubmitField('Submit')
     
