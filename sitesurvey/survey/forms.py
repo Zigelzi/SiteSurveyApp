@@ -104,9 +104,6 @@ class SurveyForm(FlaskForm):
 
 class WorkorderForm(FlaskForm):
     organization_name = StringField('Organization name')
-
-    
-
     public_chargers = IntegerField('Number of public chargers', validators=[DataRequired(message=data_req_msg)])
     public_installation_location = TextAreaField('Installation location description')
     private_chargers = IntegerField('Number of private chargers', validators=[DataRequired(message=data_req_msg)])

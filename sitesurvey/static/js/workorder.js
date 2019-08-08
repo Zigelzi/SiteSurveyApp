@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(productBody, mutationConfig);
 
     // Test JSON. Replace this with AJAX-call from DB.
-    let testJSON = {"products": [
+    const testJSON = [
         {
             "productno":"cnd-1000",
             "manufacturer":"ensto",
@@ -28,28 +28,100 @@ document.addEventListener('DOMContentLoaded', () => {
             "model":"veefil",
             "price":30000
         }
-    ]}
+    ]
 
-    // Function for requesting list of product data from backend and creating datalist based on them
-    function addSuggestions() {
-        const productList = document.getElementById('productList');
+    const customerJSON = [
+        {
+            "org_name":"Example Ltd",
+            "org_number": "124567-8",
+            "address": "Example Str 1",
+            "postal_code": "00000",
+            "city": "Example",
+            "country": "Finland"
+        },
+        {
+            "org_name":"Markun Rengas Oy",
+            "org_number": "124567-1",
+            "address": "Markuntie 1",
+            "postal_code": "08500",
+            "city": "Lohja",
+            "country": "Finland"
+        }
+    ]
+
+    function innerFunc (arg1, arg2, arg3) {
+        console.log(`Got following arguments: ${arg1}, ${arg2}, ${arg3}`)
+    }
+    function testFunc(url, arg1, arg2, arg3) {
+        console.log(`Beep beep, sending data to ${url}`);
+        innerFunc(arg1, arg2, arg3);
+    }
+
+    /**
+     * Get the data from backend with XHR 
+     * @param {string} element Which element object the XHR eventhandler is attached
+     * @param {string} url target url where the data is fetched from
+     * @returns {Object} JSON object of the data received from backend
+    **/
+   function getDataAddSuggestions(url, elementId, dataKeyName) {
+        const xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const data = JSON.parse(xhr.responseText);
+                addSuggestions(elementId, data, dataKeyName);
+                console.log(`XHR ran for elementID ${elementId}`);
+                // console.log(data);
+                }
+            }
+        xhr.open('GET', url);
+        xhr.send();
+        }
+
+    /**  Function for parsing JSON object and creating <option> elements to the selected <datalist> element
+     * @param {string} elementId Target <datalist> element ID where <option> elements will be appended
+     * @param {Object} jsonData JSON data which will be parsed to <option> elements
+     * @param {string} keyName Key name in the JSON data where the array of Objects are
+     * @param {string} dataKeyName Key name which will be used as the value attribute of <option> element
+     * 
+    **/
+    function addSuggestions(elementId, jsonData, dataKeyName) {
+        const dataList = document.getElementById(elementId);
 
         // TODO: Request the product list from DB
-        let response = testJSON;
+        let response = jsonData;
 
-        // Clear the previous suggestions from productList
-        productList.innerHTML = "";
+        // Clear the previous suggestions from dataList
+        dataList.innerHTML = "";
 
-        response.products.forEach(item => {
-            // Create new <option> element and append it to productList
+        console.log(response);
+
+        response.forEach(item => {
+            // Create new <option> element and append it to dataList
             let option = document.createElement('option');
-            option.value = item.productno;
-            productList.appendChild(option);
+            option.value = item[dataKeyName];
+            dataList.appendChild(option);
         });
     }
 
+    function validateDatalistInput(inputElementId, datalistId) {
+        const input = document.getElementById(inputElementId);
+        const datalist = document.getElementById(datalistId);
+
+        // If the input is in the datalist then submit the form
+        for (let element of datalist.children) {
+            if (element.value === input.value) {
+                console.log(element.value + 'in datalist')
+                return true;
+            }
+        }
+
+        console.log(input.value + 'is not found from the list')
+        return false;
+    }
+
     // Check that user has selected input that is in Datalist
-    function onDatalistInput(event) {
+    function validateTableDataInput(event) {
         let tableRow = event.target.parentElement.parentElement;
         let productNo = event.target.value;
         const productList = document.getElementById('productList').childNodes;
@@ -57,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < productList.length; i++) {
             if (productList[i].value === productNo) {
                 // Take the full product data from JSON response
-                fillTableData(tableRow, productNo);
+                fillTableData(tableRow, productNo, testJSON);
                 break;
             } else {
                 // If the inputted productNo is not in the list zero the values
@@ -67,11 +139,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Take the full product data from JSON and add the information to table row.
-    function fillTableData(tableRowElement, productNo) {
-        for (let i = 0; i < testJSON.products.length; i++) {
-            if (testJSON.products[i].productno === productNo) {
-                let prodInfo = testJSON.products[i];
+    function fillTableData(tableRowElement, productNo, productJson) {
+        // Take the full product data from JSON and add the information to table row.
+        for (let i = 0; i < productJson.length; i++) {
+            if (productJson[i].productno === productNo) {
+                let prodInfo = productJson[i];
                 tableRowElement.children[2].textContent = prodInfo.manufacturer + " " + prodInfo.model;
                 tableRowElement.children[5].textContent = prodInfo.price + " €";
             }
@@ -159,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 textInput.className = 'productField';
                 textInput.class
                 newCell.appendChild(textInput);
-                newCell.addEventListener('input', onDatalistInput);
+                newCell.addEventListener('input', validateTableDataInput);
                 newCell.addEventListener('input', rowTotal);
             } 
             if (i === 3) {
@@ -200,9 +272,12 @@ document.addEventListener('DOMContentLoaded', () => {
         } 
     }
 
-    addSuggestions()
+    addSuggestions('productList', testJSON, 'productno')
+    addSuggestions('customerList', customerJSON, 'org_name')
+    getDataAddSuggestions('/api/locations', 'locationList', 'address');
+
     for (let i = 0; i < productField.length; i++) {
-        productField[i].addEventListener('input', onDatalistInput);
+        productField[i].addEventListener('input', validateTableDataInput);
         productField[i].addEventListener('input', rowTotal);
     }
     for (let i = 0; i < amountField.length; i++) {

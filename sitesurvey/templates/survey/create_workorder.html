@@ -12,8 +12,9 @@
             <legend>Customer</legend>
         </div>
         <div class="input-box">
-            {{ form.organization_name.label }}
-            {{ form.organization_name }}
+            <label for="customer">Customer name</label>
+            <input type="text" name="customer" id="orgInput" list="customerList">
+            <datalist id="customerList"></datalist>
             <label for="">Contact person</label>
             <p>Firstname Lastname</p>
             <p>Phonenumber</p>
@@ -27,16 +28,13 @@
             <legend>Location</legend>
         </div>
         <div class="input-box">
-            {{ form.location_name.label }}
-            {{ form.location_name }}
-            {{ form.address.label }}
-            {{ form.address }}
-            {{ form.postal_code.label }}
-            {{ form.postal_code }}
-            {{ form.city.label }}
-            {{ form.city }}
-            {{ form.country.label }}
-            {{ form.country }}
+            <label for="location">Location</label>
+            <input type="text" name="location" id="orgInput" list="locationList">
+            <datalist id="locationList"></datalist>
+            <button id="loc-test">Fetch data</button>
+        </div>
+        <div class="input-box">
+            Location information
         </div>
     </div>
     <div class="grey-container survey-form">
