@@ -58,10 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Get the data from backend with XHR 
-     * @param {string} element Which element object the XHR eventhandler is attached
+     * Get the data from backend with XHR and run the addSuggestion function to create <datalist> elements
      * @param {string} url target url where the data is fetched from
-     * @returns {Object} JSON object of the data received from backend
+     * @param {string} elementId Target <datalist> element ID where <option> elements will be appended
+     * @param {Object} jsonData JSON data which will be parsed to <option> elements
+     * @param {string} dataKeyName Key name which will be used as the value attribute of <option> element
     **/
    function getDataAddSuggestions(url, elementId, dataKeyName) {
         const xhr = new XMLHttpRequest();
@@ -71,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = JSON.parse(xhr.responseText);
                 addSuggestions(elementId, data, dataKeyName);
                 console.log(`XHR ran for elementID ${elementId}`);
-                // console.log(data);
                 }
             }
         xhr.open('GET', url);
@@ -81,20 +81,15 @@ document.addEventListener('DOMContentLoaded', () => {
     /**  Function for parsing JSON object and creating <option> elements to the selected <datalist> element
      * @param {string} elementId Target <datalist> element ID where <option> elements will be appended
      * @param {Object} jsonData JSON data which will be parsed to <option> elements
-     * @param {string} keyName Key name in the JSON data where the array of Objects are
      * @param {string} dataKeyName Key name which will be used as the value attribute of <option> element
      * 
     **/
     function addSuggestions(elementId, jsonData, dataKeyName) {
         const dataList = document.getElementById(elementId);
-
-        // TODO: Request the product list from DB
         let response = jsonData;
 
         // Clear the previous suggestions from dataList
         dataList.innerHTML = "";
-
-        console.log(response);
 
         response.forEach(item => {
             // Create new <option> element and append it to dataList
@@ -104,6 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /** Validate that the users value entered to inputElementId is in the datalistId and then submit form
+     * 
+     * @param {string} inputElementId ElementID of the <input> element that user enters the value
+     * @param {string} datalistId ElementID of the <datalist> element that the inputElementId is compared to
+     */
     function validateDatalistInput(inputElementId, datalistId) {
         const input = document.getElementById(inputElementId);
         const datalist = document.getElementById(datalistId);
@@ -115,7 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return true;
             }
         }
-
         console.log(input.value + 'is not found from the list')
         return false;
     }
@@ -176,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let totalCellValue
                 for (let i = 0; i < productBody.children.length; i++) {
                     totalCellValue = productBody.children[i].children[6].textContent
-                    if (totalCellValue != "") {
+                    if (totalCellValue != "--" && totalCellValue != "NaN €") {
                         totalSum += parseFloat(productBody.children[i].children[6].textContent.replace(",",".").replace(' ',''));
                     }
                 }
@@ -206,50 +205,52 @@ document.addEventListener('DOMContentLoaded', () => {
         // Check if there's existing rows in the table. If not, then create first row
         if (productBody.children.length === 0) {
             columnCount = 8;
-            lastRowNo = 0;
+            lastRowNo = 1;
         } else {
             columnCount = productBody.children[0].childElementCount;
             // Get the previous rows number (# column)
             lastRowNo = parseInt(productBody.lastElementChild.firstElementChild.textContent);
+            lastRowNo += 1;
         }
               
         // Creating the td elements and their contents
         for (let i = 0; i < columnCount; i++) {
             let newCell = document.createElement('td');
+            newCell.textContent = '--'
             
             if (i === 0) {
                 // Add current row number (previous row + 1)
-                cellText = document.createTextNode(lastRowNo + 1);
-                newCell.appendChild(cellText);
+                newCell.textContent = lastRowNo 
+                //cellText = document.createTextNode(lastRowNo + 1);
+                //newCell.appendChild(cellText);
             }
             // Add additional elements and attributes to selected columns
             if (i === 1) {
                 const textInput = document.createElement('input');
                 const productList = document.getElementById('productList').id;
+                newCell.textContent = ''
                 textInput.type = "text";
                 textInput.setAttribute('list', productList);
                 textInput.className = 'productField';
-                textInput.class
                 newCell.appendChild(textInput);
                 newCell.addEventListener('input', validateTableDataInput);
                 newCell.addEventListener('input', rowTotal);
             } 
             if (i === 3) {
                 const numberInput = document.createElement('input')
+                newCell.textContent = ''
                 numberInput.type = "number";
                 numberInput.className = 'amountField';
                 newCell.appendChild(numberInput);
                 newCell.addEventListener('input', rowTotal);
             }
-            if (i === 4) {
-                cellText = document.createTextNode('pcs');
-                newCell.appendChild(cellText);
-            }
             if (i === 6) {
+                newCell.textContent = '--'
                 newCell.className = "totalColumn";
             }
             if (i === 7) {
                 const trashIcon = document.createElement('img');
+                newCell.textContent = ''
                 trashIcon.src = '/static/img/icon_trash.svg';
                 trashIcon.alt = 'Trash bin icon';
                 trashIcon.className = 'icon-small';
@@ -257,8 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 newCell.addEventListener('click', removeRow);
                 
             }
-            newRow.appendChild(newCell);
-                        
+            newRow.appendChild(newCell);                 
         }
         productBody.appendChild(newRow);
     }
@@ -286,6 +286,5 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < deleteRow.length; i++) {
         deleteRow[i].addEventListener('click', removeRow);
     }
-
     addTableRow.addEventListener('click', addRow)
 })
