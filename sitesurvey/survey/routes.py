@@ -8,7 +8,7 @@ from sitesurvey.survey.models import Survey, Surveypicture, Location, Workorder
 from sitesurvey.survey.forms import SurveyForm, WorkorderForm, LocationForm
 from sitesurvey.survey.utils import save_picture
 from sitesurvey.user.models import Contactperson
-from sitesurvey.charger.models import Charger
+from sitesurvey.product.models import Charger
 
 bp_survey = Blueprint('survey', __name__)
 

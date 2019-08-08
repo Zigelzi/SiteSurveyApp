@@ -5,7 +5,7 @@ from wtforms import (StringField, SelectField, FloatField, BooleanField, DateTim
 from wtforms.validators import DataRequired, Email
 
 from sitesurvey import data_req_msg
-from sitesurvey.charger.models import Charger
+from sitesurvey.product.models import Charger
 
 
 class SurveyForm(FlaskForm):

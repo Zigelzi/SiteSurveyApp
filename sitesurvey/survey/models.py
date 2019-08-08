@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sitesurvey import db
 from sitesurvey.user.models import survey_contact_rel
-from sitesurvey.charger.models import Product, Productcategory
+from sitesurvey.product.models import Product, Productcategory
 
 # Many-to-Many relationship table(s)
 product_category_rel = db.Table('product_category',
