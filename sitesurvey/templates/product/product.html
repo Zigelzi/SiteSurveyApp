@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="grey-container">
+    <h1>{{ product.product_name }} </h1>
+    <p>Product number: <span></span>{{ product.product_number }}</p>
+    <p>Unit of material: <span></span>{{ product.unit_of_material }}</p>
+    <p>Price:<span></span>{{ product.price }} €</p>
+    <p>Product category: <span></span>{{ product.product_category }}</p>
+</div>
+
+{% endblock %}

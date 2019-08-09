@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="content">
+    <div class="grey-container survey-form">
+        <form action="" class="survey-form", method="POST">
+            {{ form.hidden_tag() }}
+            <fieldset>
+                <legend>Add new product</legend>
+                <div class="input-box">
+                    {{ form.product_number.label }}
+                    {{ form.product_number(placeholder="cnd-1000") }}
+                    {% if form.product_number.errors %}
+                        <div class="error">
+                            {% for error in form.product_number.errors %}
+                                <span>
+                                    {{ error }}
+                               </span>
+                           {% endfor %}
+                       </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.product_name.label }}
+                    {{ form.product_name(placeholder="Product xyz") }}
+                    {% if form.product_name.errors %}
+                        <div class="error">
+                            {% for error in form.product_name.errors %}
+                                <span>
+                                    {{ error }}
+                               </span>
+                           {% endfor %}
+                       </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.unit_of_material.label }}
+                    {{ form.unit_of_material(placeholder="pcs") }}
+                    {% if form.unit_of_material.errors %}
+                        <div class="error">
+                            {% for error in form.unit_of_material.errors %}
+                                <span>
+                                    {{ error }}
+                               </span>
+                           {% endfor %}
+                       </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.price.label }}
+                    {{ form.price(placeholder="2 999") }}
+                    {% if form.price.errors %}
+                        <div class="error">
+                            {% for error in form.price.errors %}
+                                <span>
+                                    {{ error }}
+                               </span>
+                           {% endfor %}
+                       </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.product_category.label }}
+                    {{ form.product_category }}
+                    {% if form.product_category.errors %}
+                        <div class="error">
+                            {% for error in form.product_category.errors %}
+                                <span>
+                                    {{ error }}
+                               </span>
+                           {% endfor %}
+                       </div>
+                    {% endif %}
+                </div>
+            </fieldset>
+            {{ form.submit }}
+        </form>
+    </div>
+</div>
+
+{% endblock %}

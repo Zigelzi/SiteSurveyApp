@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="content">
+    <div class="grey-container survey-form">
+        <form action="" class="survey-form", method="POST">
+            {{ form.hidden_tag() }}
+            <fieldset>
+                <legend>Add new product</legend>
+                <div class="input-box">
+                    {{ form.title.label }}
+                    {{ form.title(placeholder="Chargers") }}
+                    {% if form.title.errors %}
+                        <div class="error">
+                            {% for error in form.title.errors %}
+                                <span>
+                                    {{ error }}
+                               </span>
+                           {% endfor %}
+                       </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.description.label }}
+                    {{ form.description(placeholder="Product category for chargers") }}
+                    {% if form.description.errors %}
+                        <div class="error">
+                            {% for error in form.description.errors %}
+                                <span>
+                                    {{ error }}
+                               </span>
+                           {% endfor %}
+                       </div>
+                    {% endif %}
+                </div>
+            </fieldset>
+            {{ form.submit }}
+        </form>
+    </div>
+</div>
+{% endblock %}

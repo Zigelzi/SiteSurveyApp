@@ -1,8 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, FloatField, SelectField, BooleanField, SubmitField, IntegerField
+from wtforms import StringField, FloatField, SelectField, BooleanField, SubmitField, IntegerField, TextAreaField
 from wtforms.validators import DataRequired
 
 from sitesurvey import data_req_msg
+from sitesurvey.product.models import Productcategory
 
 class AddChargerForm(FlaskForm):
     manufacturer = StringField('Manufacturer', validators=[DataRequired(message=data_req_msg)])
@@ -38,3 +39,23 @@ class AddChargerForm(FlaskForm):
     cable_al_allowed = BooleanField('Aluminium cable allowed')
     submit = SubmitField('Add charger')
 
+class AddProductForm(FlaskForm):
+    uom_choices = [('pcs', 'pcs'), ('months', 'months')]
+
+    product_number = StringField('Product number', validators=[DataRequired(message=data_req_msg)])
+    product_name = StringField('Product name', validators=[DataRequired(message=data_req_msg)])
+    unit_of_material = SelectField('Unit of Material', validators=[DataRequired(message=data_req_msg)], choices=uom_choices)
+    price = FloatField('Price (€)', validators=[DataRequired(message=data_req_msg)])
+    product_category = SelectField('Product category', coerce=int)
+    submit = SubmitField('Create new product')
+
+    def __init__(self, *args, **kwargs):
+        """Initialize the class with the most recent DB data for SelectField."""
+        # Query list of existing product types from DB when form is created
+        super(AddProductForm, self).__init__(*args, **kwargs)
+        self.product_category.choices = [(category.id, category.title) for category in Productcategory.query.all()]
+
+class AddProductCategoryForm(FlaskForm):
+    title = StringField('Product category name', validators=[DataRequired(message=data_req_msg)])
+    description = TextAreaField('Description', validators=[DataRequired(message=data_req_msg)])
+    submit = SubmitField('Create product category')
