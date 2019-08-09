@@ -41,6 +41,9 @@ class Product(db.Model):
     product_name = db.Column(db.String(30), nullable=False)
     unit_of_material = db.Column(db.String(8), nullable=False, default='pcs')
     price = db.Column(db.Float(), nullable=False)
+
+    # Foreign keys
+    product_category = db.Column(db.Integer, db.ForeignKey('productcategory.id'))
     
     def __repr__(self):
         return f'Product <{self.id} | {self.product_number} | {self.product_name} | {self.unit_of_material} | {self.price}>'

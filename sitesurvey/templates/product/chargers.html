@@ -3,13 +3,13 @@
 {% block content %}
 <div id="index-main-card" class="grey-container">
     <h1>Chargers</h1>
-    <a href="{{ url_for('charger.add_charger') }}" class="btn">Add new charger</a>
-    <a href="{{ url_for('charger.view_chargers') }}" class="btn">View existing chargers</a>
+    <a href="{{ url_for('product.add_charger') }}" class="btn">Add new charger</a>
+    <a href="{{ url_for('product.view_chargers') }}" class="btn">View existing chargers</a>
 </div>
 
 <div class="grey-container">
     {% for charger in chargers %}
-    <a href="{{ url_for('charger.charger', charger_id=charger.id) }}">{{ charger.manufacturer }} {{ charger.model }} </a>
+    <a href="{{ url_for('product.charger', charger_id=charger.id) }}">{{ charger.manufacturer }} {{ charger.model }} </a>
     {% endfor %}
 </div>
 {% endblock %}

@@ -36,8 +36,8 @@ def create_organization():
         db.session.commit()
         organization.org_type.append(org_type)
         db.session.commit()
-
         flash(f'Organization has been created.', 'success')
+        return redirect(url_for('user.organization', organization_id=organization.id))
     return render_template('user/add_organization.html', title='Create organization', form=form, active='add_organization')
 
 @bp_user.route('/organizations/create_organization_tag', methods=["GET", "POST"])

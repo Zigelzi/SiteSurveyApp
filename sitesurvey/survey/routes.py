@@ -31,18 +31,8 @@ def create_survey():
                                         email=form.email.data,
                                         phone_number=form.phone_number.data)
 
-        survey = Survey(name=form.location_name.data,
-                        address=form.address.data,
-                        postal_code=form.postal_code.data,
-                        city=form.city.data,
-                        country=form.country.data,
-                        coordinate_lat=form.coordinate_lat.data,
-                        coordinate_long=form.coordinate_long.data,
-                        number_of_chargers=form.charger_amount.data,
-                        cp_charging_power=form.charging_power.data,
-                        installation_method=form.installation_method.data,
+        survey = Survey(installation_method=form.installation_method.data,
                         concrete_foundation=form.foundation.data,
-                        requested_date=form.requested_date.data,
                         grid_connection=form.grid_connection.data,
                         grid_cable=form.grid_cable.data,
                         max_power=form.max_power.data,
@@ -52,7 +42,6 @@ def create_survey():
                         number_of_slots=form.number_of_slots.data,
                         signal_strength=form.signal_strength.data,
                         installation_location=form.installation_location.data,
-                        charger_id=charger_id,
                         user_id=current_user.id)
         
         db.session.add(contact_person)

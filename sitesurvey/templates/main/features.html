@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="grey-container">
+    <h4>User features</h4>
+    <ul>
+        <li><a href="{{ url_for('user.create_organization') }}">Create Organization</a></li>
+        <li><a href="{{ url_for('user.create_organization_tag')}} ">Create Organization tag</a></li>
+        <li><a href="{{ url_for('user.create_user')}} ">Create User</a></li>
+    </ul>
+    <h4>Product features</h4>
+    <ul>
+        <li><a href="{{ url_for('product.add_charger') }}">Add Charger</a></li>
+        <li><a href="{{ url_for('product.add_product') }}">Add Product</a></li>
+        <li><a href="{{ url_for('product.add_product_category') }}">Add Product Category</a></li>
+    </ul>
+    <h4>Survey features</h4>
+    <ul>
+        <li><a href="{{ url_for('survey.create_survey') }}">Create Survey</a></li>
+        <li><a href="{{ url_for('survey.create_workorder') }}">Create Workorder</a></li>
+        <li><a href="{{ url_for('survey.create_location') }}">Create Location</a></li>
+    </ul>
+</div>
+
+<div class="grey-container">
+    <h1>Users</h1>
+    {% for user in users %}
+    <div><a href="{{ url_for('user.user', user_id=user.id) }}">{{ user }}</a></div>
+    {% endfor %}
+</div>
+<div class="grey-container">
+    <h1>Organizations</h1>
+    {% for org in orgs %}
+    <div><a href="{{ url_for('user.organization', organization_id=org.id) }}">{{ org }}</a></div>
+    {% endfor %}
+</div>
+<div class="grey-container">
+    <h1>Organization types</h1>
+    {% for org_type in org_types %}
+    <div><a href="{{ url_for('user.org_type', org_type_id=org_type.id) }}">{{ org_type }} </a></div>
+    {% endfor %}
+</div>
+<div class="grey-container">
+    <h1>Chargers</h1>
+    {% for charger in chargers %}
+    <div><a href="{{ url_for('product.charger', charger_id=charger.id) }}">{{ charger }}</a></div>
+    {% endfor %}
+</div>
+<div class="grey-container">
+    <h1>Products</h1>
+    {% for product in products %}
+    <div><a href="{{ url_for('product.product', product_id=product.id) }}">{{ product }}</a></div>
+    {% endfor %}
+</div>
+<div class="grey-container">
+    <h1>Product Categories</h1>
+    {% for prod_cat in prod_cats %}
+    <div><a href="{{ url_for('product.product_category', product_category_id=prod_cat.id) }}">{{ prod_cat }} </a></div>
+    {% endfor %}
+</div>
+<div class="grey-container">
+    <h1>Surveys</h1>
+    {% for survey in surveys %}
+    <div><a href="{{ url_for('survey.survey', survey_id=survey.id) }}">{{ survey }}</a></div>
+    {% endfor %}
+</div>
+<div class="grey-container">
+    <h1>Locations</h1>
+    {% for location in locations %}
+    <div><a href="{{url_for('survey.location', location_id=location.id)}}">{{ location }}</a></div>
+    {% endfor %}
+</div>
+<div class="grey-container">
+    <h1>Workorders</h1>
+    {% for workorder in workorders %}
+    <div><a href="{{ url_for('survey.workorder', workorder_id=workorder.id) }}">{{ workorder }} </a></div>
+    {% endfor %}
+</div>
+
+{% endblock %}

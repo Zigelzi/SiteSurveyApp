@@ -155,32 +155,6 @@
                     <button id="btn-coords" type="button">Use my coordinates</button>
                     <p id="error"></p>
                 </div>
-                <div class="input-box">
-                    {{ form.coordinate_lat.label }}
-                    {{ form.coordinate_lat }}
-                    {% if form.coordinate_lat.errors %}
-                    <div class="error">
-                        {% for error in form.coordinate_lat.errors %}
-                            <span>
-                                {{ error }}
-                            </span>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                </div>
-                <div class="input-box">
-                    {{ form.coordinate_long.label }}
-                    {{ form.coordinate_long }}
-                    {% if form.coordinate_lat.errors %}
-                    <div class="error">
-                        {% for error in form.coordinate_long.errors %}
-                            <span>
-                                {{ error }}
-                            </span>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                </div>
             </div>
 
         <!-- Charger form -->
