@@ -76,13 +76,15 @@ def user(user_id):
 def create_contact_person():
     form = CreateContactForm()
     if form.validate_on_submit():
+        # form.organization.data value is string value of org_name. Search the DB for the organization.id so it can be linked as ForeignKey
+        org_id = Organization.query.filter_by(org_name=form.organization.data).first().id
         # Take the form input and create db entry and commit it
         contact_person = Contactperson(first_name=form.first_name.data,
                      last_name=form.last_name.data,
                      title=form.title.data,
                      email=form.email.data,
                      phone_number=form.phone_number.data,
-                     organization=form.organization.data)
+                     parent_org=org_id)
         db.session.add(contact_person)
         db.session.commit()
         flash(f'Contact person has been created. They can now log in', 'success')

@@ -18,6 +18,18 @@ function getDataAddSuggestions(url, elementId, dataKeyName) {
     xhr.open('GET', url);
     xhr.send();
 }
+function getData(url, callback) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const data = JSON.parse(xhr.responseText);
+            callback(data);
+            }
+        }
+    xhr.open('GET', url);
+    xhr.send();
+}
 
 /** Validate that the users value entered to inputElementId is in the datalistId and then submit form
  * 
@@ -31,11 +43,11 @@ function validateDatalistInput(inputElementId, datalistId) {
     // If the input is in the datalist then submit the form
     for (let element of datalist.children) {
         if (element.value === input.value) {
-            console.log(element.value + 'in datalist')
+            // console.log(element.value + 'in datalist')
             return true;
         }
     }
-    console.log(input.value + 'is not found from the list')
+    // console.log(input.value + 'is not found from the list')
     return false;
 }
 
@@ -60,4 +72,4 @@ function addSuggestions(elementId, jsonData, dataKeyName) {
     });
 }
 
-export {getDataAddSuggestions, validateDatalistInput};
+export {getDataAddSuggestions, validateDatalistInput, getData};

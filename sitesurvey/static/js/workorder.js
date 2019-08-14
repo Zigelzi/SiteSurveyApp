@@ -1,7 +1,10 @@
-import getDataAddSuggestions from 'scripts.js';
+import {getDataAddSuggestions, getData, validateDatalistInput} from './scripts.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    const orgInput = document.getElementById('orgInput');
+    const contactPersonInfo = document.getElementById('contactPerson');
+    const contactPersonArray = Array.from(contactPersonInfo.children);
     const productField = document.getElementsByClassName('productField');
     const amountField = document.getElementsByClassName('amountField');
     const deleteRow = document.getElementsByClassName('deleteRow');
@@ -31,6 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
             "price":30000
         }
     ]
+
+
 
     // Check that user has selected input that is in Datalist
     function validateTableDataInput(event) {
@@ -199,4 +204,21 @@ document.addEventListener('DOMContentLoaded', () => {
         deleteRow[i].addEventListener('click', removeRow);
     }
     addTableRow.addEventListener('click', addRow)
+    orgInput.addEventListener('input', (event) => {
+        const inputElementId = event.target.id;
+        // If value from customer <input> field is in the datalist query the full information from backend via API
+        if (validateDatalistInput(inputElementId, 'customerList')) {
+            getData(`/api/organization/${event.target.value}`, data => {
+                if (typeof data.contact_persons[0] != 'undefined') {
+                    contactPersonArray[1].textContent = `${data.contact_persons[0].first_name} ${data.contact_persons[0].last_name}`;
+                    contactPersonArray[2].textContent = `${data.contact_persons[0].phone_number}`;
+                    contactPersonArray[3].textContent = `${data.contact_persons[0].email}`;
+                }
+            });
+        } else {
+            contactPersonArray[1].textContent = 'Firstname Lastname';
+            contactPersonArray[2].textContent = 'Phone number';
+            contactPersonArray[3].textContent = 'Email';
+        }
+    });
 })

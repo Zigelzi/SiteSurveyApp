@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ url_for('static', filename='js/workorder.js') }}" defer></script>
+<script type="module" src="{{ url_for('static', filename='js/workorder.js') }}" defer></script>
 {% endblock %}
 
 {% block content %}
@@ -15,10 +15,12 @@
             <label for="customer">Customer name</label>
             <input type="text" name="customer" id="orgInput" list="customerList">
             <datalist id="customerList"></datalist>
-            <label for="">Contact person</label>
-            <p>Firstname Lastname</p>
-            <p>Phonenumber</p>
-            <p>Email</p>
+            <div id="contactPerson">
+                <label for="">Contact person</label>
+                <p>Firstname Lastname</p>
+                <p>Phonenumber</p>
+                <p>Email</p>
+            </div>      
         </div>
         <button type="button">Create new customer</button>
     </div>

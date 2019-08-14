@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from sitesurvey import ma
 
-from sitesurvey.user.models import Organization
+from sitesurvey.user.models import Organization, Contactperson
 from sitesurvey.survey.models import Location
 
 bp_api = Blueprint('api', __name__)
@@ -17,7 +17,14 @@ class CustomerSchema(ma.ModelSchema):
     class Meta:
         model = Organization
 
+class ContactPersonSchema(ma.ModelSchema):
+    class Meta:
+        model = Contactperson
+
 class OrganizationSchema(ma.ModelSchema):
+
+    contact_persons = ma.Nested(ContactPersonSchema, many=True)
+
     class Meta:
         model = Organization
 
@@ -50,5 +57,13 @@ def get_organizations():
     organizations = Organization.query.all()
     organization_schema = OrganizationSchema(many=True)
     output = organization_schema.dump(organizations).data
+    print(output)
+    return jsonify(output)
+
+@bp_api.route('/api/organization/<string:org_name>', methods=['GET'])
+def get_organization(org_name):
+    organization = Organization.query.filter_by(org_name=org_name).first()
+    organization_schema = OrganizationSchema()
+    output = organization_schema.dump(organization).data
     print(output)
     return jsonify(output)
