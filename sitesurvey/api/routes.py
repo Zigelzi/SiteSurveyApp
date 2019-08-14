@@ -3,6 +3,7 @@ from sitesurvey import ma
 
 from sitesurvey.user.models import Organization, Contactperson
 from sitesurvey.survey.models import Location
+from sitesurvey.product.models import Product
 
 bp_api = Blueprint('api', __name__)
 
@@ -28,11 +29,23 @@ class OrganizationSchema(ma.ModelSchema):
     class Meta:
         model = Organization
 
+class ProductSchema(ma.ModelSchema):
+    class Meta:
+        model = Product
+
 @bp_api.route('/api/locations', methods=['GET'])
 def get_locations():
     locations = Location.query.all()
     location_schema = LocationSchema(many=True)
     output = location_schema.dump(locations).data
+    print(output)
+    return jsonify(output)
+
+@bp_api.route('/api/location/<string:location_name>', methods=['GET'])
+def get_location(location_name):
+    location = Location.query.filter_by(name=location_name).first()
+    location_schema = LocationSchema()
+    output = location_schema.dump(location).data
     print(output)
     return jsonify(output)
 
@@ -65,5 +78,21 @@ def get_organization(org_name):
     organization = Organization.query.filter_by(org_name=org_name).first()
     organization_schema = OrganizationSchema()
     output = organization_schema.dump(organization).data
+    print(output)
+    return jsonify(output)
+
+@bp_api.route('/api/products', methods=['GET'])
+def get_products():
+    products = Product.query.all()
+    product_schema = ProductSchema(many=True)
+    output = product_schema.dump(products).data
+    print(output)
+    return jsonify(output)
+
+@bp_api.route('/api/product/<string:product_number>', methods=['GET'])
+def get_product(product_number):
+    product = Product.query.filter_by(product_number=product_number).first()
+    product_schema = ProductSchema()
+    output = product_schema.dump(product).data
     print(output)
     return jsonify(output)

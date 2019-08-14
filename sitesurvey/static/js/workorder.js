@@ -2,9 +2,15 @@ import {getDataAddSuggestions, getData, validateDatalistInput} from './scripts.j
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    // Input and information elements
     const orgInput = document.getElementById('orgInput');
     const contactPersonInfo = document.getElementById('contactPerson');
     const contactPersonArray = Array.from(contactPersonInfo.children);
+    const locationInput = document.getElementById('locationInput');
+    const locationInfo = document.getElementById('locationInformation');
+    const locationInfoArray = Array.from(locationInfo.children);
+
+    // Table elements
     const productField = document.getElementsByClassName('productField');
     const amountField = document.getElementsByClassName('amountField');
     const deleteRow = document.getElementsByClassName('deleteRow');
@@ -14,57 +20,20 @@ document.addEventListener('DOMContentLoaded', () => {
     /* Create MutationObserver to observe changes in productBody for calculating
      the order total*/ 
     let observer = new MutationObserver(tableTotal)
-
     let mutationConfig = {attributes: true, childList:true, characterData: true, subtree:true}
-
     observer.observe(productBody, mutationConfig);
-
-    // Test JSON. Replace this with AJAX-call from DB.
-    const testJSON = [
-        {
-            "productno":"cnd-1000",
-            "manufacturer":"ensto",
-            "model":"evf200",
-            "price":2200
-        },
-        {
-            "productno":"cnd-2000",
-            "manufacturer":"tritium",
-            "model":"veefil",
-            "price":30000
-        }
-    ]
-
-
 
     // Check that user has selected input that is in Datalist
     function validateTableDataInput(event) {
-        let tableRow = event.target.parentElement.parentElement;
         let productNo = event.target.value;
         const productList = document.getElementById('productList').childNodes;
         // Check if the productNo exists in the productList
         for (let i = 0; i < productList.length; i++) {
             if (productList[i].value === productNo) {
-                // Take the full product data from JSON response
-                fillTableData(tableRow, productNo, testJSON);
-                break;
-            } else {
-                // If the inputted productNo is not in the list zero the values
-                tableRow.children[2].textContent = "--"; 
-                tableRow.children[5].textContent = "--";  
-            }
+                return true;
+            } 
         }
-    }
-
-    function fillTableData(tableRowElement, productNo, productJson) {
-        // Take the full product data from JSON and add the information to table row.
-        for (let i = 0; i < productJson.length; i++) {
-            if (productJson[i].productno === productNo) {
-                let prodInfo = productJson[i];
-                tableRowElement.children[2].textContent = prodInfo.manufacturer + " " + prodInfo.model;
-                tableRowElement.children[5].textContent = prodInfo.price + " €";
-            }
-        }
+        return false;
     }
 
     // Calculate the row total
@@ -118,8 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const newRow = document.createElement('tr');
         let columnCount;
         let lastRowNo;
-        let cellText;  
-
         // Check if there's existing rows in the table. If not, then create first row
         if (productBody.children.length === 0) {
             columnCount = 8;
@@ -138,9 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (i === 0) {
                 // Add current row number (previous row + 1)
-                newCell.textContent = lastRowNo 
-                //cellText = document.createTextNode(lastRowNo + 1);
-                //newCell.appendChild(cellText);
+                newCell.textContent = lastRowNo
             }
             // Add additional elements and attributes to selected columns
             if (i === 1) {
@@ -190,11 +155,26 @@ document.addEventListener('DOMContentLoaded', () => {
         } 
     }
 
-    getDataAddSuggestions('/api/locations', 'locationList', 'address');
+    getDataAddSuggestions('/api/locations', 'locationList', 'name');
     getDataAddSuggestions('/api/customers', 'customerList', 'org_name');
+    getDataAddSuggestions('/api/products', 'productList', 'product_number');
 
     for (let i = 0; i < productField.length; i++) {
-        productField[i].addEventListener('input', validateTableDataInput);
+        productField[i].addEventListener('input', event => {
+            let tableRow = event.target.parentElement.parentElement;
+            if (validateTableDataInput(event)) {
+                getData(`/api/product/${event.target.value}`, data => {
+                    tableRow.children[2].textContent = data.product_name; // Product column
+                    tableRow.children[4].textContent = data.unit_of_material; // UOM column
+                    tableRow.children[5].textContent = data.price + " €"; // Price column
+                })
+            } else {
+                // If the inputted product number is not in the list zero the values
+                tableRow.children[2].textContent = "--"; // Product column
+                tableRow.children[4].textContent = "--"; // UOM column
+                tableRow.children[5].textContent = "--"; // Price column
+            }
+        });
         productField[i].addEventListener('input', rowTotal);
     }
     for (let i = 0; i < amountField.length; i++) {
@@ -204,10 +184,30 @@ document.addEventListener('DOMContentLoaded', () => {
         deleteRow[i].addEventListener('click', removeRow);
     }
     addTableRow.addEventListener('click', addRow)
-    orgInput.addEventListener('input', (event) => {
+    locationInput.addEventListener('input', (event) => {
+        const inputElementId = event.target.id;
+        console.log(event.target.value);
+        // If value from customer <input> field is in the datalist query the full information from backend via API
+        if (validateDatalistInput(inputElementId, 'locationList')) {
+            getData(`/api/location/${event.target.value}`, data => {
+                console.log(data);
+                locationInfoArray[1].textContent = `${data.address}`; // Address field
+                locationInfoArray[2].textContent = `${data.postal_code} ${data.city}`; // Postal field
+                locationInfoArray[3].textContent = `${data.country}`; // Country field
+                locationInfoArray[4].textContent = `Lat: ${data.coordinate_lat} Long: ${data.coordinate_long}`; // Coordinates field
+            });
+        } else {
+            locationInfoArray[1].textContent = 'Address'
+            locationInfoArray[2].textContent = 'Postal'
+            locationInfoArray[3].textContent = 'Country'
+            locationInfoArray[4].textContent = 'Coordinates'
+        }
+    });
+
+    orgInput.addEventListener('input', event => {
         const inputElementId = event.target.id;
         // If value from customer <input> field is in the datalist query the full information from backend via API
-        if (validateDatalistInput(inputElementId, 'customerList')) {
+        if (validateDatalistInput(inputElementId, 'locationList')) {
             getData(`/api/organization/${event.target.value}`, data => {
                 if (typeof data.contact_persons[0] != 'undefined') {
                     contactPersonArray[1].textContent = `${data.contact_persons[0].first_name} ${data.contact_persons[0].last_name}`;
@@ -220,5 +220,5 @@ document.addEventListener('DOMContentLoaded', () => {
             contactPersonArray[2].textContent = 'Phone number';
             contactPersonArray[3].textContent = 'Email';
         }
-    });
+    })
 })
