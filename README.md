@@ -13,14 +13,14 @@ Application for doing site survey when planning electric vehicle charger install
 - [x] Link survey to location
 - [x] Add FileField to Survey form
 - [x] Add ability to save photos to harddrive
-- [ ] Add work creation site
+- [x] Add work creation site
 - [x] Add surveys to index page
 - [ ] Add save to localStorage (JS) feature to survey
 - [ ] Add Customer - Installation switching animation to survey page
 -> In main form create multiple (4?) contact persons but only toggle them as visible?
 -> New form for each contact/location?
-- [ ] Add filtering of locations
-- [ ] Add dynamic field selection to charger
+- [x] Add filtering of locations
+- [x] Add dynamic field selection to charger
 - [x] Sort out the many-to-many contact and location forms in survey. Possible?
 - [ ] Embedding Google Maps / OpenStreetmap to enter coordinates?
 - [x] Add status indication (created, waiting, ready) to survey table
