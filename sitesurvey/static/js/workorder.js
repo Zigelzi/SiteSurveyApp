@@ -62,8 +62,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 let totalCellValue
                 for (let i = 0; i < productBody.children.length; i++) {
                     totalCellValue = productBody.children[i].children[6].textContent
+                    // console.log(`Mutation: ${mutation.target.className}`);
+                    console.log(`Row ${i} totallCellValue ${totalCellValue}`);
                     if (totalCellValue != "--" && totalCellValue != "NaN €") {
                         totalSum += parseFloat(productBody.children[i].children[6].textContent.replace(",",".").replace(' ',''));
+                        console.log(`Total sum:${totalSum}`);
                     }
                 }
             }
@@ -80,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
                  
         });
+        console.log(`Total sum in the end:${totalSum}`)
         tableTotalTd.textContent = totalSum + " €";
     }
 
@@ -116,7 +120,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 textInput.setAttribute('list', productList);
                 textInput.className = 'productField';
                 newCell.appendChild(textInput);
-                newCell.addEventListener('input', validateTableDataInput);
+                newCell.addEventListener('input', event => {
+                    let tableRow = event.target.parentElement.parentElement;
+                    if (validateTableDataInput(event)) {
+                        getData(`/api/product/${event.target.value}`, data => {
+                            tableRow.children[2].textContent = data.product_name; // Product column
+                            tableRow.children[4].textContent = data.unit_of_material; // UOM column
+                            tableRow.children[5].textContent = data.price + " €"; // Price column
+                        })
+                    } else {
+                        // If the inputted product number is not in the list zero the values
+                        tableRow.children[2].textContent = "--"; // Product column
+                        tableRow.children[4].textContent = "--"; // UOM column
+                        tableRow.children[5].textContent = "--"; // Price column
+                    }
+                });
                 newCell.addEventListener('input', rowTotal);
             } 
             if (i === 3) {
@@ -186,11 +204,9 @@ document.addEventListener('DOMContentLoaded', () => {
     addTableRow.addEventListener('click', addRow)
     locationInput.addEventListener('input', (event) => {
         const inputElementId = event.target.id;
-        console.log(event.target.value);
         // If value from customer <input> field is in the datalist query the full information from backend via API
         if (validateDatalistInput(inputElementId, 'locationList')) {
             getData(`/api/location/${event.target.value}`, data => {
-                console.log(data);
                 locationInfoArray[1].textContent = `${data.address}`; // Address field
                 locationInfoArray[2].textContent = `${data.postal_code} ${data.city}`; // Postal field
                 locationInfoArray[3].textContent = `${data.country}`; // Country field
@@ -207,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
     orgInput.addEventListener('input', event => {
         const inputElementId = event.target.id;
         // If value from customer <input> field is in the datalist query the full information from backend via API
-        if (validateDatalistInput(inputElementId, 'locationList')) {
+        if (validateDatalistInput(inputElementId, 'customerList')) {
             getData(`/api/organization/${event.target.value}`, data => {
                 if (typeof data.contact_persons[0] != 'undefined') {
                     contactPersonArray[1].textContent = `${data.contact_persons[0].first_name} ${data.contact_persons[0].last_name}`;
