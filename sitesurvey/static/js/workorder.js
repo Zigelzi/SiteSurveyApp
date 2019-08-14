@@ -1,3 +1,5 @@
+import getDataAddSuggestions from 'scripts.js';
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const productField = document.getElementsByClassName('productField');
@@ -29,95 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
             "price":30000
         }
     ]
-
-    const customerJSON = [
-        {
-            "org_name":"Example Ltd",
-            "org_number": "124567-8",
-            "address": "Example Str 1",
-            "postal_code": "00000",
-            "city": "Example",
-            "country": "Finland"
-        },
-        {
-            "org_name":"Markun Rengas Oy",
-            "org_number": "124567-1",
-            "address": "Markuntie 1",
-            "postal_code": "08500",
-            "city": "Lohja",
-            "country": "Finland"
-        }
-    ]
-
-    function innerFunc (arg1, arg2, arg3) {
-        console.log(`Got following arguments: ${arg1}, ${arg2}, ${arg3}`)
-    }
-    function testFunc(url, arg1, arg2, arg3) {
-        console.log(`Beep beep, sending data to ${url}`);
-        innerFunc(arg1, arg2, arg3);
-    }
-
-    /**
-     * Get the data from backend with XHR and run the addSuggestion function to create <datalist> elements
-     * @param {string} url target url where the data is fetched from
-     * @param {string} elementId Target <datalist> element ID where <option> elements will be appended
-     * @param {Object} jsonData JSON data which will be parsed to <option> elements
-     * @param {string} dataKeyName Key name which will be used as the value attribute of <option> element
-    **/
-   function getDataAddSuggestions(url, elementId, dataKeyName) {
-        const xhr = new XMLHttpRequest();
-
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                const data = JSON.parse(xhr.responseText);
-                addSuggestions(elementId, data, dataKeyName);
-                console.log(`XHR ran for elementID ${elementId}`);
-                }
-            }
-        xhr.open('GET', url);
-        xhr.send();
-        }
-
-    /**  Function for parsing JSON object and creating <option> elements to the selected <datalist> element
-     * @param {string} elementId Target <datalist> element ID where <option> elements will be appended
-     * @param {Object} jsonData JSON data which will be parsed to <option> elements
-     * @param {string} dataKeyName Key name which will be used as the value attribute of <option> element
-     * 
-    **/
-    function addSuggestions(elementId, jsonData, dataKeyName) {
-        const dataList = document.getElementById(elementId);
-        let response = jsonData;
-
-        // Clear the previous suggestions from dataList
-        dataList.innerHTML = "";
-
-        response.forEach(item => {
-            // Create new <option> element and append it to dataList
-            let option = document.createElement('option');
-            option.value = item[dataKeyName];
-            dataList.appendChild(option);
-        });
-    }
-
-    /** Validate that the users value entered to inputElementId is in the datalistId and then submit form
-     * 
-     * @param {string} inputElementId ElementID of the <input> element that user enters the value
-     * @param {string} datalistId ElementID of the <datalist> element that the inputElementId is compared to
-     */
-    function validateDatalistInput(inputElementId, datalistId) {
-        const input = document.getElementById(inputElementId);
-        const datalist = document.getElementById(datalistId);
-
-        // If the input is in the datalist then submit the form
-        for (let element of datalist.children) {
-            if (element.value === input.value) {
-                console.log(element.value + 'in datalist')
-                return true;
-            }
-        }
-        console.log(input.value + 'is not found from the list')
-        return false;
-    }
 
     // Check that user has selected input that is in Datalist
     function validateTableDataInput(event) {
@@ -272,9 +185,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } 
     }
 
-    addSuggestions('productList', testJSON, 'productno')
-    addSuggestions('customerList', customerJSON, 'org_name')
     getDataAddSuggestions('/api/locations', 'locationList', 'address');
+    getDataAddSuggestions('/api/customers', 'customerList', 'org_name');
 
     for (let i = 0; i < productField.length; i++) {
         productField[i].addEventListener('input', validateTableDataInput);

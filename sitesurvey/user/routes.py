@@ -81,7 +81,8 @@ def create_contact_person():
                      last_name=form.last_name.data,
                      title=form.title.data,
                      email=form.email.data,
-                     phone_number=form.phone_number.data)
+                     phone_number=form.phone_number.data,
+                     organization=form.organization.data)
         db.session.add(contact_person)
         db.session.commit()
         flash(f'Contact person has been created. They can now log in', 'success')

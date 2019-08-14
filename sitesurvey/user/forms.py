@@ -45,8 +45,8 @@ class CreateContactForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(message=data_req_msg), Email(message="Not valid email")])
     phone_number = StringField('Phone number', validators=[DataRequired(message=data_req_msg)])
+    organization = StringField('Organization', validators=[DataRequired(message=data_req_msg)])
     submit = SubmitField('Create contact person')
-
 
 # Form for registering new users.
 class UpdateAccountForm(FlaskForm):

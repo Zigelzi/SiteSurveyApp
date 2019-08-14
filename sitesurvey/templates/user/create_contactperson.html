@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
 
+{% block javascript %}
+<script type="module" src="{{ url_for('static', filename='js/create_contactperson.js') }}" defer></script>
+{% endblock %}
+
 {% block content %}
 
 <div class="">
@@ -66,6 +70,20 @@
                     {% if form.phone_number.errors %}
                         <div class="error">
                             {% for error in form.phone_number.errors %}
+                                <span>
+                                    {{ error }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-box">
+                    {{ form.organization.label }}
+                    {{ form.organization(list="organizationList") }}
+                    <datalist id="organizationList"></datalist>
+                    {% if form.organization.errors %}
+                        <div class="error">
+                            {% for error in form.organization.errors %}
                                 <span>
                                     {{ error }}
                                 </span>
