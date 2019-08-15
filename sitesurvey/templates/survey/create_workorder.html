@@ -6,149 +6,178 @@
 
 {% block content %}
 <div class="content">
-    <div class="grey-container survey-form">
-        <div class="survey-header">
-            <img class="svg-icon" src="{{ url_for('static', filename='img/icon_person.svg') }}" alt="person icon">
-            <legend>Customer</legend>
-        </div>
-        <div class="input-box">
-            <label for="customer">Customer name</label>
-            <input type="text" name="customer" id="orgInput" list="customerList">
-            <datalist id="customerList"></datalist>
-            <div id="contactPerson">
-                <label for="">Contact person</label>
-                <p>Firstname Lastname</p>
-                <p>Phone number</p>
-                <p>Email</p>
-            </div>      
-        </div>
-        <button type="button">Create new customer</button>
-    </div>
-    <div class="grey-container survey-form">
-        <div class="survey-header">
-            <img class="svg-icon" src="{{ url_for('static', filename='img/icon_building.svg') }}" alt="building icon">
-            <legend>Location</legend>
-        </div>
-        <div class="input-box">
-            <label for="location">Location</label>
-            <input type="text" name="location" id="locationInput" list="locationList">
-            <datalist id="locationList"></datalist>
-        </div>
-        <div id="locationInformation">
-            <h4>Location Information</h4>
-            <p>Address</p>
-            <p>Postal code and city</p>
-            <p>Country</p>
-            <p>Coordinates</p>
-        </div>
-    </div>
-    <div class="grey-container survey-form">
-        <div class="survey-header">
-            <img class="svg-icon" src="{{ url_for('static', filename='img/icon_build.svg') }}" alt="wrench icon">
-            <legend>Installation</legend>
-        </div>
-        <div class="input-box">
-            {{form.public_chargers.label}}
-            {{form.public_chargers}}
-            {{form.public_installation_location.label}}
-            {{form.public_installation_location}}
-            {{form.private_chargers.label}}
-            {{form.private_chargers}}
-            {{form.private_installation_location.label}}
-            {{form.private_installation_location}}
-            {{form.attachment_1.label}}
-            {{form.attachment_1}}
-            {{form.attachment_2.label}}
-            {{form.attachment_2}}
-            {{form.attachment_3.label}}
-            {{form.attachment_3}}
-            <div>
-                {{form.installation_type.label}}
-                {% for subfield in form.installation_type %}
-                <div class="slider-checkbox">
-                    {{ subfield }}
-                    {{ subfield.label(class="label") }}
-                </div>
-                {% endfor %}
+    <form action="{{ url_for('survey.create_workorder') }} " method="POST" enctype="multipart/form-data">
+        <div class="grey-container survey-form">
+            <div class="survey-header">
+                <img src="#" alt="" class="svg-icon">
+                <legend>Create workorder</legend>
+            </div>
+            <div class="input-box">
+                {{ form.title.label }}
+                {{ form.title }}
             </div>
         </div>
-    </div>
-    <div class="grey-container">
-        <table id="productTable">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Prd No</th>
-                    <th>Product</th>
-                    <th>Amount</th>
-                    <th>Unit</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody id="productBody">
-                <tr>
-                    <td>1</td>
-                    <td><input type="text" class="productField" list="productList"></td>
-                    <td>--</td>
-                    <td><input type="number" class="amountField"></td>
-                    <td>pcs</td>
-                    <td>--</td>
-                    <td class="totalColumn">--</td>
-                    <td class="deleteRow"><img class="icon-small" src="{{ url_for('static', filename='img/icon_trash.svg') }}" alt="Trash bin icon"></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><input type="text" class="productField" list="productList"></td>
-                    <td>--</td>
-                    <td><input type="number" class="amountField"></td>
-                    <td>pcs</td>
-                    <td>--</td>
-                    <td class="totalColumn">--</td>
-                    <td class="deleteRow"><img class="icon-small" src="{{ url_for('static', filename='img/icon_trash.svg') }}" alt="Trash bin icon"></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><input type="text" class="productField" list="productList"></td>
-                    <td>--</td>
-                    <td><input type="number" class="amountField"></td>
-                    <td>pcs</td>
-                    <td>--</td>
-                    <td class="totalColumn">--</td>
-                    <td class="deleteRow"><img class="icon-small" src="{{ url_for('static', filename='img/icon_trash.svg') }}" alt="Trash bin icon"></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><input type="text" class="productField" list="productList"></td>
-                    <td>--</td>
-                    <td><input type="number" class="amountField"></td>
-                    <td>pcs</td>
-                    <td>--</td>
-                    <td class="totalColumn">--</td>
-                    <td class="deleteRow"><img class="icon-small" src="{{ url_for('static', filename='img/icon_trash.svg') }}" alt="Trash bin icon"></td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td><input type="text" class="productField" list="productList"></td>
-                    <td>--</td>
-                    <td><input type="number" class="amountField"></td>
-                    <td>pcs</td>
-                    <td>--</td>
-                    <td class="totalColumn">--</td>
-                    <td class="deleteRow"><img class="icon-small" src="{{ url_for('static', filename='img/icon_trash.svg') }}" alt="Trash bin icon"></td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th scope="row" colspan="6">Order total</th>
-                    <td id="tableTotalTd"></td>
-                </tr>
-            </tfoot>
-                       
-        </table>
-        <button id="addTableRow">Add row</button> 
-        <datalist id="productList"></datalist>
-    </div>
+        <div class="grey-container survey-form">
+            <div class="survey-header">
+                <img class="svg-icon" src="{{ url_for('static', filename='img/icon_person.svg') }}" alt="person icon">
+                <legend>Customer organization</legend>
+            </div>
+            <div class="input-box">
+                {{ form.organization_name.label }}
+                {{ form.organization_name(id="orgInput", list="customerList", autocomplete="off") }}
+                <datalist id="customerList"></datalist>
+                <div id="contactPerson">
+                    <label for="">Contact person</label>
+                    <p>Firstname Lastname</p>
+                    <p>Phone number</p>
+                    <p>Email</p>
+                </div>      
+            </div>
+            <a class="btn" href="{{ url_for('user.create_organization') }} ">Create new organization</a>
+        </div>
+        <div class="grey-container survey-form">
+            <div class="survey-header">
+                <img class="svg-icon" src="{{ url_for('static', filename='img/icon_building.svg') }}" alt="building icon">
+                <legend>Location</legend>
+            </div>
+            <div class="input-box">
+                {{ form.location_name.label }}
+                {{ form.location_name(id="locationInput", list="locationList", autocomplete="off") }}
+                <datalist id="locationList"></datalist>
+                <div id="locationInformation">
+                    <h4>Location Information</h4>
+                    <p>Address</p>
+                    <p>Postal code and city</p>
+                    <p>Country</p>
+                    <p>Coordinates</p>
+                </div>
+            </div>
+            <a href="{{ url_for('survey.create_location') }} " class="btn">Create new location</a>
+        </div>
+        <div class="grey-container survey-form">
+            <div class="survey-header">
+                <img class="svg-icon" src="{{ url_for('static', filename='img/icon_build.svg') }}" alt="wrench icon">
+                <legend>Installation</legend>
+            </div>
+            <div class="input-box">
+                {{form.public_chargers.label}}
+                {{form.public_chargers}}
+                {{form.public_installation_location.label}}
+                {{form.public_installation_location}}
+                {{form.public_charging_power.label}}
+                {{form.public_charging_power}}
+                {{form.private_chargers.label}}
+                {{form.private_chargers}}
+                {{form.private_installation_location.label}}
+                {{form.private_installation_location}}
+                {{form.private_charging_power.label}}
+                {{form.private_charging_power}}
+                {{form.attachment_1_title.label}}
+                {{form.attachment_1_title}}
+                {{form.attachment_1.label}}
+                {{form.attachment_1}}
+                {{form.attachment_2_title.label}}
+                {{form.attachment_2_title}}
+                {{form.attachment_2.label}}
+                {{form.attachment_2}}
+                {{form.attachment_3_title.label}}
+                {{form.attachment_3_title}}
+                {{form.attachment_3.label}}
+                {{form.attachment_3}}
+                <div>
+                    {{form.installation_type.label}}
+                    {% for subfield in form.installation_type %}
+                    <div class="slider-checkbox">
+                        {{ subfield }}
+                        {{ subfield.label(class="label") }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="grey-container">
+            <table id="productTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Prd No</th>
+                        <th>Product</th>
+                        <th>Amount</th>
+                        <th>Unit</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="productBody">
+                    <tr>
+                        <td>1</td>
+                        <td><input type="text" class="productField" list="productList"></td>
+                        <td>--</td>
+                        <td><input type="number" class="amountField"></td>
+                        <td>pcs</td>
+                        <td>--</td>
+                        <td class="totalColumn">--</td>
+                        <td class="deleteRow"><img class="icon-small" src="{{ url_for('static', filename='img/icon_trash.svg') }}" alt="Trash bin icon"></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><input type="text" class="productField" list="productList"></td>
+                        <td>--</td>
+                        <td><input type="number" class="amountField"></td>
+                        <td>pcs</td>
+                        <td>--</td>
+                        <td class="totalColumn">--</td>
+                        <td class="deleteRow"><img class="icon-small" src="{{ url_for('static', filename='img/icon_trash.svg') }}" alt="Trash bin icon"></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><input type="text" class="productField" list="productList"></td>
+                        <td>--</td>
+                        <td><input type="number" class="amountField"></td>
+                        <td>pcs</td>
+                        <td>--</td>
+                        <td class="totalColumn">--</td>
+                        <td class="deleteRow"><img class="icon-small" src="{{ url_for('static', filename='img/icon_trash.svg') }}" alt="Trash bin icon"></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><input type="text" class="productField" list="productList"></td>
+                        <td>--</td>
+                        <td><input type="number" class="amountField"></td>
+                        <td>pcs</td>
+                        <td>--</td>
+                        <td class="totalColumn">--</td>
+                        <td class="deleteRow"><img class="icon-small" src="{{ url_for('static', filename='img/icon_trash.svg') }}" alt="Trash bin icon"></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><input type="text" class="productField" list="productList"></td>
+                        <td>--</td>
+                        <td><input type="number" class="amountField"></td>
+                        <td>pcs</td>
+                        <td>--</td>
+                        <td class="totalColumn">--</td>
+                        <td class="deleteRow"><img class="icon-small" src="{{ url_for('static', filename='img/icon_trash.svg') }}" alt="Trash bin icon"></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th scope="row" colspan="6">Order total</th>
+                        <td id="tableTotalTd"></td>
+                    </tr>
+                </tfoot>
+                        
+            </table>
+            <button id="addTableRow">Add row</button> 
+            <datalist id="productList"></datalist>
+        </div>
+        <div class="grey-container">
+            <div class="input-box">
+                {{ form.submit }}
+            </div>
+        </div>
+        
+    </form>
 </div>
 {% endblock %}

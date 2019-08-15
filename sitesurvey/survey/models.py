@@ -43,10 +43,14 @@ class Survey(db.Model):
 
 class Surveypicture(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(30), nullable=False)
     picture_filename = db.Column(db.String(15), nullable=False)
 
     # Foreign keys
     survey_id = db.Column(db.Integer, db.ForeignKey('survey.id'))
+
+    def __repr__(self):
+        return f'Survey picture <{self.title}>'
 
 class Location(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -68,20 +72,43 @@ class Location(db.Model):
 class Workorder(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(30), nullable=False)
+
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     update_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     requested_date = db.Column(db.DateTime) # Requested delivery date when the project is ready
     ready_date = db.Column(db.DateTime) # When the project was actually ready
     status = db.Column(db.String(30), nullable=False, default='created')
-    number_of_chargers = db.Column(db.Integer, nullable=False)
-    cp_charging_power = db.Column(db.Float, nullable=False)
+    
+    public_chargers = db.Column(db.Integer, nullable=False)
+    public_installation_location = db.Column(db.Text, nullable=False)
+    public_charging_power = db.Column(db.Float, nullable=False)
+
+    private_chargers = db.Column(db.Integer, nullable=False)
+    private_installation_location = db.Column(db.Text, nullable=False)
+    private_charging_power = db.Column(db.Float, nullable=False)
+    installation_type = db.Column(db.String(10), nullable=False)
 
     # Foreign keys
     org_id = db.Column(db.Integer, db.ForeignKey('organization.id'))
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
 
+    # Backrefs
+    line_items = db.relationship('Lineitem', backref='workorder', lazy=True)
+    attachments = db.relationship('Workorderattachment', backref='workorder', lazy=True)
+
     def __repr__(self):
         return f'Workorder <{self.id} | {self.title} | Created {self.create_date} | Updated {self.update_date} | {self.status}>'
+
+class Workorderattachment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(30), nullable=False)
+    picture_filename = db.Column(db.String(15), nullable=False)
+
+    # Foreign keys
+    workorder_id = db.Column(db.Integer, db.ForeignKey('workorder.id'))
+
+    def __repr__(self):
+        return f'Attachment <{self.title}>'
 
 class Lineitem(db.Model):
     id = db.Column(db.Integer, primary_key=True)

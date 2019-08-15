@@ -103,18 +103,27 @@ class SurveyForm(FlaskForm):
         self.model.choices = [(charger.model.lower(), charger.model) for charger in Charger.query.all()]
 
 class WorkorderForm(FlaskForm):
-    organization_name = StringField('Organization name')
+    title = StringField('Workorder title', validators=[DataRequired(message=data_req_msg)])
+    requested_date = DateTimeField('Requested ready date', validators=[DataRequired(message=data_req_msg)])
+    organization_name = StringField('Organization name', validators=[DataRequired(message=data_req_msg)])
+    location_name = StringField('Location name', validators=[DataRequired(message=data_req_msg)])
     public_chargers = IntegerField('Number of public chargers', validators=[DataRequired(message=data_req_msg)])
     public_installation_location = TextAreaField('Installation location description')
+    public_charging_power = FloatField('Charging power of public chargers', validators=[DataRequired(message=data_req_msg)])
     private_chargers = IntegerField('Number of private chargers', validators=[DataRequired(message=data_req_msg)])
     private_installation_location = TextAreaField('Installation location description')
+    private_charging_power = FloatField('Charging power of private chargers', validators=[DataRequired(message=data_req_msg)])
+    attachment_1_title = StringField('Attachment title')
     attachment_1 = FileField('Attach file', validators=[FileAllowed(['jpg', 'png', 'pdf'])])
+    attachment_2_title = StringField('Attachment title')
     attachment_2 = FileField('Attach file', validators=[FileAllowed(['jpg', 'png', 'pdf'])])
+    attachment_3_title = StringField('Attachment title')
     attachment_3 = FileField('Attach file', validators=[FileAllowed(['jpg', 'png', 'pdf'])])
 
     installation_type = RadioField('Installation type', validators=[DataRequired(message=data_req_msg)],
                                     choices=[('turnkey', 'Turn-key installation'),
                                              ('charger', 'Charger installation')])
+    submit = SubmitField('Create new workorder')
 
 class LocationForm(FlaskForm):
 	location_name = StringField('Location name', validators=[DataRequired(message=data_req_msg)])

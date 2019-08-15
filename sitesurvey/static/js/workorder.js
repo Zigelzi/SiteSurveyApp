@@ -51,8 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Calculate the complete order total to tfoot
     function tableTotal(mutations) {
-        const tableTotalTd = document.getElementById('tableTotalTd')
-        let totalSum = 0;
 
         // Looping through all the happened mutations and performing task based on mutation target
         mutations.forEach(function(mutation) {
@@ -60,15 +58,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (mutation.target.className === 'totalColumn') {
                 const productBody = mutation.target.parentElement.parentElement;
                 let totalCellValue
+                const tableTotalTd = document.getElementById('tableTotalTd')
+                let totalSum = 0;
                 for (let i = 0; i < productBody.children.length; i++) {
                     totalCellValue = productBody.children[i].children[6].textContent
                     // console.log(`Mutation: ${mutation.target.className}`);
-                    console.log(`Row ${i} totallCellValue ${totalCellValue}`);
                     if (totalCellValue != "--" && totalCellValue != "NaN €") {
                         totalSum += parseFloat(productBody.children[i].children[6].textContent.replace(",",".").replace(' ',''));
-                        console.log(`Total sum:${totalSum}`);
                     }
                 }
+                tableTotalTd.textContent = totalSum + " €";
             }
             // If table rows get removed redo the running numbering of rows
             if (mutation.removedNodes.length !== 0) {
@@ -80,11 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         tableRows[i].children[0].textContent = i + 1;
                     }
                 }  
-            }
-                 
+            }   
         });
-        console.log(`Total sum in the end:${totalSum}`)
-        tableTotalTd.textContent = totalSum + " €";
     }
 
     function addRow() {

@@ -79,7 +79,7 @@
                 </div>
                 <div class="input-box">
                     {{ form.organization.label }}
-                    {{ form.organization(list="organizationList") }}
+                    {{ form.organization(list="organizationList", autocomplete="off") }}
                     <datalist id="organizationList"></datalist>
                     {% if form.organization.errors %}
                         <div class="error">

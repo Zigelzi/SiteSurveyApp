@@ -4,10 +4,10 @@ from flask_login import current_user, login_required
 import sys
 
 from sitesurvey import db
-from sitesurvey.survey.models import Survey, Surveypicture, Location, Workorder
+from sitesurvey.survey.models import Survey, Surveypicture, Location, Workorder, Workorderattachment
 from sitesurvey.survey.forms import SurveyForm, WorkorderForm, LocationForm
-from sitesurvey.survey.utils import save_picture
-from sitesurvey.user.models import Contactperson
+from sitesurvey.survey.utils import save_file
+from sitesurvey.user.models import Contactperson, Organization
 from sitesurvey.product.models import Charger
 
 bp_survey = Blueprint('survey', __name__)
@@ -50,25 +50,25 @@ def create_survey():
 
 
         # Saving the installation location picture to file system and creating DB entry
-        pic_installation_location_file = save_picture(form.pic_installation_location.data)
+        pic_installation_location_file = save_file(form.pic_installation_location.data)
         sp_installation_location = Surveypicture(survey_id=survey.id,
                                                     picture_filename=pic_installation_location_file)
 
         # Saving the main cabinet picture to file system and creating DB entry
-        pic_maincabinet_file = save_picture(form.pic_maincabinet.data)
+        pic_maincabinet_file = save_file(form.pic_maincabinet.data)
         sp_maincabinet = Surveypicture(survey_id=survey.id,
                                         picture_filename=pic_maincabinet_file)
 
         # Saving the subcabinet picture if it exists to file system and creating DB entry
         if form.pic_subcabinet.data:
-            pic_subcabinet_file = save_picture(form.pic_subcabinet.data)
+            pic_subcabinet_file = save_file(form.pic_subcabinet.data)
             sp_subcabinet = Surveypicture(survey_id=survey.id,
                                             picture_filename=pic_subcabinet_file)
             db.session.add(sp_subcabinet)
 
         # Saving the additional picture if it exists to file system and creating DB entry
         if form.pic_additional.data:
-            pic_additional_file = save_picture(form.pic_additional.data)
+            pic_additional_file = save_file(form.pic_additional.data)
             sp_additional = Surveypicture(survey_id=survey.id,
                                             picture_filename=pic_additional_file)
             db.session.add(sp_additional)
@@ -99,10 +99,55 @@ def survey(survey_id):
         filenames.append('survey_pictures/'+ picture.picture_filename)
     return render_template('survey/survey.html', survey=survey, filenames=filenames)
 
-@bp_survey.route('/survey/create_workorder')
+@bp_survey.route('/survey/create_workorder', methods=['GET', 'POST'])
 @login_required
 def create_workorder():
     form = WorkorderForm()
+    print(request.method)
+    if request.method == 'POST':
+        print('JSON from POST request')
+        json = request.get_json()
+        print(json)
+    if (form.validate_on_submit() and False):
+        org_id = Organization.query.filter_by(org_name=form.organization_name.data).first().id
+        location_id = Location.query.filter_by(name=form.location_name.data).first().id
+        workorder = Workorder(title=form.title.data,
+                              requested_date=form.requested_date.data,
+                              public_chargers=form.public_chargers.data,
+                              public_installation_location=form.public_installation_location.data,
+                              public_charging_power=form.public_charging_power.data,
+                              private_chargers=form.private_chargers.data,
+                              private_installation_location=form.private_installation_location.data,
+                              private_charging_power=form.private_charging_power.data,
+                              installation_type=form.installation_type.data,
+                              org_id=org_id,
+                              location_id=location_id)
+
+        db.session.add(workorder)
+        db.session.commit()
+
+        # If attachments exist save the files to disk and commit the filenames and titles to DB
+        if form.attachment_1.data:
+            attachment_1_file = save_file(form.attachment_1.data)
+            attachment_1 = Workorderattachment(workorder_id=workorder.id,
+                                               title=form.attachment_1_title.data,
+                                               picture_filename=attachment_1_file)
+            db.session.add(attachment_1)
+
+        if form.attachment_2.data:
+            attachment_2_file = save_file(form.attachment_2.data)
+            attachment_2 = Workorderattachment(workorder_id=workorder.id,
+                                               title=form.attachment_2_title.data,
+                                               picture_filename=attachment_2_file)
+            db.session.add(attachment_2)
+
+        if form.attachment_3.data:
+            attachment_3_file = save_file(form.attachment_3.data)
+            attachment_3 = Workorderattachment(workorder_id=workorder.id,
+                                               title=form.attachment_3_title.data,
+                                               picture_filename=attachment_3_file)
+            db.session.add(attachment_3)
+
     return render_template('survey/create_workorder.html', form=form)
 
 @bp_survey.route('/survey/create_location', methods=["GET", "POST"])
