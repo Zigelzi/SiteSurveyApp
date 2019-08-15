@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, flash, url_for, request
 from flask_login import current_user, login_required
 
 import sys
+from json import loads
 
 from sitesurvey import db
 from sitesurvey.survey.models import Survey, Surveypicture, Location, Workorder, Workorderattachment
@@ -107,7 +108,8 @@ def create_workorder():
     if request.method == 'POST':
         print('JSON from POST request')
         json = request.get_json()
-        print(json)
+        for product in json['products']:
+            print(product)
     if (form.validate_on_submit() and False):
         org_id = Organization.query.filter_by(org_name=form.organization_name.data).first().id
         location_id = Location.query.filter_by(name=form.location_name.data).first().id

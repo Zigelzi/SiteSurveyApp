@@ -18,6 +18,7 @@ function getDataAddSuggestions(url, elementId, dataKeyName) {
     xhr.open('GET', url);
     xhr.send();
 }
+
 function getData(url, callback) {
     const xhr = new XMLHttpRequest();
 
@@ -29,6 +30,15 @@ function getData(url, callback) {
         }
     xhr.open('GET', url);
     xhr.send();
+}
+
+function sendtData(url, json_object) {
+    const xhr = new XMLHttpRequest();
+    const json_data = JSON.stringify(json_object);
+
+    xhr.open('POST', url);
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.send(json_data);
 }
 
 /** Validate that the users value entered to inputElementId is in the datalistId and then submit form
@@ -72,4 +82,4 @@ function addSuggestions(elementId, jsonData, dataKeyName) {
     });
 }
 
-export {getDataAddSuggestions, validateDatalistInput, getData};
+export {getDataAddSuggestions, validateDatalistInput, getData, sendtData};

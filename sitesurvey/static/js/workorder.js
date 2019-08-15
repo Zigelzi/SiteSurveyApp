@@ -1,4 +1,4 @@
-import {getDataAddSuggestions, getData, validateDatalistInput} from './scripts.js';
+import {getDataAddSuggestions, getData, sendtData, validateDatalistInput} from './scripts.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -169,6 +169,26 @@ document.addEventListener('DOMContentLoaded', () => {
         } 
     }
 
+    function tableDataToJson() {
+        let mainJson = new Object();
+        const arr = new Array();
+        for (let row of productBody.children) {
+            if (row.children[1].children[0].value != '') {
+                let json = new Object();
+                json.product_number = row.children[1].children[0].value;
+                json.quantity = row.children[3].children[0].value;
+                json.total = row.children[6].textContent.replace(' ', '').replace('€', '');
+                arr.push(json);
+            }  
+        }
+
+        mainJson.products = arr;
+        sendtData('/survey/create_workorder', mainJson);
+        console.log(mainJson);
+    }
+
+    tableDataToJson();
+
     getDataAddSuggestions('/api/locations', 'locationList', 'name');
     getDataAddSuggestions('/api/customers', 'customerList', 'org_name');
     getDataAddSuggestions('/api/products', 'productList', 'product_number');
@@ -232,5 +252,8 @@ document.addEventListener('DOMContentLoaded', () => {
             contactPersonArray[2].textContent = 'Phone number';
             contactPersonArray[3].textContent = 'Email';
         }
-    })
+    });
+    const jsonBtn = document.getElementById('jsonTest');
+    jsonBtn.addEventListener('click', tableDataToJson);
+
 })
