@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const locationInput = document.getElementById('locationInput');
     const locationInfo = document.getElementById('locationInformation');
     const locationInfoArray = Array.from(locationInfo.children);
+    const workorderSubmit = document.getElementById('workorderSubmit');
 
     // Table elements
     const productField = document.getElementsByClassName('productField');
@@ -253,7 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
             contactPersonArray[3].textContent = 'Email';
         }
     });
-    const jsonBtn = document.getElementById('jsonTest');
-    jsonBtn.addEventListener('click', tableDataToJson);
+    workorderSubmit.addEventListener('click', tableDataToJson);
 
 })

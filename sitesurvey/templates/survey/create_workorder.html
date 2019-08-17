@@ -7,6 +7,7 @@
 {% block content %}
 <div class="content">
     <form action="{{ url_for('survey.create_workorder') }} " method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
         <div class="grey-container survey-form">
             <div class="survey-header">
                 <img src="#" alt="" class="svg-icon">
@@ -60,6 +61,8 @@
                 <legend>Installation</legend>
             </div>
             <div class="input-box">
+                {{ form.requested_date.label }}
+                {{ form.requested_date }}
                 {{form.public_chargers.label}}
                 {{form.public_chargers}}
                 {{form.public_installation_location.label}}

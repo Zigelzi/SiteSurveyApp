@@ -1,4 +1,5 @@
 from datetime import datetime
+import secrets
 
 from sitesurvey import db
 from sitesurvey.user.models import survey_contact_rel
@@ -101,8 +102,8 @@ class Workorder(db.Model):
 
 class Workorderattachment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(30), nullable=False)
-    picture_filename = db.Column(db.String(15), nullable=False)
+    title = db.Column(db.String(30), nullable=False, default='Default title')
+    attachment_filename = db.Column(db.String(15), nullable=False, default=secrets.token_hex(8))
 
     # Foreign keys
     workorder_id = db.Column(db.Integer, db.ForeignKey('workorder.id'))
@@ -121,7 +122,7 @@ class Lineitem(db.Model):
     workorder_id = db.Column(db.Integer, db.ForeignKey('workorder.id'))
 
     def __repr__(self):
-        return f'LineItem <{self.id} | {self.quantity} | {self.total}>'
+        return f'LineItem <Workorder ID {self.workorder_id} | Product ID {self.product_id} | Quantity {self.quantity} | Total {self.total}>'
 
 
 
