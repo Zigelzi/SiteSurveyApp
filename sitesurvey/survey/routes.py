@@ -117,8 +117,6 @@ def create_workorder():
 
     # TODO: Send the whole form in XHR rather than default submit.
     if (form.validate_on_submit() and request.method == 'POST'):
-        org_id = Organization.query.filter_by(org_name=form.organization_name.data).first().id
-        location_id = Location.query.filter_by(name=form.location_name.data).first().id
         workorder = Workorder(title=form.title.data,
                               requested_date=form.requested_date.data,
                               public_chargers=form.public_chargers.data,
@@ -127,12 +125,16 @@ def create_workorder():
                               private_chargers=form.private_chargers.data,
                               private_installation_location=form.private_installation_location.data,
                               private_charging_power=form.private_charging_power.data,
-                              installation_type=form.installation_type.data,
-                              org_id=org_id,
-                              location_id=location_id)
-
+                              installation_type=form.installation_type.data)
         db.session.add(workorder)
         db.session.commit()
+
+        org = Organization.query.filter_by(org_name=form.organization_name.data).first()
+        location = Location.query.filter_by(name=form.location_name.data).first()
+        org.workorder_id = workorder.id
+        location.workorder_id = workorder.id
+        db.session.add(org)
+        db.session.add(location)
 
         # If attachments exist save the files to disk and commit the filenames and titles to DB
         if form.attachment_1.data:
@@ -158,7 +160,6 @@ def create_workorder():
 
         # Get the Table data submitted in the JSON part
         json = request.get_json()
-        print(workorder.id)
         for item in json['products']:
             product = Product.query.filter_by(product_number=item['product_number']).first()
             line_item = Lineitem(discount=0,
@@ -176,13 +177,11 @@ def create_workorder():
 @login_required
 def workorder(workorder_id):
     workorder = Workorder.query.get_or_404(workorder_id)
-    org = Organization.query.get(workorder.org_id)
-    location = Location.query.get(workorder.location_id)
     filenames = []
     # Append all the filenames for creating the url_for to display the pictures
     for attachment in workorder.attachments:
         filenames.append(workorder_attachment_folder + attachment.picture_filename)
-    return render_template('survey/workorder.html', workorder=workorder, org=org, location=location, filenames=filenames)
+    return render_template('survey/workorder.html', workorder=workorder, filenames=filenames)
 
 @bp_survey.route('/survey/create_location', methods=["GET", "POST"])
 @login_required

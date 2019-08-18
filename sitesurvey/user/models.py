@@ -82,6 +82,9 @@ class Organization(db.Model):
     contact_persons = db.relationship('Contactperson', backref='organization', lazy=True)
     users = db.relationship('User', backref='organization', lazy=True)
 
+    # Foreign keys
+    workorder_id = db.Column(db.Integer, db.ForeignKey('workorder.id'))
+    
     def __repr__(self):
         return f'Organization <{self.org_name} | {self.org_number} | {self.city} | {self.country}'
 
