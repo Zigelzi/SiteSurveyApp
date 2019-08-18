@@ -32,13 +32,16 @@ function getData(url, callback) {
     xhr.send();
 }
 
-function sendtData(url, json_object) {
+function sendData(url, jsonObject, csrfToken=null) {
     const xhr = new XMLHttpRequest();
-    const json_data = JSON.stringify(json_object);
+    const jsonData = JSON.stringify(jsonObject);
 
     xhr.open('POST', url);
+    if (csrfToken !== null) {
+        xhr.setRequestHeader('X-CSRFToken', csrfToken);
+    }
     xhr.setRequestHeader('Content-type', 'application/json');
-    xhr.send(json_data);
+    xhr.send(jsonData);
 }
 
 /** Validate that the users value entered to inputElementId is in the datalistId and then submit form
@@ -82,4 +85,4 @@ function addSuggestions(elementId, jsonData, dataKeyName) {
     });
 }
 
-export {getDataAddSuggestions, validateDatalistInput, getData, sendtData};
+export {getDataAddSuggestions, validateDatalistInput, getData, sendData};

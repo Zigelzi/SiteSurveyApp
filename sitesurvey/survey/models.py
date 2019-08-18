@@ -94,6 +94,8 @@ class Workorder(db.Model):
     location_id = db.Column(db.Integer, db.ForeignKey('location.id'))
 
     # Backrefs
+    # org = db.r
+    #
     line_items = db.relationship('Lineitem', backref='workorder', lazy=True)
     attachments = db.relationship('Workorderattachment', backref='workorder', lazy=True)
 

@@ -113,6 +113,7 @@ def create_workorder():
         print(form.validate_on_submit())
         print('Form errors:')
         print(form.errors)
+        print(form.requested_date.data)
 
     # TODO: Send the whole form in XHR rather than default submit.
     if (form.validate_on_submit() and request.method == 'POST'):
@@ -157,6 +158,7 @@ def create_workorder():
 
         # Get the Table data submitted in the JSON part
         json = request.get_json()
+        print(workorder.id)
         for item in json['products']:
             product = Product.query.filter_by(product_number=item['product_number']).first()
             line_item = Lineitem(discount=0,
@@ -174,11 +176,13 @@ def create_workorder():
 @login_required
 def workorder(workorder_id):
     workorder = Workorder.query.get_or_404(workorder_id)
+    org = Organization.query.get(workorder.org_id)
+    location = Location.query.get(workorder.location_id)
     filenames = []
     # Append all the filenames for creating the url_for to display the pictures
-    for attachment in workorder.attachment:
+    for attachment in workorder.attachments:
         filenames.append(workorder_attachment_folder + attachment.picture_filename)
-    return render_template('survey/workorder.html', workorder=workorder, filenames=filenames)
+    return render_template('survey/workorder.html', workorder=workorder, org=org, location=location, filenames=filenames)
 
 @bp_survey.route('/survey/create_location', methods=["GET", "POST"])
 @login_required

@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="grey-container">
+    <h1>Workorder: {{ workorder.id }}</h1>
+    <p><span>Created: </span> {{ workorder.create_date.strftime('%d.%m.%Y - %H:%M') }}</p>
+    <p><span>Updated: </span> {{ workorder.update_date.strftime('%d.%m.%Y - %H:%M') }} </p>
+
+    <h2>Location</h2>
+    <p><span>Workorder Status: </span> {{ workorder.status }} </p>
+    <p><span>Requested date: </span> {{ workorder.requested_date }} </p>
+    <p><span>Name: </span>{{ location.name }} </p>
+    <p><span>Address: </span>{{ location.address }}, {{ location.postal_code }} {{ location.city }}</p>
+    <p><span>Country: </span>{{ location.country }} </p>
+    <p><span>Coordinates: </span>Lat {{ location.coordinate_lat }} Long {{ location.coordinate_long }} </p>
+    
+    <h2>Contact persons</h2>
+    {% for contact_person in org.contact_persons %}
+        <p><span>Name: </span>{{ contact_person.first_name }} {{ contact_person.last_name }}</p>
+        <p><span>Title: </span>{{ contact_person.title }}</p>
+        <p><span>Email: </span>{{ contact_person.email }}</p>
+        <p><span>Phone: </span>{{ contact_person.phone_number }}</p>
+    {% endfor %}
+
+    <h2>Installation</h2>
+    <p><span>Public chargers: </span>{{ workorder.public_chargers }} </p>
+    <p><span>Public chargers installation location: </span>{{ workorder.public_installation_location }} </p>
+    <p><span>Public chargers charging power / outlet: </span>{{ workorder.public_charging_power }} </p>
+    <p><span>Private chargers: </span>{{ workorder.private_chargers }} </p>
+    <p><span>Private chargers installation location: </span>{{ workorder.private_installation_location }} </p>
+    <p><span>Private chargers charging power / outlet: </span>{{ workorder.private_charging_power }} </p>
+    <p><span>Installation type of the workorder</span>{{ workorder.installation_type }} </p>
+    <h2>Chargers</h2>
+    <p><span>Installation method: </span> {{ survey.installation_method }} </p>
+    <p><span>Concrete foundation needed: </span> {{ survey.concrete_foundation }} </p>
+    <div>
+        {# Insert all the pictures from the surveys to the page #}
+        {% for file in filenames %}
+            <img src="{{ url_for('static', filename=file) }} " alt="">
+        {% endfor %}
+    </div>
+</div>
+
+
+
+{% endblock %}

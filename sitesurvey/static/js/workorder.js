@@ -1,4 +1,4 @@
-import {getDataAddSuggestions, getData, sendtData, validateDatalistInput} from './scripts.js';
+import {getDataAddSuggestions, getData, sendData, validateDatalistInput} from './scripts.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -182,11 +182,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 arr.push(json);
             }  
         }
-
-        mainJson.products = arr;
-        sendtData('/survey/create_workorder', mainJson);
-        console.log(mainJson);
+        return arr;
+        // sendData('/survey/create_workorder', mainJson);
+        // console.log(mainJson);
     }
+
+    function sendForm(url, formId) {
+        const form = document.getElementById(formId);
+        const formData = new FormData(form);
+        const jsonObject = new Object();
+        formData.forEach((value, key) => {
+            jsonObject[key] = value;
+        })
+
+        jsonObject.products = tableDataToJson();
+        console.log(jsonObject);
+        sendData(url, jsonObject, jsonObject.csrf_token);
+    }
+
+    const jsonTest = document.getElementById('jsonTest');
+    jsonTest.addEventListener('click',() => {
+        sendForm('/survey/create_workorder', 'workorderForm');
+    });
 
     tableDataToJson();
 

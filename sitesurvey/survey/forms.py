@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import (StringField, SelectField, FloatField, BooleanField, DateTimeField,
+from wtforms import (StringField, SelectField, FloatField, BooleanField, DateTimeField, DateField,
                      IntegerField, TextAreaField, SubmitField, RadioField)
 from wtforms.validators import DataRequired, Email
 
@@ -104,7 +104,7 @@ class SurveyForm(FlaskForm):
 
 class WorkorderForm(FlaskForm):
     title = StringField('Workorder title', validators=[DataRequired(message=data_req_msg)])
-    requested_date = DateTimeField('Requested ready date', validators=[DataRequired(message=data_req_msg)])
+    requested_date = DateField('Requested ready date', validators=[DataRequired(message=data_req_msg)])
     organization_name = StringField('Organization name', validators=[DataRequired(message=data_req_msg)])
     location_name = StringField('Location name', validators=[DataRequired(message=data_req_msg)])
     public_chargers = IntegerField('Number of public chargers', validators=[DataRequired(message=data_req_msg)])
