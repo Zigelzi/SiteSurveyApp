@@ -115,7 +115,6 @@ def create_workorder():
         print(form.errors)
         print(form.requested_date.data)
 
-    # TODO: Send the whole form in XHR rather than default submit.
     if (form.validate_on_submit() and request.method == 'POST'):
         workorder = Workorder(title=form.title.data,
                               requested_date=form.requested_date.data,

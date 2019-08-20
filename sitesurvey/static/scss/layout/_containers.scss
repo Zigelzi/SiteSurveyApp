@@ -23,3 +23,32 @@
         color: #404040
     }
 }
+
+// Flexbox container
+.flex-container {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    width: 90%;
+    margin: 0 auto;
+    // Basic column with 50% width
+    .col-2 {
+        flex-grow: 1;
+        flex-basis: 50%;
+        min-width: 250px;
+    }
+    .col-3 {
+        flex-grow: 1;
+        flex-basis: 32%;
+        min-width: 250px;
+        margin: 0 5px;
+        &:first-child {
+            margin-left: 0;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}
+
+
