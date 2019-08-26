@@ -171,7 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function tableDataToJson() {
-        let mainJson = new Object();
+        // Loop through the rows in productBody table and convert the items to JSON object.
+        // Returns array of rows in JSON format
         const arr = new Array();
         for (let row of productBody.children) {
             if (row.children[1].children[0].value != '') {
@@ -183,8 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }  
         }
         return arr;
-        // sendData('/survey/create_workorder', mainJson);
-        // console.log(mainJson);
     }
 
     function sendForm(url, formId) {
@@ -196,17 +195,11 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 
         jsonObject.products = tableDataToJson();
-        console.log(jsonObject);
-        sendData(url, jsonObject, jsonObject.csrf_token);
+        // console.log(jsonObject);
+        sendData(url, jsonObject, jsonObject.csrf_token, true);
     }
 
-    const jsonTest = document.getElementById('jsonTest');
-    jsonTest.addEventListener('click',() => {
-        sendForm('/survey/create_workorder', 'workorderForm');
-    });
-
-    tableDataToJson();
-
+    // Create the <datalist> elements based on DB entries
     getDataAddSuggestions('/api/locations', 'locationList', 'name');
     getDataAddSuggestions('/api/customers', 'customerList', 'org_name');
     getDataAddSuggestions('/api/products', 'productList', 'product_number');
@@ -271,6 +264,9 @@ document.addEventListener('DOMContentLoaded', () => {
             contactPersonArray[3].textContent = 'Email';
         }
     });
-    workorderSubmit.addEventListener('click', tableDataToJson);
+    workorderSubmit.addEventListener('click', event => {
+        event.preventDefault;
+        sendForm('/survey/create_workorder', 'workorderForm');
+    });
 
 })

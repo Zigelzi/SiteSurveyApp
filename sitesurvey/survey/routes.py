@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, flash, url_for, request
+from flask import Blueprint, render_template, redirect, flash, url_for, request, jsonify
 from flask_login import current_user, login_required
 
 import sys
@@ -103,6 +103,13 @@ def survey(survey_id):
         filenames.append(survey_picture_folder + picture.picture_filename)
     return render_template('survey/survey.html', survey=survey, filenames=filenames)
 
+@bp_survey.route('/survey/test', methods=['GET', 'POST'])
+def test():
+    data = request.get_json()
+    url = url_for('survey.workorder', workorder_id=1)
+    print(url)
+    return jsonify(redirect=url)
+
 @bp_survey.route('/survey/create_workorder', methods=['GET', 'POST'])
 @login_required
 def create_workorder():
@@ -114,6 +121,7 @@ def create_workorder():
         print('Form errors:')
         print(form.errors)
         print(form.requested_date.data)
+        print(request.get_json())
 
     if (form.validate_on_submit() and request.method == 'POST'):
         workorder = Workorder(title=form.title.data,
@@ -168,7 +176,8 @@ def create_workorder():
                                  workorder_id=workorder.id)
             db.session.add(line_item)
         db.session.commit()
-        return redirect(url_for('survey.workorder', workorder_id=workorder.id))
+        url = url_for('survey.workorder', workorder_id=workorder.id)
+        return jsonify(redirect=url)
 
     return render_template('survey/create_workorder.html', form=form)
 

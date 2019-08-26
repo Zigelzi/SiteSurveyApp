@@ -8,18 +8,18 @@
 <div class="content">
     <form action="{{ url_for('survey.create_workorder') }} " method="POST" enctype="multipart/form-data" id="workorderForm">
         {{ form.hidden_tag() }}
-        <div class="flex-container">
-            <div class="grey-container survey-form col-3">
-                <div class="survey-header">
-                    <img src="#" alt="" class="svg-icon">
-                    <legend>Create workorder</legend>
-                </div>
-                <div class="input-box">
-                    {{ form.title.label }}
-                    {{ form.title }}
-                </div>
+        <div class="grey-container survey-form">
+            <div class="survey-header">
+                <img src="{{ url_for('static', filename='img/icon_workers.svg') }}" alt="" class="svg-icon">
+                <legend>Create workorder</legend>
             </div>
-            <div class="grey-container survey-form col-3">
+            <div class="input-box">
+                {{ form.title.label }}
+                {{ form.title }}
+            </div>
+        </div>
+        <div class="flex-container">
+            <div class="grey-container survey-form col-2">
                 <div class="survey-header">
                     <img class="svg-icon" src="{{ url_for('static', filename='img/icon_person.svg') }}" alt="person icon">
                     <legend>Customer organization</legend>
@@ -37,7 +37,7 @@
                 </div>
                 <a class="btn" href="{{ url_for('user.create_organization') }} ">Create new organization</a>
             </div>
-            <div class="grey-container survey-form col-3">
+            <div class="grey-container survey-form col-2">
                 <div class="survey-header">
                     <img class="svg-icon" src="{{ url_for('static', filename='img/icon_building.svg') }}" alt="building icon">
                     <legend>Location</legend>
@@ -179,8 +179,7 @@
         </div>
         <div class="grey-container">
             <div class="input-box">
-                {{ form.submit(id="workorderSubmit") }}
-                <button type="button" id="jsonTest">Test Table to JSON</button>
+                {{ form.submit(id="workorderSubmit", type="button") }}
             </div>
         </div>
         

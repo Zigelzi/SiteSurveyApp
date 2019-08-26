@@ -34,19 +34,29 @@
     // Basic column with 50% width
     .col-2 {
         flex-grow: 1;
-        flex-basis: 50%;
+        flex-basis: 100%;
         min-width: 250px;
+
+        @media screen and (min-width: $breakpoint-desktop) {
+            flex-basis: 50%;
+        }
     }
     .col-3 {
         flex-grow: 1;
-        flex-basis: 32%;
+        flex-basis: 100%;
         min-width: 250px;
-        margin: 0 5px;
-        &:first-child {
-            margin-left: 0;
-        }
-        &:last-child {
-            margin-right: 0;
+
+        @media screen and (min-width: $breakpoint-desktop) {
+            flex-basis: 33%;
+            /*
+            margin: 0 5px;
+            &:first-child {
+                margin-left: 0;
+            }
+            &:last-child {
+                margin-right: 0;
+            }
+            */
         }
     }
 }

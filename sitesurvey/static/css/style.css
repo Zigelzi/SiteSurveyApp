@@ -484,20 +484,32 @@ template {
 }
 .flex-container .col-2 {
   flex-grow: 1;
-  flex-basis: 50%;
+  flex-basis: 100%;
   min-width: 250px;
+}
+@media screen and (min-width: 1200px) {
+  .flex-container .col-2 {
+    flex-basis: 50%;
+  }
 }
 .flex-container .col-3 {
   flex-grow: 1;
-  flex-basis: 32%;
+  flex-basis: 100%;
   min-width: 250px;
-  margin: 0 5px;
 }
-.flex-container .col-3:first-child {
-  margin-left: 0;
-}
-.flex-container .col-3:last-child {
-  margin-right: 0;
+@media screen and (min-width: 1200px) {
+  .flex-container .col-3 {
+    flex-basis: 33%;
+    /*
+    margin: 0 5px;
+    &:first-child {
+        margin-left: 0;
+    }
+    &:last-child {
+        margin-right: 0;
+    }
+    */
+  }
 }
 
 .fixed-footer {
