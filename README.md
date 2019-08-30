@@ -24,13 +24,16 @@ Application for doing site survey when planning electric vehicle charger install
 - [x] Sort out the many-to-many contact and location forms in survey. Possible?
 - [ ] Embedding Google Maps / OpenStreetmap to enter coordinates?
 - [x] Add status indication (created, waiting, ready) to survey table
+- [ ] Add notice which fields are mandatory and which are not
+- [ ] Need to emphasize that org and location are just search fields?
 ### Account / Users
 - [x] Add email authentication to new users
 - [ ] Highlight the nav user account so it's more noticeable (not clear it's clicable)
 - [ ] Send sign up link on new user creation rather than entering password for user
 
-### Chargers
+### Products
 - [ ] Tidy up the view chargers page formatting. Transposing the table for readability?
+- [ ] Add the additional information of chargers to Product table
 
 ### Organizations
 - [x] Add listing of all organizations and link to individual organizations
@@ -40,3 +43,10 @@ Application for doing site survey when planning electric vehicle charger install
 - [x] Update styling on all forms (submit button and fieldsets)
 - [ ] User permissions
 - [x] Set up db check so you can initialize the app the first time. Currently it crashes on imports if no DB exists
+- [ ] Make category creation more uniform (grey box vs fieldset)
+- [ ] Rething the redirections of different pages
+- [ ] Add back to menu button or cookiecrumbles
+- [ ] Redo navigation in mobile and desktop
+- [ ] Make secondary button for secondary actions like create organization type in create_organization route
+- [ ] Add flashed messages to: 
+- [ ] Add button to Organization for adding new contact persons

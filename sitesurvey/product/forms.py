@@ -45,7 +45,7 @@ class AddProductForm(FlaskForm):
     product_number = StringField('Product number', validators=[DataRequired(message=data_req_msg)])
     product_name = StringField('Product name', validators=[DataRequired(message=data_req_msg)])
     unit_of_material = SelectField('Unit of Material', validators=[DataRequired(message=data_req_msg)], choices=uom_choices)
-    price = FloatField('Price (€)', validators=[DataRequired(message=data_req_msg)])
+    price = FloatField('Price', validators=[DataRequired(message=data_req_msg)])
     product_category = SelectField('Product category', coerce=int)
     submit = SubmitField('Create new product')
 

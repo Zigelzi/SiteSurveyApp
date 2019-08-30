@@ -122,7 +122,8 @@ class WorkorderForm(FlaskForm):
 
     installation_type = RadioField('Installation type', validators=[DataRequired(message=data_req_msg)],
                                     choices=[('turnkey', 'Turn-key installation'),
-                                             ('charger', 'Charger installation')])
+                                             ('charger', 'Charger installation')],
+                                    default='turnkey')
     submit = SubmitField('Create new workorder')
 
 class LocationForm(FlaskForm):

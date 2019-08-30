@@ -115,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 newCell.textContent = ''
                 textInput.type = "text";
                 textInput.setAttribute('list', productList);
+                textInput.placeholder = 'Search';
                 textInput.className = 'productField';
                 newCell.appendChild(textInput);
                 newCell.addEventListener('input', event => {
@@ -139,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 newCell.textContent = ''
                 numberInput.type = "number";
                 numberInput.className = 'amountField';
+                numberInput.placeholder = 1;
                 newCell.appendChild(numberInput);
                 newCell.addEventListener('input', rowTotal);
             }

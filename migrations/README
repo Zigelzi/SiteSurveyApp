@@ -1,0 +1,9 @@
+Generic single-database configuration.
+
+For SQLite Batch alter operations you need to use 
+```
+op.batch_alter_table('TABLENAME') as batch_op:
+    batch_op.OPERATION(COLUMN INFO)
+```
+where TABLENAME is the table name that is being changed, OPERATION is the add/drop/alter operation and COLUMN INFO
+is the actual column information (db.Column or altered column name etc).

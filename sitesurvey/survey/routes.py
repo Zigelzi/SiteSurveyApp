@@ -175,6 +175,7 @@ def create_workorder():
                                  product_id=product.id,
                                  workorder_id=workorder.id)
             db.session.add(line_item)
+        workorder.total = workorder.order_total()
         db.session.commit()
         url = url_for('survey.workorder', workorder_id=workorder.id)
         return jsonify(redirect=url)

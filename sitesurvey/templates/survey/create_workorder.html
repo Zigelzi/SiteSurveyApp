@@ -15,7 +15,7 @@
             </div>
             <div class="input-box">
                 {{ form.title.label }}
-                {{ form.title }}
+                {{ form.title(placeholder="ABC Lohja HPC installation") }}
             </div>
         </div>
         <div class="flex-container">
@@ -26,7 +26,7 @@
                 </div>
                 <div class="input-box">
                     {{ form.organization_name.label }}
-                    {{ form.organization_name(id="orgInput", list="customerList", autocomplete="off") }}
+                    {{ form.organization_name(id="orgInput", list="customerList", autocomplete="off", placeholder="Search for organization") }}
                     <datalist id="customerList"></datalist>
                     <div id="contactPerson">
                         <label for="">Contact person</label>
@@ -44,10 +44,10 @@
                 </div>
                 <div class="input-box">
                     {{ form.location_name.label }}
-                    {{ form.location_name(id="locationInput", list="locationList", autocomplete="off") }}
+                    {{ form.location_name(id="locationInput", list="locationList", autocomplete="off", placeholder="Search for location") }}
                     <datalist id="locationList"></datalist>
                     <div id="locationInformation">
-                        <h4>Location Information</h4>
+                        <label>Location Information</label>
                         <p>Address</p>
                         <p>Postal code and city</p>
                         <p>Country</p>
@@ -67,30 +67,34 @@
                 {{ form.requested_date(type="date") }}
                 {{form.public_chargers.label}}
                 <div class="input-group">
-                    {{form.public_chargers}}<span class="input-addon">pcs</span>
+                    {{form.public_chargers(placeholder="2")}}<span class="input-addon">pcs</span>
                 </div>
                 {{form.public_installation_location.label}}
-                {{form.public_installation_location}}
+                {{form.public_installation_location(placeholder="Where the public chargers are planned to be installed")}}
                 {{form.public_charging_power.label}}
                 <div class="input-group">
-                    {{form.public_charging_power}} <span class="input-addon">kW</span>
+                    {{form.public_charging_power(placeholder="22")}}<span class="input-addon">kW</span>
                 </div>
                 {{form.private_chargers.label}}
-                {{form.private_chargers}}
+                <div class="input-group">
+                    {{form.private_chargers(placeholder="1")}}<span class="input-addon">pcs</span>
+                </div>
                 {{form.private_installation_location.label}}
-                {{form.private_installation_location}}
+                {{form.private_installation_location(placeholder="Where the public chargers are planned to be installed")}}
                 {{form.private_charging_power.label}}
-                {{form.private_charging_power}}
+                <div class="input-group">
+                        {{form.private_charging_power(placeholder="3.6")}}<span class="input-addon">kW</span>
+                </div>
                 {{form.attachment_1_title.label}}
-                {{form.attachment_1_title}}
+                {{form.attachment_1_title(placeholder="Picture of installation location")}}
                 {{form.attachment_1.label}}
                 {{form.attachment_1}}
                 {{form.attachment_2_title.label}}
-                {{form.attachment_2_title}}
+                {{form.attachment_2_title(placeholder="Main cabinet drawings")}}
                 {{form.attachment_2.label}}
                 {{form.attachment_2}}
                 {{form.attachment_3_title.label}}
-                {{form.attachment_3_title}}
+                {{form.attachment_3_title(placeholder="Plot plan")}}
                 {{form.attachment_3.label}}
                 {{form.attachment_3}}
                 <div>
@@ -121,9 +125,9 @@
                 <tbody id="productBody">
                     <tr>
                         <td>1</td>
-                        <td><input type="text" class="productField" list="productList"></td>
+                        <td><input type="text" class="productField" list="productList" placeholder="Search"></td>
                         <td>--</td>
-                        <td><input type="number" class="amountField"></td>
+                        <td><input type="number" class="amountField" placeholder="1"></td>
                         <td>pcs</td>
                         <td>--</td>
                         <td class="totalColumn">--</td>
@@ -131,9 +135,9 @@
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td><input type="text" class="productField" list="productList"></td>
+                        <td><input type="text" class="productField" list="productList" placeholder="Search"></td>
                         <td>--</td>
-                        <td><input type="number" class="amountField"></td>
+                        <td><input type="number" class="amountField" placeholder="1"></td>
                         <td>pcs</td>
                         <td>--</td>
                         <td class="totalColumn">--</td>
@@ -141,9 +145,9 @@
                     </tr>
                     <tr>
                         <td>3</td>
-                        <td><input type="text" class="productField" list="productList"></td>
+                        <td><input type="text" class="productField" list="productList" placeholder="Search"></td>
                         <td>--</td>
-                        <td><input type="number" class="amountField"></td>
+                        <td><input type="number" class="amountField" placeholder="1"></td>
                         <td>pcs</td>
                         <td>--</td>
                         <td class="totalColumn">--</td>
@@ -151,9 +155,9 @@
                     </tr>
                     <tr>
                         <td>4</td>
-                        <td><input type="text" class="productField" list="productList"></td>
+                        <td><input type="text" class="productField" list="productList" placeholder="Search"></td>
                         <td>--</td>
-                        <td><input type="number" class="amountField"></td>
+                        <td><input type="number" class="amountField" placeholder="1"></td>
                         <td>pcs</td>
                         <td>--</td>
                         <td class="totalColumn">--</td>
@@ -161,9 +165,9 @@
                     </tr>
                     <tr>
                         <td>5</td>
-                        <td><input type="text" class="productField" list="productList"></td>
+                        <td><input type="text" class="productField" list="productList" placeholder="Search"></td>
                         <td>--</td>
-                        <td><input type="number" class="amountField"></td>
+                        <td><input type="number" class="amountField" placeholder="1"></td>
                         <td>pcs</td>
                         <td>--</td>
                         <td class="totalColumn">--</td>
@@ -178,7 +182,7 @@
                 </tfoot>
                         
             </table>
-            <button id="addTableRow">Add row</button> 
+            <button id="addTableRow" type="button">Add row</button> 
             <datalist id="productList"></datalist>
         </div>
         <div class="grey-container">

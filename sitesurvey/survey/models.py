@@ -88,6 +88,7 @@ class Workorder(db.Model):
     private_installation_location = db.Column(db.Text, nullable=False)
     private_charging_power = db.Column(db.Float, nullable=False)
     installation_type = db.Column(db.String(10), nullable=False)
+    total = db.Column(db.Float, nullable=False, default=0.0)
 
     # Backrefs
     org = db.relationship('Organization', backref='workorder', lazy=True)
@@ -95,6 +96,15 @@ class Workorder(db.Model):
     line_items = db.relationship('Lineitem', backref='workorder', lazy=True)
     attachments = db.relationship('Workorderattachment', backref='workorder', lazy=True)
     comments = db.relationship('Comment', backref='workorder', lazy=True)
+    
+
+    def order_total(self):
+        """ Calculate the order total based on the line_items in the workorder """
+        order_total = 0
+        for line in self.line_items:
+            print(type(line.total))
+            order_total += float(line.total)
+        return order_total
 
     def __repr__(self):
         return f'Workorder <{self.id} | {self.title} | Created {self.create_date} | Updated {self.update_date} | {self.status}>'

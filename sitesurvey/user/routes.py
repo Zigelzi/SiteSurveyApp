@@ -87,7 +87,8 @@ def create_contact_person():
                      parent_org=org_id)
         db.session.add(contact_person)
         db.session.commit()
-        flash(f'Contact person has been created. They can now log in', 'success')
+        flash(f'Contact person has been created.', 'success')
+        return redirect(url_for('user.contact_person'), contact_person_id=contact_person.id)
     return render_template('user/create_contactperson.html', title='Create contact', form=form, active='create_contact')
 
 @bp_user.route('/users/contact_person/<int:contact_person_id>')

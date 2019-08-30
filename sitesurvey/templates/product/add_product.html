@@ -48,7 +48,10 @@
                 </div>
                 <div class="input-box">
                     {{ form.price.label }}
-                    {{ form.price(placeholder="2 999") }}
+                    <div class="input-group">
+                            {{ form.price(placeholder="2 999") }} <span class="input-addon">€</span>
+                    </div>
+                    
                     {% if form.price.errors %}
                         <div class="error">
                             {% for error in form.price.errors %}
