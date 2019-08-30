@@ -66,11 +66,15 @@
                 {{ form.requested_date.label }}
                 {{ form.requested_date(type="date") }}
                 {{form.public_chargers.label}}
-                {{form.public_chargers}}
+                <div class="input-group">
+                    {{form.public_chargers}}<span class="input-addon">pcs</span>
+                </div>
                 {{form.public_installation_location.label}}
                 {{form.public_installation_location}}
                 {{form.public_charging_power.label}}
-                {{form.public_charging_power}}
+                <div class="input-group">
+                    {{form.public_charging_power}} <span class="input-addon">kW</span>
+                </div>
                 {{form.private_chargers.label}}
                 {{form.private_chargers}}
                 {{form.private_installation_location.label}}
