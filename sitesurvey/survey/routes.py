@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, flash, url_for, request, jsonify
+from flask import Blueprint, render_template, redirect, flash, url_for, request, jsonify, session
 from flask_login import current_user, login_required
 
 import sys
@@ -21,6 +21,20 @@ workorder_attachment_folder = 'workorder_attachments'
 def create_survey():
     
     form = SurveyForm()
+    workorder_id = session.get('workorder_id', None)
+    workorder = Workorder.query.get(workorder_id)
+
+    if request.method == 'GET':
+        form.first_name.data = workorder.org[0].contact_persons[0].first_name
+        form.last_name.data = workorder.org[0].contact_persons[0].last_name
+        form.title.data = workorder.org[0].contact_persons[0].title
+        form.email.data = workorder.org[0].contact_persons[0].email
+        form.phone_number.data = workorder.org[0].contact_persons[0].phone_number
+        form.location_name.data = workorder.location[0].name
+        form.address.data = workorder.location[0].address
+        form.postal_code.data = workorder.location[0].postal_code
+        form.city.data = workorder.location[0].city
+        form.country.data = workorder.location[0].country
 
     if form.validate_on_submit():
         # Query the selected charger model and it's id and enter it as charger_id
@@ -187,6 +201,8 @@ def create_workorder():
 def workorder(workorder_id):
     workorder = Workorder.query.get_or_404(workorder_id)
     filenames = []
+    session['workorder_id'] = workorder.id
+    print(session['workorder_id'])
     # Append all the filenames for creating the url_for to display the pictures
     for attachment in workorder.attachments:
         filenames.append(workorder_attachment_folder + attachment.picture_filename)
