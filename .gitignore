@@ -1,4 +1,4 @@
 venv
 .vscode
 __pycache__
-init_db.py
+.pytest_cache/
